@@ -347,8 +347,8 @@ export default function ManualBookingModal({ isOpen, onClose, onSuccess }: Manua
                               <p className="text-xs text-gray-500">{car.category} · {car.plateNumber || 'No Plate Assigned'}</p>
                             </div>
                             <div className="text-right">
-                              <p className="font-black text-[#1E293B]">MUR {total.toLocaleString()}</p>
-                              <p className="text-xs text-gray-400">({days} days × MUR {Math.round(rate)})</p>
+                              <p className="font-black text-[#1E293B]">Rs/MUR {total.toLocaleString()}</p>
+                              <p className="text-xs text-gray-400">({days} days × Rs/MUR {Math.round(rate)})</p>
                             </div>
                           </div>
                           {form.carId === car.id && (
@@ -413,7 +413,7 @@ export default function ManualBookingModal({ isOpen, onClose, onSuccess }: Manua
                   <div className="flex justify-between"><span className="text-white/70">Duration</span><span className="font-bold">{form.totalDays} days</span></div>
                   <div className="flex justify-between"><span className="text-white/70">From</span><span className="font-bold text-xs">{form.pickupLocation}</span></div>
                   {form.oneWay && <div className="flex justify-between"><span className="text-white/70">To</span><span className="font-bold text-xs text-[#0D9B84]">{form.returnLocation}</span></div>}
-                  <div className="flex justify-between border-t border-white/10 pt-2 mt-2"><span className="font-black">Total</span><span className="font-black text-xl text-[#0D9B84]">MUR {form.totalPrice.toLocaleString()}</span></div>
+                  <div className="flex justify-between border-t border-white/10 pt-2 mt-2"><span className="font-black">Total</span><span className="font-black text-xl text-[#0D9B84]">Rs/MUR {form.totalPrice.toLocaleString()}</span></div>
                 </div>
               </div>
 
@@ -422,7 +422,7 @@ export default function ManualBookingModal({ isOpen, onClose, onSuccess }: Manua
                   <CreditCard size={14} className="text-[#0D9B84]" /> Payment Details
                 </h3>
                 <div>
-                  <p className="text-[10px] uppercase font-black text-gray-400 tracking-widest">Agreed Total Price (MUR) — Override if needed</p>
+                  <p className="text-[10px] uppercase font-black text-gray-400 tracking-widest">Agreed Total Price (Rs/MUR) — Override if needed</p>
                   <input type="number" value={form.totalPrice} onChange={e => setF('totalPrice', Number(e.target.value))} min={0} className={inputCls + ' mt-1'} />
                 </div>
                 <div>

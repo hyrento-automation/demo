@@ -8,25 +8,25 @@ const CONTACT_ITEMS = [
   {
     icon: Phone,
     title: 'Call Us',
-    detail: process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000',
+    detail: process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669',
     sub: '24/7 Support Line',
-    href: `tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`,
+    href: `tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052553669'}`,
     color: 'text-blue-500', bg: 'bg-blue-50',
   },
   {
     icon: MessageSquare,
     title: 'WhatsApp',
-    detail: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '+230 5702 0000',
+    detail: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '+230 5255 3669',
     sub: 'Instant messaging — we reply in minutes',
-    href: `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_PHONE?.replace(/[^0-9]/g, '') || '2305702000'}`,
+    href: `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_PHONE?.replace(/[^0-9]/g, '') || '23052553669'}`,
     color: 'text-emerald-500', bg: 'bg-emerald-50',
   },
   {
     icon: Mail,
     title: 'Email Us',
-    detail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@carhiremauritius.com',
+    detail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com',
     sub: 'General enquiries & booking questions',
-    href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@carhiremauritius.com'}`,
+    href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com'}`,
     color: 'text-purple-500', bg: 'bg-purple-50',
   },
   {
@@ -214,8 +214,8 @@ export default function ContactPage() {
               <div className="absolute bottom-0 p-8">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gold mb-2">Emergency Line</p>
                 <p className="text-white font-bold text-lg mb-1">"Breakdown support — active island-wide, 24/7."</p>
-                <a href={`tel:${process.env.NEXT_PUBLIC_EMERGENCY_PHONE || '+2305911000'}`} className="text-gold font-black text-xl tracking-wider hover:underline">
-                  {process.env.NEXT_PUBLIC_EMERGENCY_PHONE || '+230 5911 0000'}
+                <a href={`tel:${process.env.NEXT_PUBLIC_EMERGENCY_PHONE || '+23052553669'}`} className="text-gold font-black text-xl tracking-wider hover:underline">
+                  {process.env.NEXT_PUBLIC_EMERGENCY_PHONE || '+230 5255 3669'}
                 </a>
               </div>
             </div>

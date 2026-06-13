@@ -62,7 +62,7 @@ export default async function ClientDashboard({ searchParams }: { searchParams: 
                 <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-[10px] font-black uppercase text-gray-400">Total Price</p>
-                    <p className="text-lg font-black text-navy">MUR {booking.totalPrice.toLocaleString()}</p>
+                    <p className="text-lg font-black text-navy">Rs/MUR {booking.totalPrice.toLocaleString()}</p>
                   </div>
                 </div>
               </div>

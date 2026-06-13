@@ -319,7 +319,7 @@ export default function CustomersPage() {
                             <p className="text-xs text-gray-400">{b.car?.make} {b.car?.model} · {b.totalDays}d</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-xs font-black text-[#1E293B]">MUR {b.totalPrice?.toLocaleString()}</p>
+                            <p className="text-xs font-black text-[#1E293B]">Rs/MUR {b.totalPrice?.toLocaleString()}</p>
                             <span className={['text-[9px] font-black px-1.5 py-0.5 rounded', b.status === 'CANCELLED' ? 'bg-red-100 text-red-600' : b.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-700'].join(' ')}>{b.status}</span>
                           </div>
                         </div>

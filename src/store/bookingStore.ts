@@ -2,7 +2,8 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export interface BookingVehicle {
-  id: string
+  id: string           // representative car id (updated to assigned id at booking time)
+  groupKey: string     // "make|model|year|branchId" — used to call /api/vehicles/assign
   name: string
   image: string
   category: string
@@ -12,7 +13,13 @@ export interface BookingVehicle {
   fuelType: string
   pricePerDay: number
   features: string[]
-  available: number
+  available: number    // free units for selected dates
+  totalUnits: number   // total cars in this group
+  make: string
+  model: string
+  year: number
+  branchId: string | null
+  branchName: string | null
 }
 
 export interface BookingOption {

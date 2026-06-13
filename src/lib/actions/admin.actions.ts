@@ -142,7 +142,7 @@ export async function getCalendarEvents() {
       extendedProps: {
         status: b.paymentStatus,
         driver: b.driverName || b.user?.name || 'Walk-in',
-        amount: `MUR ${b.totalPrice.toLocaleString()}`
+        amount: `Rs/MUR ${b.totalPrice.toLocaleString()}`
       }
     }
   })
@@ -655,7 +655,7 @@ export async function cancelBooking(id: string, reason?: string) {
       where: { id },
       data: {
         status: BookingStatus.CANCELLED,
-        internalNotes: `CANCELLED: ${reason || 'No reason provided'} | Refund Policy: ${refundPolicy} | Refund Due: MUR ${refundAmount} | Cancelled at: ${now.toISOString()}`,
+        internalNotes: `CANCELLED: ${reason || 'No reason provided'} | Refund Policy: ${refundPolicy} | Refund Due: Rs/MUR ${refundAmount} | Cancelled at: ${now.toISOString()}`,
       }
     }),
     // Free the car back to available if it was the only active booking

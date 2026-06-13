@@ -56,11 +56,11 @@ export default function Footer() {
                 <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
               <a
-                href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`}
+                href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052553669'}`}
                 className="h-14 px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold flex items-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-300"
               >
                 <Phone size={18} className="text-gold" />
-                {process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000'}
+                {process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669'}
               </a>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function Footer() {
                 <Car size={24} className="text-white" />
               </div>
               <div>
-                <p className="text-xl font-display font-bold text-white leading-none">{process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}</p>
+                <p className="text-xl font-display font-bold text-white leading-none">{process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}</p>
               </div>
             </Link>
 
@@ -88,8 +88,8 @@ export default function Footer() {
             {/* Contact Info */}
             <div className="space-y-4">
               {[
-                { icon: Phone, text: process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000', href: `tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}` },
-                { icon: Mail, text: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@carhiremauritius.com', href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@carhiremauritius.com'}` },
+                { icon: Phone, text: process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669', href: `tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052553669'}` },
+                { icon: Mail, text: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com', href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com'}` },
                 { icon: MapPin, text: 'SSR Airport, Plaine Magnien, Mauritius', href: '/locations' },
               ].map(({ icon: Icon, text, href }) => (
                 <a key={text} href={href} className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition-colors group">
@@ -175,7 +175,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}. All rights reserved.
+            © {new Date().getFullYear()} {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <span className="text-xs text-white/20">Designed for excellence in island travel</span>

@@ -361,27 +361,27 @@ export default function AddFleetModal({ isOpen, onClose, onSuccess, carToEdit }:
             {/* Section 4: Pricing */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
               <h3 className="flex items-center gap-2 text-sm font-black text-[#1E293B] uppercase tracking-wide">
-                <CircleDollarSign size={16} className="text-[#0D9B84]" /> Pricing (MUR)
+                <CircleDollarSign size={16} className="text-[#0D9B84]" /> Pricing (Rs/MUR)
               </h3>
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <span className={labelCls}>Daily Rate *</span>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 mt-0.5">MUR</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 mt-0.5">Rs/MUR</span>
                     <input type="number" required value={formData.pricePerDay} onChange={e => set('pricePerDay', e.target.value)} min={1} className={inputCls + ' pl-14'} />
                   </div>
                 </div>
                 <div>
                   <span className={labelCls}>Weekly Rate *</span>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 mt-0.5">MUR</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 mt-0.5">Rs/MUR</span>
                     <input type="number" required value={formData.pricePerWeek} onChange={e => set('pricePerWeek', e.target.value)} min={1} className={inputCls + ' pl-14'} />
                   </div>
                 </div>
                 <div>
                   <span className={labelCls}>Security Deposit *</span>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 mt-0.5">MUR</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 mt-0.5">Rs/MUR</span>
                     <input type="number" required value={formData.priceDeposit} onChange={e => set('priceDeposit', e.target.value)} min={0} className={inputCls + ' pl-14'} />
                   </div>
                 </div>

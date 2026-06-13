@@ -13,32 +13,32 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} | Luxury Car Rental — Island-Wide Delivery`,
-    template: `%s | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}`,
+    default: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} | Luxury Car Rental — Island-Wide Delivery`,
+    template: `%s | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}`,
   },
   description: 'Mauritius\'s most trusted luxury car rental service since 2010. 20+ premium vehicles, free island-wide delivery, 24/7 support. Book your dream car today.',
   keywords: ['car hire mauritius', 'luxury car rental mauritius', 'rent a car mauritius', 'car hire SSR airport', 'sports car rental mauritius'],
-  authors: [{ name: process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius' }],
-  creator: process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius',
+  authors: [{ name: process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd' }],
+  creator: process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://carehireos.shop',
-    siteName: process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius',
-    title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} | Luxury Car Rental`,
+    siteName: process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd',
+    title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} | Luxury Car Rental`,
     description: 'Experience Mauritius in the finest machines. Premium fleet, free delivery, 24/7 concierge support.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=1200',
         width: 1200,
         height: 630,
-        alt: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} — Luxury Island Rentals`,
+        alt: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} — Luxury Island Rentals`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} | Luxury Car Rental`,
+    title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} | Luxury Car Rental`,
     description: 'Experience Mauritius in the finest machines. Premium fleet, free delivery, 24/7 support.',
   },
   robots: {

@@ -3,7 +3,7 @@ import { FileText } from 'lucide-react';
 
 export const metadata = {
   title: 'Rental Agreement',
-  description: `Standard Rental Agreement for ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}`,
+  description: `Standard Rental Agreement for ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}`,
 };
 
 export default function RentalAgreementPage() {
@@ -21,7 +21,7 @@ export default function RentalAgreementPage() {
 
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl shadow-navy/5 prose prose-navy max-w-none">
           <p className="lead text-lg text-mid-gray mb-8">
-            This Rental Agreement constitutes a legal contract between {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} (the "Company") and the Renter. Please ensure you fully understand these conditions before signing at the time of vehicle pickup.
+            This Rental Agreement constitutes a legal contract between {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} (the "Company") and the Renter. Please ensure you fully understand these conditions before signing at the time of vehicle pickup.
           </p>
 
           <h2 className="text-2xl font-display font-bold text-navy mt-8 mb-4">1. Vehicle Condition and Return</h2>

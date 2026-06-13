@@ -3,7 +3,7 @@ import { Shield } from 'lucide-react';
 
 export const metadata = {
   title: 'Privacy Policy',
-  description: `Privacy Policy for ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}`,
+  description: `Privacy Policy for ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}`,
 };
 
 export default function PrivacyPage() {
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl shadow-navy/5 prose prose-navy max-w-none">
           <p className="lead text-lg text-mid-gray mb-8">
-            At {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}, we are committed to protecting your personal information and respecting your privacy. This policy outlines how we collect, use, and protect your data.
+            At {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}, we are committed to protecting your personal information and respecting your privacy. This policy outlines how we collect, use, and protect your data.
           </p>
 
           <h2 className="text-2xl font-display font-bold text-navy mt-8 mb-4">1. Information We Collect</h2>

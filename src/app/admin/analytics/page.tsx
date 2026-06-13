@@ -68,7 +68,7 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               {
-                label: 'Total Revenue', value: 'MUR ' + (data.currentRevenue || 0).toLocaleString(),
+                label: 'Total Revenue', value: 'Rs/MUR ' + (data.currentRevenue || 0).toLocaleString(),
                 growth: data.revenueGrowth, icon: <DollarSign size={20} />, color: 'text-emerald-600', bg: 'bg-emerald-50'
               },
               {
@@ -118,8 +118,8 @@ export default function AnalyticsPage() {
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                     <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#9ca3af', fontWeight: 'bold' }} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#9ca3af', fontWeight: 'bold' }} width={70} tickFormatter={(v: number) => 'MUR ' + (v / 1000).toFixed(0) + 'k'} />
-                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold' }} formatter={(v: number) => ['MUR ' + v.toLocaleString(), 'Revenue']} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#9ca3af', fontWeight: 'bold' }} width={70} tickFormatter={(v: number) => 'Rs/MUR ' + (v / 1000).toFixed(0) + 'k'} />
+                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold' }} formatter={(v: number) => ['Rs/MUR ' + v.toLocaleString(), 'Revenue']} />
                     <Area type="monotone" dataKey="revenue" stroke="#0D9B84" strokeWidth={3} fillOpacity={1} fill="url(#rev)" />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -146,7 +146,7 @@ export default function AnalyticsPage() {
                         <p className="font-bold text-[#1E293B] text-sm">{v.car?.make} {v.car?.model}</p>
                         <p className="text-xs text-gray-400">{v.car?.category} · {v.bookings} booking{v.bookings !== 1 ? 's' : ''}</p>
                       </div>
-                      <p className="font-black text-[#1E293B] text-sm">MUR {(v.revenue || 0).toLocaleString()}</p>
+                      <p className="font-black text-[#1E293B] text-sm">Rs/MUR {(v.revenue || 0).toLocaleString()}</p>
                     </div>
                   ))}
                 </div>

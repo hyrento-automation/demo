@@ -73,7 +73,7 @@ export default function AdminOverview() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-[#1E293B] uppercase tracking-tight">Smart Command Center</h1>
-          <p className="text-gray-500 font-medium mt-1">Real-time fleet intelligence for {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}.</p>
+          <p className="text-gray-500 font-medium mt-1">Real-time fleet intelligence for {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}.</p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
@@ -154,10 +154,10 @@ export default function AdminOverview() {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 'bold' }} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 'bold' }} width={80} tickFormatter={(val: number) => 'MUR ' + (val / 1000) + 'k'} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 'bold' }} width={80} tickFormatter={(val: number) => 'Rs/MUR ' + (val / 1000) + 'k'} />
                   <Tooltip
                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold', color: '#1E293B' }}
-                    formatter={(value: number) => ['MUR ' + value.toLocaleString(), 'Income']}
+                    formatter={(value: number) => ['Rs/MUR ' + value.toLocaleString(), 'Income']}
                   />
                   <Area type="monotone" dataKey="revenue" stroke="#0D9B84" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
                 </AreaChart>
@@ -201,7 +201,7 @@ export default function AdminOverview() {
                     </div>
                     <p className="text-xs text-gray-400 mt-2">
                       Pickup: <span className="font-bold text-gray-700">{new Date(ride.pickupDate).toLocaleDateString()}</span>
-                      <span className="ml-4 font-black text-[#1E293B]">MUR {ride.totalPrice?.toLocaleString()}</span>
+                      <span className="ml-4 font-black text-[#1E293B]">Rs/MUR {ride.totalPrice?.toLocaleString()}</span>
                     </p>
                   </div>
                 ))}
@@ -282,7 +282,7 @@ export default function AdminOverview() {
                           {book.paymentStatus}
                         </span>
                       </td>
-                      <td className="py-3 font-black text-[#1E293B] text-right">MUR {book.totalPrice?.toLocaleString()}</td>
+                      <td className="py-3 font-black text-[#1E293B] text-right">Rs/MUR {book.totalPrice?.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>

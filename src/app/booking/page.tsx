@@ -99,10 +99,43 @@ export default function VehicleListPage() {
     return true
   })
 
-  const handleSelect = (vehicle: BookingVehicle) => {
-    setVehicle(vehicle)
-    router.push('/booking/options')
+  const [selectingId, setSelectingId] = useState<string | null>(null)
+  const [unavailableIds, setUnavailableIds] = useState<Set<string>>(new Set())
+
+  const handleSelect = async (vehicle: BookingVehicle) => {
+    if (vehicle.available === 0) return
+    setSelectingId(vehicle.groupKey)
+    try {
+      const res = await fetch('/api/vehicles/assign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          make: vehicle.make,
+          model: vehicle.model,
+          year: vehicle.year,
+          branchId: vehicle.branchId,
+          pickupDate: searchParams?.pickupDate,
+          dropoffDate: searchParams?.dropoffDate,
+        }),
+      })
+      const { available, carId } = await res.json()
+
+      if (!carId || available === 0) {
+        // Mark as unavailable in UI
+        setUnavailableIds(prev => new Set(prev).add(vehicle.groupKey))
+        setSelectingId(null)
+        return
+      }
+
+      // Assign the specific car id before storing
+      setVehicle({ ...vehicle, id: carId, available })
+      router.push('/booking/options')
+    } catch (err) {
+      console.error('Error assigning vehicle:', err)
+      setSelectingId(null)
+    }
   }
+
 
   if (!mounted) return null;
 
@@ -310,118 +343,165 @@ export default function VehicleListPage() {
                   <p className="text-gray-500 font-medium">Fetching available fleet from Supabase...</p>
                </div>
             ) : filteredVehicles.length > 0 ? (
-              filteredVehicles.map(vehicle => (
-                <div key={vehicle.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-                  {/* Main Card */}
-                  <div className="p-5">
-                    <div className="flex flex-col md:flex-row gap-5">
-                      {/* Left: Image */}
-                      <div className="md:w-[200px] flex-shrink-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-bold text-lg text-gray-900">{vehicle.name}</h3>
-                          <span className="text-xs text-gray-400">or similar ({vehicle.transmission})</span>
-                        </div>
-                        <span className="text-[10px] font-bold text-[#0D9B84] uppercase tracking-wider">{vehicle.category}</span>
-                        {vehicle.available <= 5 && (
-                          <p className="text-xs text-[#0D9B84] font-medium mt-0.5">(Only {vehicle.available} left)</p>
-                        )}
-                        <img
-                          src={vehicle.image}
-                          alt={vehicle.name}
-                          className="w-full h-32 object-cover rounded-lg mt-2"
-                        />
-                        <div className="flex gap-1.5 mt-2">
-                          {[
-                            { icon: Users, label: vehicle.seats },
-                            { icon: Briefcase, label: vehicle.luggage },
-                            { icon: Settings2, label: vehicle.transmission === 'Automatic' ? 'A' : 'M' },
-                            { icon: Wind, label: 'AC' },
-                            { icon: Fuel, label: vehicle.fuelType.charAt(0) },
-                          ].map((spec, i) => (
-                            <div key={i} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center" title={String(spec.label)}>
-                              <spec.icon size={12} className="text-gray-500" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+              filteredVehicles.map(vehicle => {
+                const isUnavailable = vehicle.available === 0 || unavailableIds.has(vehicle.groupKey)
+                const isSelecting = selectingId === vehicle.groupKey
 
-                      {/* Center: Details */}
-                      <div className="flex-1 space-y-3">
-                        <div>
-                          <p className="text-xs font-bold text-[#0D9B84]">Pickup location</p>
-                          <p className="text-xs text-gray-600">Airport counter/Hotel</p>
-                        </div>
-                        <div>
-                          <p className="text-xs font-bold text-[#0D9B84]">Fuel policy</p>
-                          <p className="text-xs text-gray-600">Same to Same</p>
-                        </div>
-                        <div>
-                          <p className="text-xs font-bold text-[#0D9B84]">Payment Option</p>
-                          <p className="text-xs text-gray-600">25% or 100%</p>
-                        </div>
-                      </div>
-
-                      {/* Right: Price & Features */}
-                      <div className="md:w-[220px] flex-shrink-0">
-                        {/* No deposit badge */}
-                        <div className="flex justify-end mb-3">
-                          <span className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-md">
-                            <Check size={12} /> No security deposit needed
-                          </span>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-right mb-4">
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider">Price for {days} days</p>
-                          <p className="text-2xl font-bold text-gray-900">
-                            • € {(vehicle.pricePerDay * days).toFixed(2)}
-                          </p>
-                          <p className="text-[10px] text-gray-400">(VAT Included)</p>
-                        </div>
-
-                        {/* Included for free */}
-                        <div className="mb-4">
-                          <p className="text-xs font-bold text-[#0D9B84] mb-2">Included for free</p>
-                          <div className="space-y-1">
-                            {vehicle.features.map(f => (
-                              <div key={f} className="flex items-center gap-1.5">
-                                <Check size={12} className="text-[#0D9B84]" />
-                                <span className="text-[11px] text-gray-600">{f}</span>
+                return (
+                  <div
+                    key={vehicle.groupKey}
+                    className={`bg-white rounded-xl border overflow-hidden transition-shadow ${
+                      isUnavailable
+                        ? 'border-gray-100 opacity-60 grayscale-[40%] cursor-not-allowed'
+                        : 'border-gray-200 hover:shadow-md'
+                    }`}
+                  >
+                    {/* Main Card */}
+                    <div className="p-5">
+                      <div className="flex flex-col md:flex-row gap-5">
+                        {/* Left: Image */}
+                        <div className="md:w-[200px] flex-shrink-0">
+                          <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <h3 className="font-bold text-lg text-gray-900">{vehicle.name}</h3>
+                            <span className="text-xs text-gray-400">or similar ({vehicle.transmission})</span>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap mb-1">
+                            <span className="text-[10px] font-bold text-[#0D9B84] uppercase tracking-wider">{vehicle.category}</span>
+                            {/* Availability badge */}
+                            {isUnavailable ? (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-black bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                Fully Booked
+                              </span>
+                            ) : vehicle.available <= 3 ? (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-black bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                Only {vehicle.available} left
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-black bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                {vehicle.available} available
+                              </span>
+                            )}
+                          </div>
+                          {vehicle.branchName && (
+                            <p className="text-[10px] text-gray-400 mb-1">📍 {vehicle.branchName}</p>
+                          )}
+                          <img
+                            src={vehicle.image}
+                            alt={vehicle.name}
+                            className="w-full h-32 object-cover rounded-lg mt-2"
+                          />
+                          <div className="flex gap-1.5 mt-2">
+                            {[
+                              { icon: Users, label: vehicle.seats },
+                              { icon: Briefcase, label: vehicle.luggage },
+                              { icon: Settings2, label: vehicle.transmission === 'Automatic' ? 'A' : 'M' },
+                              { icon: Wind, label: 'AC' },
+                              { icon: Fuel, label: vehicle.fuelType.charAt(0) },
+                            ].map((spec, i) => (
+                              <div key={i} className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center" title={String(spec.label)}>
+                                <spec.icon size={12} className="text-gray-500" />
                               </div>
                             ))}
                           </div>
                         </div>
 
-                        {/* CTA */}
-                        <button
-                          onClick={() => handleSelect(vehicle)}
-                          className="w-full py-2.5 bg-[#0D9B84] text-white rounded-lg font-medium text-sm hover:bg-[#00C4A0] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#0D9B84]/20"
-                        >
-                          Select This car
-                          <ArrowRight size={14} />
-                        </button>
-                        <button className="w-full py-2 text-xs text-gray-500 hover:text-gray-700 mt-2 text-center border border-gray-200 rounded-lg">
-                          Email Quote
-                        </button>
+                        {/* Center: Details */}
+                        <div className="flex-1 space-y-3">
+                          <div>
+                            <p className="text-xs font-bold text-[#0D9B84]">Pickup location</p>
+                            <p className="text-xs text-gray-600">Airport counter/Hotel</p>
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-[#0D9B84]">Fuel policy</p>
+                            <p className="text-xs text-gray-600">Same to Same</p>
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-[#0D9B84]">Payment Option</p>
+                            <p className="text-xs text-gray-600">25% or 100%</p>
+                          </div>
+                        </div>
+
+                        {/* Right: Price & Features */}
+                        <div className="md:w-[220px] flex-shrink-0">
+                          {/* No deposit badge */}
+                          <div className="flex justify-end mb-3">
+                            <span className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-md">
+                              <Check size={12} /> No security deposit needed
+                            </span>
+                          </div>
+
+                          {/* Price */}
+                          <div className="text-right mb-4">
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider">Price for {days} days</p>
+                            <p className="text-2xl font-bold text-gray-900">
+                              • € {(vehicle.pricePerDay * days).toFixed(2)}
+                            </p>
+                            <p className="text-[10px] text-gray-400">(VAT Included)</p>
+                          </div>
+
+                          {/* Included for free */}
+                          <div className="mb-4">
+                            <p className="text-xs font-bold text-[#0D9B84] mb-2">Included for free</p>
+                            <div className="space-y-1">
+                              {vehicle.features.map(f => (
+                                <div key={f} className="flex items-center gap-1.5">
+                                  <Check size={12} className="text-[#0D9B84]" />
+                                  <span className="text-[11px] text-gray-600">{f}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* CTA */}
+                          <button
+                            onClick={() => !isUnavailable && !isSelecting && handleSelect(vehicle)}
+                            disabled={isUnavailable || isSelecting}
+                            className={`w-full py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition-colors ${
+                              isUnavailable
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : isSelecting
+                                ? 'bg-[#0D9B84] text-white cursor-wait'
+                                : 'bg-[#0D9B84] text-white hover:bg-[#00C4A0] shadow-lg shadow-[#0D9B84]/20'
+                            }`}
+                          >
+                            {isUnavailable ? (
+                              'Unavailable'
+                            ) : isSelecting ? (
+                              <><Loader2 size={14} className="animate-spin" /> Checking...</>
+                            ) : (
+                              <>Select This Car <ArrowRight size={14} /></>
+                            )}
+                          </button>
+                          {isUnavailable && !unavailableIds.has(vehicle.groupKey) && (
+                            <p className="text-[10px] text-red-500 text-center mt-1">No units free for these dates</p>
+                          )}
+                          {unavailableIds.has(vehicle.groupKey) && (
+                            <p className="text-[10px] text-red-500 text-center mt-1">All units just got booked — try different dates</p>
+                          )}
+                          <button className="w-full py-2 text-xs text-gray-500 hover:text-gray-700 mt-2 text-center border border-gray-200 rounded-lg">
+                            Email Quote
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Extend & Save More */}
-                  <button
-                    onClick={() => setExpandedId(expandedId === vehicle.id ? null : vehicle.id)}
-                    className="w-full py-2.5 bg-[#0D9B84] text-white text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#00C4A0] transition-colors"
-                  >
-                    Extend & Save More
-                    <ChevronDown size={16} className={`transition-transform ${expandedId === vehicle.id ? 'rotate-180' : ''}`} />
-                  </button>
-                  {expandedId === vehicle.id && (
-                    <div className="p-5 bg-[#E1F5EE] text-sm text-gray-600">
-                      <p>Book for 7+ days and save 10% | 14+ days and save 15% | 30+ days and save 20%</p>
-                    </div>
-                  )}
-                </div>
-              ))
+                    {/* Extend & Save More */}
+                    <button
+                      onClick={() => setExpandedId(expandedId === vehicle.groupKey ? null : vehicle.groupKey)}
+                      className="w-full py-2.5 bg-[#0D9B84] text-white text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#00C4A0] transition-colors"
+                    >
+                      Extend & Save More
+                      <ChevronDown size={16} className={`transition-transform ${expandedId === vehicle.groupKey ? 'rotate-180' : ''}`} />
+                    </button>
+                    {expandedId === vehicle.groupKey && (
+                      <div className="p-5 bg-[#E1F5EE] text-sm text-gray-600">
+                        <p>Book for 7+ days and save 10% | 14+ days and save 15% | 30+ days and save 20%</p>
+                      </div>
+                    )}
+                  </div>
+                )
+              })
+
             ) : (
               <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
                 <Car size={48} className="text-gray-200 mx-auto mb-4" />

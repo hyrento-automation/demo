@@ -3,7 +3,7 @@ import { ShieldAlert } from 'lucide-react';
 
 export const metadata = {
   title: 'Terms & Conditions',
-  description: `Terms and Conditions for ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}`,
+  description: `Terms and Conditions for ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}`,
 };
 
 export default function TermsPage() {
@@ -21,7 +21,7 @@ export default function TermsPage() {
 
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl shadow-navy/5 prose prose-navy max-w-none">
           <p className="lead text-lg text-mid-gray mb-8">
-            Please read these terms and conditions carefully before booking a vehicle with {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}. By using our services, you agree to be bound by these terms.
+            Please read these terms and conditions carefully before booking a vehicle with {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}. By using our services, you agree to be bound by these terms.
           </p>
 
           <h2 className="text-2xl font-display font-bold text-navy mt-8 mb-4">1. General Requirements</h2>

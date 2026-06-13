@@ -103,7 +103,7 @@ export default function BookingsPage() {
           {[
             { label: 'Total Bookings', value: data.total, color: 'text-[#1E293B]', bg: 'bg-white' },
             { label: 'This Month', value: data.monthlyCount, color: 'text-blue-700', bg: 'bg-blue-50' },
-            { label: 'Monthly Revenue', value: 'MUR ' + (data.monthlyRevenue || 0).toLocaleString(), color: 'text-emerald-700', bg: 'bg-emerald-50' },
+            { label: 'Monthly Revenue', value: 'Rs/MUR ' + (data.monthlyRevenue || 0).toLocaleString(), color: 'text-emerald-700', bg: 'bg-emerald-50' },
             { label: 'Pages', value: data.pages + ' pages', color: 'text-gray-500', bg: 'bg-gray-50' },
           ].map((s, i) => (
             <div key={i} className={['rounded-2xl p-5 border border-gray-100 shadow-sm', s.bg].join(' ')}>
@@ -240,7 +240,7 @@ export default function BookingsPage() {
                       <PaymentBadge status={booking.paymentStatus} />
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <p className="font-black text-[#1E293B]">MUR {booking.totalPrice?.toLocaleString()}</p>
+                      <p className="font-black text-[#1E293B]">Rs/MUR {booking.totalPrice?.toLocaleString()}</p>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">

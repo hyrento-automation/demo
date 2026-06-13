@@ -53,7 +53,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Price on image */}
         <div className="absolute bottom-4 left-4">
           <p className="text-2xl font-display font-black text-white drop-shadow">
-            MUR {vehicle.priceFrom.toLocaleString()}
+            Rs/MUR {vehicle.priceFrom.toLocaleString()}
           </p>
           <p className="text-[10px] text-white/70 font-black uppercase tracking-wider">/day</p>
         </div>

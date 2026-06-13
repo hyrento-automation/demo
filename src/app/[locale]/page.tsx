@@ -10,7 +10,7 @@ import { ArrowRight } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
 export const metadata = {
-  title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} | Luxury Car Rental — Island Wide Delivery`,
+  title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} | Luxury Car Rental — Island Wide Delivery`,
   description: 'Discover Mauritius in style with our premium car rental service. 20+ elite vehicles, 24/7 support, and free island-wide delivery. Book your dream car today.',
 };
 
@@ -20,11 +20,11 @@ export default async function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRental',
-    name: process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius',
+    name: process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd',
     image: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=1200',
     description: 'Mauritius\'s most trusted luxury car rental service since 2010.',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://carehireos.shop',
-    telephone: process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052528340',
+    telephone: process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669',
     priceRange: '$$$',
     address: {
       '@type': 'PostalAddress',

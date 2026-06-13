@@ -21,7 +21,7 @@ export const sendEmail = async ({
 
   try {
     const data = await resend.emails.send({
-      from: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} <${process.env.RESEND_FROM_EMAIL || 'booking@carhireos.shop'}>`,
+      from: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} <${process.env.RESEND_FROM_EMAIL || 'pleasuredriveltd@gmail.com'}>`,
       to,
       subject,
       html,

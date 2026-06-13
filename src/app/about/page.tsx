@@ -4,8 +4,8 @@ import { Award, Shield, Users, Trophy, ArrowRight, Play, Target, Heart, Globe } 
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: `About Us | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} — Island's Premier Car Rental`,
-  description: `Founded in 2010, ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} is the island's most trusted luxury car rental service. Learn our story, values, and commitment to excellence.`,
+  title: `About Us | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} — Island's Premier Car Rental`,
+  description: `Founded in 2010, ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} is the island's most trusted luxury car rental service. Learn our story, values, and commitment to excellence.`,
 };
 
 const VALUES = [
@@ -74,7 +74,7 @@ export default function AboutPage() {
               in Mauritius
             </h1>
             <p className="text-xl text-white/70 leading-relaxed">
-              Born from a love of our island and a passion for exceptional service, {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} has been redefining what it means to travel in Mauritius since 2010.
+              Born from a love of our island and a passion for exceptional service, {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} has been redefining what it means to travel in Mauritius since 2010.
             </p>
             <div className="flex items-center gap-4">
               <Link
@@ -146,7 +146,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <p className="text-lg text-mid-gray leading-relaxed">
-              Founded in 2010, {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} was born from a simple vision: to provide a car rental service that truly matches the unparalleled beauty and hospitality of our island.
+              Founded in 2010, {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} was born from a simple vision: to provide a car rental service that truly matches the unparalleled beauty and hospitality of our island.
             </p>
             <p className="text-mid-gray leading-relaxed">
               We don't just hand over keys — we craft memories. From the moment you land at SSR Airport to your final sunset drive along the Grand Baie coast, our elite fleet and dedicated team are your island companions.

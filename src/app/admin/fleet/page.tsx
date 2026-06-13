@@ -142,7 +142,7 @@ export default function FleetPage() {
                      <p className="text-gray-400 text-[10px] uppercase tracking-wide">{car.transmission} · {car.fuelType}</p>
                   </td>
                   <td className="px-6 py-4">
-                     <p className="font-black text-[#1E293B]">MUR {car.pricePerDay} <span className="text-gray-400 font-normal">/ day</span></p>
+                     <p className="font-black text-[#1E293B]">Rs/MUR {car.pricePerDay} <span className="text-gray-400 font-normal">/ day</span></p>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase ${

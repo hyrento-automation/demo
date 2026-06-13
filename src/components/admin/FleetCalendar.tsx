@@ -200,7 +200,7 @@ function BookingModal({ booking, vehicles, prefilledCarId, prefilledDate, onSave
         </div>
 
         {/* Price */}
-        <label style={lbl}>Total Price (MUR)</label>
+        <label style={lbl}>Total Price (Rs/MUR)</label>
         <input type="number" style={inp} value={form.totalPrice} onChange={(e) => set("totalPrice", Number(e.target.value))} min={0} placeholder="0" />
 
         <label style={lbl}>Internal Notes</label>
@@ -670,7 +670,7 @@ export default function FleetCalendar() {
                               }}
                               onMouseEnter={(e: any) => { e.currentTarget.style.filter = "brightness(0.93)"; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = `0 6px 20px ${catColor.bar}50`; }}
                               onMouseLeave={(e: any) => { e.currentTarget.style.filter = ""; e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = `0 2px 8px ${catColor.bar}30`; }}
-                              title={`${customerName} | ${b.pickupDate.split("T")[0]} → ${b.returnDate.split("T")[0]} | MUR ${b.totalPrice.toLocaleString()} | ${statusCfg.label}`}
+                              title={`${customerName} | ${b.pickupDate.split("T")[0]} → ${b.returnDate.split("T")[0]} | Rs/MUR ${b.totalPrice.toLocaleString()} | ${statusCfg.label}`}
                             >
                               <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: statusCfg.dot, flexShrink: 0 }} />

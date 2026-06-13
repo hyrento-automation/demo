@@ -239,7 +239,7 @@ export default function BookingDetailPage() {
             </div>
             <div className="text-right">
               <p className="text-white/50 text-xs font-bold uppercase tracking-widest">Total Value</p>
-              <p className="text-4xl font-black text-white">MUR {booking.totalPrice?.toLocaleString()}</p>
+              <p className="text-4xl font-black text-white">Rs/MUR {booking.totalPrice?.toLocaleString()}</p>
               <p className="text-sm text-white/50 mt-1">{booking.totalDays} day{booking.totalDays !== 1 ? 's' : ''} rental</p>
             </div>
           </div>
@@ -306,9 +306,9 @@ export default function BookingDetailPage() {
           <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 space-y-5">
             <h3 className="font-black text-[#1E293B] uppercase tracking-wide text-sm border-b border-gray-100 pb-4">Financial Summary</h3>
             <div className="space-y-3">
-              <div className="flex justify-between text-sm"><span className="text-gray-500">Total Value</span><span className="font-black text-[#1E293B]">MUR {booking.totalPrice?.toLocaleString()}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-gray-500">Total Paid</span><span className="font-black text-emerald-600">MUR {totalPaid.toLocaleString()}</span></div>
-              <div className="flex justify-between text-sm border-t border-gray-100 pt-3"><span className="font-black text-gray-700">Balance Due</span><span className={'font-black text-xl ' + (balanceDue > 0 ? 'text-red-600' : 'text-emerald-600')}>MUR {balanceDue.toLocaleString()}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-500">Total Value</span><span className="font-black text-[#1E293B]">Rs/MUR {booking.totalPrice?.toLocaleString()}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-gray-500">Total Paid</span><span className="font-black text-emerald-600">Rs/MUR {totalPaid.toLocaleString()}</span></div>
+              <div className="flex justify-between text-sm border-t border-gray-100 pt-3"><span className="font-black text-gray-700">Balance Due</span><span className={'font-black text-xl ' + (balanceDue > 0 ? 'text-red-600' : 'text-emerald-600')}>Rs/MUR {balanceDue.toLocaleString()}</span></div>
             </div>
           </div>
 
@@ -324,7 +324,7 @@ export default function BookingDetailPage() {
                       <p className="text-xs font-black text-[#1E293B] uppercase">{p.provider} · {p.type}</p>
                       <p className="text-xs text-gray-400">{new Date(p.createdAt).toLocaleDateString('en-GB')}</p>
                     </div>
-                    <p className="font-black text-[#1E293B]">MUR {p.amount.toLocaleString()}</p>
+                    <p className="font-black text-[#1E293B]">Rs/MUR {p.amount.toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -404,7 +404,7 @@ export default function BookingDetailPage() {
               <option value="">-- Select Vehicle --</option>
               {availableCars.map((c: any) => (
                 <option key={c.id} value={c.id}>
-                  {c.make} {c.model} ({c.category}) · {c.plateNumber || 'No Plate'} · MUR {c.pricePerDay}/day
+                  {c.make} {c.model} ({c.category}) · {c.plateNumber || 'No Plate'} · Rs/MUR {c.pricePerDay}/day
                 </option>
               ))}
             </select>
@@ -412,7 +412,7 @@ export default function BookingDetailPage() {
 
           {/* Total Price */}
           <div>
-            <p className={labelCls}>Total Price (MUR) — Auto-calculated, can override</p>
+            <p className={labelCls}>Total Price (Rs/MUR) — Auto-calculated, can override</p>
             <input type="number" value={modifyForm.totalPrice} onChange={e => setModifyForm(p => ({ ...p, totalPrice: Number(e.target.value) }))} className={inputCls + ' mt-1'} />
           </div>
 
@@ -441,11 +441,11 @@ export default function BookingDetailPage() {
         <form onSubmit={handlePayment} className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 space-y-6">
           <h3 className="font-black text-[#1E293B] uppercase tracking-wide border-b border-gray-100 pb-4">Record New Payment</h3>
           <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-sm">
-            <p className="font-black text-yellow-700">Balance Due: <span className="text-xl">MUR {balanceDue.toLocaleString()}</span></p>
+            <p className="font-black text-yellow-700">Balance Due: <span className="text-xl">Rs/MUR {balanceDue.toLocaleString()}</span></p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p className={labelCls}>Amount (MUR)</p>
+              <p className={labelCls}>Amount (Rs/MUR)</p>
               <input type="number" required min={1} value={paymentForm.amount} onChange={e => setPaymentForm(p => ({ ...p, amount: Number(e.target.value) }))} className={inputCls + ' mt-1'} />
             </div>
             <div>
@@ -500,7 +500,7 @@ export default function BookingDetailPage() {
                   <p className="text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Refund Policy Applied</p>
                   <p className="font-black text-lg text-[#1E293B]">{refundPreview.policy}</p>
                   <p className={['text-2xl font-black mt-1', refundPreview.amount > 0 ? 'text-emerald-700' : 'text-red-600'].join(' ')}>
-                    MUR {refundPreview.amount.toLocaleString()} {refundPreview.amount === 0 ? '(No refund)' : 'to refund'}
+                    Rs/MUR {refundPreview.amount.toLocaleString()} {refundPreview.amount === 0 ? '(No refund)' : 'to refund'}
                   </p>
                 </div>
               )}

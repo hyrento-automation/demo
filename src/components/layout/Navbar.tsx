@@ -72,7 +72,7 @@ export default function Navbar() {
                 "text-[17px] font-display font-bold tracking-tight transition-colors duration-300 leading-none block",
                 isScrolled || !isTransparentPage ? "text-navy" : "text-white"
               )}>
-                {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}
+                {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}
               </span>
             </div>
           </Link>
@@ -108,7 +108,7 @@ export default function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-3">
             <a
-              href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`}
+              href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052553669'}`}
               className={cn(
                 "hidden xl:flex items-center gap-2 text-[13px] font-bold transition-all duration-300",
                 isScrolled || !isTransparentPage ? "text-navy hover:text-gold" : "text-white/80 hover:text-white"
@@ -117,7 +117,7 @@ export default function Navbar() {
               <span className="h-7 w-7 rounded-full bg-gold/10 flex items-center justify-center">
                 <Phone size={13} className="text-gold" />
               </span>
-              <span>{process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000'}</span>
+              <span>{process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669'}</span>
             </a>
 
             {/* Currency Switcher */}
@@ -134,7 +134,7 @@ export default function Navbar() {
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as any)}
               >
-                <option value="MUR" className="text-navy">MUR</option>
+                <option value="MUR" className="text-navy">Rs/MUR</option>
                 <option value="USD" className="text-navy">USD</option>
                 <option value="EUR" className="text-navy">EUR</option>
                 <option value="GBP" className="text-navy">GBP</option>
@@ -258,11 +258,11 @@ export default function Navbar() {
               Book Now
             </Link>
             <a
-              href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`}
+              href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052553669'}`}
               className="w-full h-12 rounded-2xl bg-navy/5 text-navy font-bold flex items-center justify-center gap-2 transition-all hover:bg-navy/10"
             >
               <Phone size={16} className="text-gold" />
-              {process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000'}
+              {process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669'}
             </a>
           </div>
         </div>

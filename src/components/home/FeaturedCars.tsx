@@ -80,7 +80,7 @@ function CarCard({ car }: CarCardProps) {
         <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
           <div>
             <p className="text-3xl font-display font-black text-white leading-none drop-shadow-lg">
-              MUR {car.priceDay.toLocaleString()}
+              Rs/MUR {car.priceDay.toLocaleString()}
             </p>
             <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/70 mt-1">per day</p>
           </div>
