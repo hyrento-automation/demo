@@ -140,13 +140,13 @@ const ReceiptPDF = ({ bookingRef, driver, vehicle, searchParams, days, total }: 
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.brandName}>CAR HIRE MAURITIUS</Text>
+          <Text style={styles.brandName}>{process.env.NEXT_PUBLIC_BRAND_NAME?.toUpperCase() || 'CAR HIRE MAURITIUS'}</Text>
           <Text style={styles.brandSub}>Premium Rental Service</Text>
           <Text style={styles.brandSub}>SSR International Airport, Plaine Magnien</Text>
         </View>
         <View style={styles.headerRight}>
           <Text style={styles.receiptTitle}>BOOKING RECEIPT</Text>
-          <Text style={styles.refNumber}>Ref: {bookingRef || 'CHM-XXXXXX'}</Text>
+          <Text style={styles.refNumber}>Ref: {bookingRef || `${process.env.NEXT_PUBLIC_BOOKING_REF_PREFIX || 'CHM-'}XXXXXX`}</Text>
           <Text style={styles.brandSub}>Date: {new Date().toLocaleDateString('en-GB')}</Text>
         </View>
       </View>
@@ -222,8 +222,8 @@ const ReceiptPDF = ({ bookingRef, driver, vehicle, searchParams, days, total }: 
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Thank you for choosing Car Hire Mauritius.</Text>
-        <Text style={styles.footerText}>For support, please call +230 XXX XXXX or email info@carhiremauritius.com</Text>
+        <Text style={styles.footerText}>Thank you for choosing {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}.</Text>
+        <Text style={styles.footerText}>For support, please call {process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 XXX XXXX'} or email {process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@carhiremauritius.com'}</Text>
       </View>
 
     </Page>

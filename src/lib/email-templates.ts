@@ -9,7 +9,7 @@ export const abandonedCartTemplate = (name: string, carModel: string, checkoutUr
     </a>
   </div>
   <p>If you have any questions, feel free to reply to this email.</p>
-  <p>Best regards,<br>Car Hire Mauritius Team</p>
+  <p>Best regards,<br>${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} Team</p>
 </div>
 `;
 
@@ -24,8 +24,8 @@ export const bookingFollowupTemplate = (name: string, carModel: string, reviewUr
       Leave a Review
     </a>
   </div>
-  <p>Thank you for choosing Car Hire Mauritius!</p>
-  <p>Best regards,<br>Car Hire Mauritius Team</p>
+  <p>Thank you for choosing ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}!</p>
+  <p>Best regards,<br>${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} Team</p>
 </div>
 `;
 
@@ -36,7 +36,7 @@ export const bookingConfirmationTemplate = (name: string, bookingRef: string, ca
   </div>
   <div style="padding: 20px; background-color: #f9f9f9;">
     <p>Hi ${name},</p>
-    <p>Thank you for choosing Car Hire Mauritius. Your booking has been successfully received.</p>
+    <p>Thank you for choosing ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}. Your booking has been successfully received.</p>
     
     <div style="background-color: white; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #ddd;">
       <h3 style="margin-top: 0; color: #1A4D5C;">Booking Details</h3>
@@ -48,7 +48,7 @@ export const bookingConfirmationTemplate = (name: string, bookingRef: string, ca
     
     <p>If you have any questions or need to make changes, please reply to this email or contact our support team.</p>
     <p>We look forward to seeing you!</p>
-    <p>Best regards,<br><strong>Car Hire Mauritius Team</strong></p>
+    <p>Best regards,<br><strong>${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} Team</strong></p>
   </div>
 </div>
 `;
@@ -59,7 +59,7 @@ export const adminBookingNotificationTemplate = (bookingRef: string, customerNam
     <h2 style="color: white; margin: 0;">New Booking Alert 🚨</h2>
   </div>
   <div style="padding: 20px; background-color: #f9f9f9;">
-    <p>A new booking has just been created on Car Hire Mauritius.</p>
+    <p>A new booking has just been created on ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}.</p>
     
     <div style="background-color: white; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #ddd;">
       <h3 style="margin-top: 0; color: #1A4D5C;">Booking Reference: ${bookingRef}</h3>

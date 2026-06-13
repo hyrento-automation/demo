@@ -4,8 +4,8 @@ import { MapPin, Plane, Ship, Building, Phone, Clock, ArrowRight, Car, Navigatio
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Our Locations | Car Hire Mauritius — 4 Island-Wide Branches',
-  description: 'Car Hire Mauritius operates from 4 strategic branches including SSR International Airport, Grand Baie, Port Louis Harbour, and Flic en Flac. Island-wide delivery available.',
+  title: `Our Locations | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} — 4 Island-Wide Branches`,
+  description: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'} operates from 4 strategic branches including SSR International Airport, Grand Baie, Port Louis Harbour, and Flic en Flac. Island-wide delivery available.`,
 };
 
 const LOCATIONS = [

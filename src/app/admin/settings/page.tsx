@@ -56,7 +56,7 @@ export default function AdminSettingsPage() {
     },
     {
       title: 'Admin Authentication',
-      description: 'Admin access runs through NextAuth credentials with role-aware sessions. The seeded admin account is admin@carhiremauritius.com — change this in production.',
+      description: `Admin access runs through NextAuth credentials with role-aware sessions. The seeded admin account is ${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'admin@carhiremauritius.com'} — change this in production.`,
       icon: Shield,
       status: 'ok',
     },

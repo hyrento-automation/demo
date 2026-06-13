@@ -54,7 +54,7 @@ export async function GET(req: Request) {
 
       await sendEmail({
         to: cart.user.email,
-        subject: 'Complete your booking at Car Hire Mauritius',
+        subject: `Complete your booking at ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}`,
         html: emailHtml,
       });
 

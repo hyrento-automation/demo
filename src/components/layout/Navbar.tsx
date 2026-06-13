@@ -72,10 +72,7 @@ export default function Navbar() {
                 "text-[17px] font-display font-bold tracking-tight transition-colors duration-300 leading-none block",
                 isScrolled || !isTransparentPage ? "text-navy" : "text-white"
               )}>
-                Car Hire
-              </span>
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gold leading-none -mt-0.5 block">
-                Mauritius
+                {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}
               </span>
             </div>
           </Link>
@@ -111,7 +108,7 @@ export default function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-3">
             <a
-              href="tel:+2302110000"
+              href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`}
               className={cn(
                 "hidden xl:flex items-center gap-2 text-[13px] font-bold transition-all duration-300",
                 isScrolled || !isTransparentPage ? "text-navy hover:text-gold" : "text-white/80 hover:text-white"
@@ -120,7 +117,7 @@ export default function Navbar() {
               <span className="h-7 w-7 rounded-full bg-gold/10 flex items-center justify-center">
                 <Phone size={13} className="text-gold" />
               </span>
-              <span>+230 211 0000</span>
+              <span>{process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000'}</span>
             </a>
 
             {/* Currency Switcher */}
@@ -261,11 +258,11 @@ export default function Navbar() {
               Book Now
             </Link>
             <a
-              href="tel:+2302110000"
+              href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`}
               className="w-full h-12 rounded-2xl bg-navy/5 text-navy font-bold flex items-center justify-center gap-2 transition-all hover:bg-navy/10"
             >
               <Phone size={16} className="text-gold" />
-              +230 211 0000
+              {process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000'}
             </a>
           </div>
         </div>

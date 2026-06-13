@@ -10,3 +10,32 @@ coverage/
 .vercel
 .env*.local
 github-token.txt
+
+# Firebase (not used — Supabase/Prisma stack)
+firebase-applet-config.json
+firebase-blueprint.json
+firestore.rules
+
+# Dev/test scripts
+test.js
+test-db.js
+test-live.js
+test-local.js
+
+# Dev scratch utilities
+scratch/
+
+# Agent/AI studio artifacts
+PROGRESS.md
+PROJECT_CONTEXT.md
+metadata.json
+messages/*.jsonl
+files/
+.vite/
+
+# Typo'd legacy asset directories
+car hire new clander design /
+car hite renal images /
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo

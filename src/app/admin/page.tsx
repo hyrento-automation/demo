@@ -73,7 +73,7 @@ export default function AdminOverview() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-[#1E293B] uppercase tracking-tight">Smart Command Center</h1>
-          <p className="text-gray-500 font-medium mt-1">Real-time fleet intelligence for Car Hire Mauritius.</p>
+          <p className="text-gray-500 font-medium mt-1">Real-time fleet intelligence for {process.env.NEXT_PUBLIC_BRAND_NAME || 'Car Hire Mauritius'}.</p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}

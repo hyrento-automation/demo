@@ -91,7 +91,7 @@ export async function createPublicBooking(data: {
   try {
     // 1. Generate Booking Reference
     const num = Math.floor(10000 + Math.random() * 90000)
-    const bookingRef = `CHM-2026-${num}`
+    const bookingRef = `${process.env.NEXT_PUBLIC_BOOKING_REF_PREFIX || 'CHM'}-2026-${num}`
 
     // 2. Determine rental days
     const start = new Date(`${data.pickupDate}T${data.pickupTime}`)
@@ -208,7 +208,7 @@ export async function createPublicBooking(data: {
     );
 
     await sendEmail({
-      to: 'shouryasaad6@gmail.com',
+      to: process.env.ADMIN_NOTIFICATION_EMAIL || 'shouryasaad6@gmail.com',
       subject: `New Booking! ${booking.bookingRef}`,
       html: adminEmailHtml,
     });
