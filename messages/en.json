@@ -1,0 +1,33 @@
+{
+  "Index": {
+    "title": "Experience the Freedom of Choice.",
+    "subtitle": "Explore the paradise of Mauritius with Pingouin Car Rental. Transparent pricing, airport delivery, and a fleet that fits your every need.",
+    "viewFleet": "View Fleet",
+    "ourStory": "Our Story",
+    "noHiddenCosts": "No Hidden Costs",
+    "noHiddenCostsDesc": "The price you see is the final price. Insurance and VAT included.",
+    "support": "24/7 Support",
+    "supportDesc": "Our local support team is available every hour of every day.",
+    "zeroDeposit": "Zero Deposit",
+    "zeroDepositDesc": "We provide various options with zero deposit needed.",
+    "deliveryPoint": "Delivery Point",
+    "pickupDate": "Pickup Date",
+    "dropoffDate": "Dropoff Date",
+    "findCars": "Find Cars"
+  },
+  "Fleet": {
+    "title": "Our Premium Fleet",
+    "subtitle": "Choose from our wide selection of vehicles, from economical city cars to rugged 4x4 SUVs and luxury convertibles.",
+    "day": "day",
+    "seats": "Seats",
+    "reserve": "Reserve This Vehicle"
+  },
+  "Navigation": {
+    "home": "Home",
+    "fleet": "Fleet",
+    "about": "About Us",
+    "contact": "Contact",
+    "login": "Login",
+    "bookNow": "Book Now"
+  }
+}

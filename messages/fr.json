@@ -1,0 +1,33 @@
+{
+  "Index": {
+    "title": "Découvrez la liberté de choisir.",
+    "subtitle": "Explorez le paradis de l'île Maurice avec Pingouin Car Rental. Prix transparents, livraison à l'aéroport et une flotte qui répond à tous vos besoins.",
+    "viewFleet": "Voir la Flotte",
+    "ourStory": "Notre Histoire",
+    "noHiddenCosts": "Pas de Frais Cachés",
+    "noHiddenCostsDesc": "Le prix affiché est le prix final. Assurance et TVA incluses.",
+    "support": "Support 24/7",
+    "supportDesc": "Notre équipe locale est disponible à toute heure, tous les jours.",
+    "zeroDeposit": "Zéro Dépôt",
+    "zeroDepositDesc": "Nous offrons plusieurs options sans dépôt requis.",
+    "deliveryPoint": "Lieu de Livraison",
+    "pickupDate": "Date de Prise",
+    "dropoffDate": "Date de Retour",
+    "findCars": "Trouver des Voitures"
+  },
+  "Fleet": {
+    "title": "Notre Flotte Premium",
+    "subtitle": "Choisissez parmi notre large sélection de véhicules, de la citadine économique au 4x4 robuste et cabriolets de luxe.",
+    "day": "jour",
+    "seats": "Sièges",
+    "reserve": "Réserver Ce Véhicule"
+  },
+  "Navigation": {
+    "home": "Accueil",
+    "fleet": "Flotte",
+    "about": "À Propos",
+    "contact": "Contact",
+    "login": "Connexion",
+    "bookNow": "Réserver"
+  }
+}

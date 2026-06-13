@@ -1,0 +1,327 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);cursor:pointer;margin-bottom:1.25rem;border:none;background:none;padding:0}
+.back-btn:hover{color:var(--color-text-primary)}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px}
+.page-title{font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.booking-id{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.status-badge{font-size:12px;font-weight:500;padding:4px 12px;border-radius:var(--border-radius-md);background:#B5D4F4;color:#042C53}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:12px}
+.section{padding:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.section:last-child{border-bottom:none}
+.section-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px}
+
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px;display:block}
+.field-label .req{color:#E24B4A;margin-left:2px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+input[type=text],input[type=date],input[type=time],input[type=email],input[type=tel],select,textarea{width:100%;font-family:var(--font-sans);font-size:13px;color:var(--color-text-primary);background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 10px;outline:none;transition:border-color 0.15s}
+input:focus,select:focus,textarea:focus{border-color:#378ADD;box-shadow:0 0 0 3px rgba(55,138,221,0.12)}
+textarea{resize:vertical;min-height:70px;line-height:1.5}
+select{cursor:pointer}
+
+.cust-banner{display:flex;align-items:center;gap:12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;margin-bottom:14px}
+.avatar{width:36px;height:36px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#0C447C;flex-shrink:0}
+.cust-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.cust-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.loyalty-badge{margin-left:auto;font-size:11px;font-weight:500;padding:3px 9px;border-radius:var(--border-radius-md);background:#C0DD97;color:#173404}
+
+.price-preview{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;margin-top:12px}
+.price-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;color:var(--color-text-secondary)}
+.price-row span:last-child{color:var(--color-text-primary);font-weight:500}
+.price-total-row{display:flex;justify-content:space-between;padding-top:10px;margin-top:6px;border-top:0.5px solid var(--color-border-tertiary)}
+.price-total-row span:first-child{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.price-total-row span:last-child{font-size:18px;font-weight:500;color:#185FA5}
+
+.addon-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.addon-item{display:flex;align-items:center;gap:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);transition:border-color 0.15s}
+.addon-item.selected{border-color:#378ADD;background:#E6F1FB}
+.addon-item input[type=checkbox]{width:14px;height:14px;cursor:pointer;flex-shrink:0;accent-color:#185FA5}
+.addon-label{font-size:12px;color:var(--color-text-primary);flex:1}
+.addon-price{font-size:11px;color:var(--color-text-secondary)}
+
+.change-indicator{display:inline-block;width:6px;height:6px;border-radius:50%;background:#378ADD;margin-left:6px;vertical-align:middle}
+
+.actions{display:flex;gap:8px;padding:1.25rem;background:var(--color-background-secondary);border-top:0.5px solid var(--color-border-tertiary);flex-wrap:wrap}
+.act-primary{background:#185FA5;color:#E6F1FB;border:none;border-radius:var(--border-radius-md);padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;flex:2;min-width:140px}
+.act-primary:hover{background:#0C447C}
+.act-secondary{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:9px 16px;font-size:13px;cursor:pointer;flex:1;min-width:100px}
+.act-secondary:hover{background:var(--color-background-secondary)}
+.unsaved-dot{display:none;width:7px;height:7px;border-radius:50%;background:#E24B4A;margin-left:6px;vertical-align:middle}
+.unsaved-dot.show{display:inline-block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Edit booking form for BK-20260423-007, Neha Verma, Mercedes GLC 300</h2>
+
+<button class="back-btn" onclick="sendPrompt('Show details for booking: Mercedes Pickup')">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Back to booking details
+</button>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Edit booking <span class="unsaved-dot" id="unsavedDot"></span></div>
+    <div class="booking-id">BK-20260423-007 · Created Apr 18, 2026</div>
+  </div>
+  <div class="status-badge">Confirmed pickup</div>
+</div>
+
+<div class="card">
+  <div class="section">
+    <div class="section-title">Customer</div>
+    <div class="cust-banner">
+      <div class="avatar">NV</div>
+      <div>
+        <div class="cust-name">Neha Verma</div>
+        <div class="cust-sub">+91 98765 43210 · neha.verma@gmail.com · 4 prior bookings</div>
+      </div>
+      <div class="loyalty-badge">Loyal customer</div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label class="field-label">Full name <span class="req">*</span></label>
+        <input type="text" id="custName" value="Neha Verma">
+      </div>
+      <div class="field">
+        <label class="field-label">Phone <span class="req">*</span></label>
+        <input type="tel" id="custPhone" value="+91 98765 43210">
+      </div>
+      <div class="field">
+        <label class="field-label">Email</label>
+        <input type="email" id="custEmail" value="neha.verma@gmail.com">
+      </div>
+      <div class="field">
+        <label class="field-label">Licence number <span class="req">*</span></label>
+        <input type="text" id="custLicence" value="MH-DL-2019-004821">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section">
+    <div class="section-title">Vehicle</div>
+    <div class="grid-2">
+      <div class="field">
+        <label class="field-label">Assigned vehicle <span class="req">*</span></label>
+        <select id="vehicle">
+          <option value="lux007" selected>Mercedes GLC 300 · LUX-007</option>
+          <option value="lux004">Mercedes GLE 450 · LUX-004</option>
+          <option value="lux002">BMW 5 Series · LUX-002</option>
+          <option value="suv008">Audi Q7 · SUV-008</option>
+          <option value="suv003">Toyota Fortuner · SUV-003</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Category</label>
+        <select id="category">
+          <option selected>Luxury SUV</option>
+          <option>Luxury Sedan</option>
+          <option>Premium SUV</option>
+          <option>Economy</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section">
+    <div class="section-title">Rental period</div>
+    <div class="grid-2">
+      <div class="field">
+        <label class="field-label">Pickup date <span class="req">*</span></label>
+        <input type="date" id="pickupDate" value="2026-04-23">
+      </div>
+      <div class="field">
+        <label class="field-label">Pickup time <span class="req">*</span></label>
+        <input type="time" id="pickupTime" value="10:00">
+      </div>
+      <div class="field">
+        <label class="field-label">Return date <span class="req">*</span></label>
+        <input type="date" id="returnDate" value="2026-04-26">
+      </div>
+      <div class="field">
+        <label class="field-label">Return time <span class="req">*</span></label>
+        <input type="time" id="returnTime" value="10:00">
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:4px">
+      <div class="field">
+        <label class="field-label">Pickup location <span class="req">*</span></label>
+        <select id="pickupLoc">
+          <option selected>Airport Terminal 1, Indore</option>
+          <option>Airport Terminal 2, Indore</option>
+          <option>City Centre Office</option>
+          <option>Hotel delivery</option>
+          <option>Custom address</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Return location <span class="req">*</span></label>
+        <select id="returnLoc">
+          <option selected>Airport Terminal 1, Indore</option>
+          <option>Airport Terminal 2, Indore</option>
+          <option>City Centre Office</option>
+          <option>Hotel delivery</option>
+          <option>Custom address</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:4px">
+      <div class="field">
+        <label class="field-label">Kilometres</label>
+        <select id="kms">
+          <option selected>Unlimited</option>
+          <option>200 km/day</option>
+          <option>300 km/day</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Fuel policy</label>
+        <select id="fuel">
+          <option selected>Full to full</option>
+          <option>Full to empty</option>
+          <option>Prepaid fuel</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section">
+    <div class="section-title">Add-ons</div>
+    <div class="addon-grid" id="addonGrid">
+      <div class="addon-item selected" data-price="200" data-key="childseat">
+        <input type="checkbox" checked id="addon-childseat">
+        <span class="addon-label">Child seat</span>
+        <span class="addon-price">₹200/day</span>
+      </div>
+      <div class="addon-item" data-price="300" data-key="gps">
+        <input type="checkbox" id="addon-gps">
+        <span class="addon-label">GPS navigator</span>
+        <span class="addon-price">₹300/day</span>
+      </div>
+      <div class="addon-item" data-price="500" data-key="driver">
+        <input type="checkbox" id="addon-driver">
+        <span class="addon-label">Driver service</span>
+        <span class="addon-price">₹500/day</span>
+      </div>
+      <div class="addon-item" data-price="150" data-key="insurance">
+        <input type="checkbox" id="addon-insurance" checked>
+        <span class="addon-label">Premium insurance</span>
+        <span class="addon-price">₹150/day</span>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Pricing</div>
+    <div class="grid-3">
+      <div class="field">
+        <label class="field-label">Daily rate (₹)</label>
+        <input type="text" id="dailyRate" value="4500">
+      </div>
+      <div class="field">
+        <label class="field-label">Discount (%)</label>
+        <input type="text" id="discount" value="5">
+      </div>
+      <div class="field">
+        <label class="field-label">Airport fee (₹)</label>
+        <input type="text" id="airportFee" value="500">
+      </div>
+    </div>
+    <div class="price-preview" id="pricePreview">
+      <div class="price-row"><span>Daily rate (<span id="pDays">3</span> × ₹<span id="pRate">4,500</span>)</span><span id="pBase">₹13,500</span></div>
+      <div class="price-row"><span>Add-ons</span><span id="pAddons">₹1,050</span></div>
+      <div class="price-row"><span>Airport pickup fee</span><span id="pAirport">₹500</span></div>
+      <div class="price-row"><span>Loyalty discount (<span id="pDiscPct">5</span>%)</span><span id="pDisc" style="color:#3B6D11">–₹675</span></div>
+      <div class="price-total-row"><span>Total</span><span id="pTotal">₹14,375</span></div>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--color-text-secondary)">Payment status: <span style="color:#3B6D11;font-weight:500">Paid in full</span> · UPI · Apr 18, 2026</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section">
+    <div class="section-title">Notes</div>
+    <div class="field">
+      <label class="field-label">Internal notes</label>
+      <textarea id="notes">Customer requested child seat (confirmed available). Will collect from Airport T1 arrivals bay. Preferred drop-off inside terminal. Verified licence and Aadhaar on booking.</textarea>
+    </div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="act-secondary" onclick="sendPrompt('Show details for booking: Mercedes Pickup')">Discard changes</button>
+  <button class="act-primary" onclick="saveBooking()">Save changes</button>
+</div>
+
+</div>
+
+<script>
+function getDays(){
+  const p = new Date(document.getElementById('pickupDate').value);
+  const r = new Date(document.getElementById('returnDate').value);
+  const diff = Math.round((r-p)/(1000*60*60*24));
+  return diff > 0 ? diff : 1;
+}
+function getAddonTotal(days){
+  let total = 0;
+  document.querySelectorAll('.addon-item').forEach(item=>{
+    const cb = item.querySelector('input[type=checkbox]');
+    if(cb && cb.checked) total += parseInt(item.dataset.price||0) * days;
+  });
+  return total;
+}
+function updatePrice(){
+  const days = getDays();
+  const rate = parseInt(document.getElementById('dailyRate').value)||0;
+  const disc = parseInt(document.getElementById('discount').value)||0;
+  const airport = parseInt(document.getElementById('airportFee').value)||0;
+  const addons = getAddonTotal(days);
+  const base = days * rate;
+  const subtotal = base + addons + airport;
+  const discAmt = Math.round(subtotal * disc / 100);
+  const total = subtotal - discAmt;
+  document.getElementById('pDays').textContent = days;
+  document.getElementById('pRate').textContent = rate.toLocaleString('en-IN');
+  document.getElementById('pBase').textContent = '₹'+base.toLocaleString('en-IN');
+  document.getElementById('pAddons').textContent = '₹'+addons.toLocaleString('en-IN');
+  document.getElementById('pAirport').textContent = '₹'+airport.toLocaleString('en-IN');
+  document.getElementById('pDiscPct').textContent = disc;
+  document.getElementById('pDisc').textContent = '–₹'+discAmt.toLocaleString('en-IN');
+  document.getElementById('pTotal').textContent = '₹'+total.toLocaleString('en-IN');
+}
+function markUnsaved(){
+  document.getElementById('unsavedDot').classList.add('show');
+}
+function saveBooking(){
+  sendPrompt('Confirm save changes for booking BK-20260423-007 — show updated booking details for Neha Verma');
+}
+document.querySelectorAll('input,select,textarea').forEach(el=>{
+  el.addEventListener('change', ()=>{updatePrice();markUnsaved();});
+  el.addEventListener('input', ()=>{updatePrice();markUnsaved();});
+});
+document.querySelectorAll('.addon-item').forEach(item=>{
+  item.addEventListener('click', e=>{
+    if(e.target.tagName==='INPUT') return;
+    const cb = item.querySelector('input[type=checkbox]');
+    cb.checked = !cb.checked;
+    item.classList.toggle('selected', cb.checked);
+    updatePrice();markUnsaved();
+  });
+  item.querySelector('input').addEventListener('change',()=>{
+    item.classList.toggle('selected', item.querySelector('input').checked);
+    updatePrice();markUnsaved();
+  });
+});
+updatePrice();
+</script>

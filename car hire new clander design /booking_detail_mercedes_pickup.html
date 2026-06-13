@@ -1,0 +1,190 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);cursor:pointer;margin-bottom:1.25rem;border:none;background:none;padding:0}
+.back-btn:hover{color:var(--color-text-primary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.card-header{padding:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.header-left{display:flex;align-items:center;gap:14px}
+.car-avatar{width:52px;height:52px;border-radius:var(--border-radius-md);background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.booking-title{font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.booking-sub{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
+.status-badge{font-size:12px;font-weight:500;padding:4px 12px;border-radius:var(--border-radius-md);white-space:nowrap;background:#B5D4F4;color:#042C53}
+
+.section{padding:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.section:last-child{border-bottom:none}
+.section-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.field-val{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.field-val.highlight{color:#185FA5}
+
+.customer-row{display:flex;align-items:center;gap:12px}
+.avatar{width:40px;height:40px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:#0C447C;flex-shrink:0}
+.cust-name{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.cust-detail{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.cust-meta{display:flex;gap:16px;margin-top:12px}
+.cust-meta-item{font-size:12px;color:var(--color-text-secondary)}
+.cust-meta-item span{color:var(--color-text-primary);font-weight:500}
+
+.timeline{display:flex;align-items:center;gap:0;margin-top:4px}
+.tl-node{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:#185FA5;flex-shrink:0}
+.tl-dot.end{background:#639922}
+.tl-line{flex:1;height:2px;background:var(--color-border-secondary);margin:0 -1px;margin-top:-19px;z-index:0}
+.tl-label{font-size:11px;color:var(--color-text-secondary);text-align:center}
+.tl-val{font-size:12px;font-weight:500;color:var(--color-text-primary);text-align:center}
+
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.price-row:last-of-type{border-bottom:none}
+.price-label{font-size:13px;color:var(--color-text-secondary)}
+.price-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.price-total{display:flex;justify-content:space-between;align-items:center;padding:10px 0 0}
+.price-total-label{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.price-total-val{font-size:18px;font-weight:500;color:#185FA5}
+
+.notes-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+
+.actions{display:flex;flex-wrap:wrap;gap:8px;padding:1.25rem;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.act-primary{background:#185FA5;color:#E6F1FB;border:none;border-radius:var(--border-radius-md);padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;flex:1;min-width:120px}
+.act-primary:hover{background:#0C447C}
+.act-secondary{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 14px;font-size:13px;cursor:pointer;flex:1;min-width:100px}
+.act-secondary:hover{background:var(--color-background-secondary)}
+.act-danger{background:var(--color-background-primary);color:#A32D2D;border:0.5px solid #F7C1C1;border-radius:var(--border-radius-md);padding:8px 14px;font-size:13px;cursor:pointer;flex:1;min-width:100px}
+.act-danger:hover{background:#FCEBEB}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Booking details for Mercedes GLC pickup on April 23, 2026</h2>
+
+<button class="back-btn" onclick="sendPrompt('Switch the admin calendar to Week view')">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Back to week view
+</button>
+
+<div class="card">
+
+  <div class="card-header">
+    <div class="header-left">
+      <div class="car-avatar">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M4 14l3-6h14l3 6M4 14v5h20v-5M4 14h20" stroke="#185FA5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8.5" cy="20" r="1.8" fill="#185FA5"/>
+          <circle cx="19.5" cy="20" r="1.8" fill="#185FA5"/>
+          <path d="M9 11h10" stroke="#185FA5" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="booking-title">Mercedes GLC 300 · LUX-007</div>
+        <div class="booking-sub">Booking #BK-20260423-007 · Created Apr 18, 2026</div>
+      </div>
+    </div>
+    <div class="status-badge">Confirmed pickup</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Customer</div>
+    <div class="customer-row">
+      <div class="avatar">NV</div>
+      <div>
+        <div class="cust-name">Neha Verma</div>
+        <div class="cust-detail">+91 98765 43210 · neha.verma@gmail.com</div>
+      </div>
+    </div>
+    <div class="cust-meta">
+      <div class="cust-meta-item">Licence <span>MH-DL-2019-004821</span></div>
+      <div class="cust-meta-item">Bookings <span>4 prior</span></div>
+      <div class="cust-meta-item">Rating <span>5.0 ★</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Rental period</div>
+    <div style="display:flex;align-items:flex-start;gap:0;margin-bottom:8px">
+      <div style="flex:1">
+        <div class="field-label">Pickup</div>
+        <div class="field-val highlight">Wed, Apr 23 · 10:00 AM</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Airport Terminal 1, Indore</div>
+      </div>
+      <div style="width:40px;display:flex;justify-content:center;padding-top:18px;color:var(--color-text-tertiary);font-size:18px">→</div>
+      <div style="flex:1">
+        <div class="field-label">Return</div>
+        <div class="field-val" style="color:#3B6D11">Sat, Apr 26 · 10:00 AM</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Airport Terminal 1, Indore</div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:12px">
+      <div>
+        <div class="field-label">Duration</div>
+        <div class="field-val">3 days</div>
+      </div>
+      <div>
+        <div class="field-label">Kilometres</div>
+        <div class="field-val">Unlimited</div>
+      </div>
+      <div>
+        <div class="field-label">Fuel policy</div>
+        <div class="field-val">Full to full</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Vehicle details</div>
+    <div class="grid-3">
+      <div>
+        <div class="field-label">Make & model</div>
+        <div class="field-val">Mercedes GLC 300</div>
+      </div>
+      <div>
+        <div class="field-label">Registration</div>
+        <div class="field-val">LUX-007 · MH 04 BZ 7291</div>
+      </div>
+      <div>
+        <div class="field-label">Category</div>
+        <div class="field-val">Luxury SUV</div>
+      </div>
+      <div>
+        <div class="field-label">Colour</div>
+        <div class="field-val">Obsidian Black</div>
+      </div>
+      <div>
+        <div class="field-label">Odometer</div>
+        <div class="field-val">18,430 km</div>
+      </div>
+      <div>
+        <div class="field-label">Last serviced</div>
+        <div class="field-val">Mar 12, 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Pricing breakdown</div>
+    <div class="price-row"><span class="price-label">Daily rate (3 × ₹4,500)</span><span class="price-val">₹13,500</span></div>
+    <div class="price-row"><span class="price-label">Insurance cover</span><span class="price-val">₹900</span></div>
+    <div class="price-row"><span class="price-label">Airport pickup fee</span><span class="price-val">₹500</span></div>
+    <div class="price-row"><span class="price-label">Discount (loyalty – 5%)</span><span class="price-val" style="color:#3B6D11">– ₹675</span></div>
+    <div class="price-total">
+      <span class="price-total-label">Total</span>
+      <span class="price-total-val">₹14,225</span>
+    </div>
+    <div style="margin-top:8px;font-size:12px;color:var(--color-text-secondary)">Payment: <span style="color:#3B6D11;font-weight:500">Paid in full</span> · UPI · Apr 18, 2026</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Notes</div>
+    <div class="notes-box">Customer requested child seat (confirmed available). Will collect from Airport T1 arrivals bay. Preferred drop-off inside terminal. Verified licence and Aadhaar on booking.</div>
+  </div>
+
+  <div class="actions">
+    <button class="act-primary" onclick="sendPrompt('Mark Mercedes GLC LUX-007 booking BK-20260423-007 as picked up and generate handover checklist')">Mark as picked up</button>
+    <button class="act-secondary" onclick="sendPrompt('Send pickup reminder SMS to Neha Verma for booking BK-20260423-007')">Send reminder</button>
+    <button class="act-secondary" onclick="sendPrompt('Edit booking BK-20260423-007 for Neha Verma')">Edit booking</button>
+    <button class="act-danger" onclick="sendPrompt('Cancel booking BK-20260423-007 for Neha Verma and process refund')">Cancel booking</button>
+  </div>
+
+</div>
+</div>

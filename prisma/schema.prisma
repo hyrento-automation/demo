@@ -1,0 +1,342 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  emailVerified DateTime?
+  name          String?
+  phone         String?
+  avatar        String?
+  role          UserRole       @default(CUSTOMER)
+  isBlacklisted Boolean        @default(false)
+  isVIP         Boolean        @default(false)
+  loyaltyPoints Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  passwordHash  String?
+  accounts      Account[]
+  bookings      Booking[]
+  notes         CustomerNote[]
+  documents     Document[]
+  reviews       Review[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Car {
+  id              String           @id @default(cuid())
+  slug            String
+  make            String
+  model           String
+  year            Int
+  category        CarCategory
+  status          CarStatus        @default(AVAILABLE)
+  seats           Int
+  doors           Int
+  luggage         Int
+  fuelType        FuelType
+  transmission    Transmission
+  engineCC        Int?
+  mileagePerDay   Int?
+  pricePerDay     Float
+  pricePerWeek    Float
+  priceDeposit    Float
+  thumbnailUrl    String?
+  features        String[]
+  description     String?
+  plateNumber     String?          @unique
+  color           String?
+  branchId        String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  bookings        Booking[]
+  branch          Branch?          @relation(fields: [branchId], references: [id])
+  images          CarImage[]
+  maintenanceLogs MaintenanceLog[]
+  reviews         Review[]
+
+  @@index([status])
+}
+
+model CarImage {
+  id        String  @id @default(cuid())
+  carId     String
+  url       String
+  alt       String?
+  isPrimary Boolean @default(false)
+  order     Int     @default(0)
+  car       Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id               String         @id @default(cuid())
+  bookingRef       String         @unique
+  userId           String?
+  carId            String
+  pickupDate       DateTime
+  returnDate       DateTime
+  totalDays        Int
+  pickupLocation   String
+  returnLocation   String
+  pickupLocationId String?
+  returnLocationId String?
+  basePrice        Float
+  addonsPrice      Float          @default(0)
+  discountAmount   Float          @default(0)
+  taxAmount        Float          @default(0)
+  depositAmount    Float          @default(0)
+  totalPrice       Float
+  currency         String         @default("MUR")
+  status           BookingStatus  @default(PENDING)
+  paymentStatus    PaymentStatus  @default(PENDING)
+  driverName       String?
+  driverEmail      String?
+  driverPhone      String?
+  driverLicense    String?
+  driverAge        Int?
+  couponCode       String?
+  specialRequests  String?
+  internalNotes    String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  car              Car            @relation(fields: [carId], references: [id])
+  user             User?          @relation(fields: [userId], references: [id])
+  addons           BookingAddon[]
+  payments         Payment[]
+
+  @@index([carId, status, pickupDate, returnDate])
+}
+
+model BookingAddon {
+  id        String  @id @default(cuid())
+  bookingId String
+  addonId   String
+  quantity  Int     @default(1)
+  price     Float
+  addon     Addon   @relation(fields: [addonId], references: [id])
+  booking   Booking @relation(fields: [bookingId], references: [id])
+}
+
+model Addon {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  icon        String?
+  priceType   String
+  price       Float
+  maxQuantity Int            @default(1)
+  isActive    Boolean        @default(true)
+  bookings    BookingAddon[]
+}
+
+model Payment {
+  id           String        @id @default(cuid())
+  bookingId    String
+  amount       Float
+  currency     String        @default("MUR")
+  provider     String
+  providerTxId String?
+  status       PaymentStatus @default(PENDING)
+  type         String        @default("full")
+  metadata     Json?
+  createdAt    DateTime      @default(now())
+  booking      Booking       @relation(fields: [bookingId], references: [id])
+}
+
+model PricingRule {
+  id         String       @id @default(cuid())
+  name       String
+  type       String
+  category   CarCategory?
+  startDate  DateTime?
+  endDate    DateTime?
+  multiplier Float
+  minDays    Int?
+  maxDays    Int?
+  isActive   Boolean      @default(true)
+  priority   Int          @default(0)
+  createdAt  DateTime     @default(now())
+}
+
+model Coupon {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  type          String
+  value         Float
+  minBookingVal Float?
+  maxUses       Int?
+  usedCount     Int       @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  userId     String
+  carId      String
+  rating     Int
+  title      String?
+  body       String?
+  isVerified Boolean  @default(false)
+  isPublic   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  car        Car      @relation(fields: [carId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Location {
+  id       String  @id @default(cuid())
+  name     String
+  address  String
+  type     String
+  lat      Float?
+  lng      Float?
+  isActive Boolean @default(true)
+}
+
+model Branch {
+  id             String  @id @default(cuid())
+  name           String
+  address        String
+  phone          String?
+  email          String?
+  isActive       Boolean @default(true)
+  pickupCharge   Float   @default(0)
+  deliveryCharge Float   @default(0)
+  cars           Car[]
+}
+
+model Document {
+  id         String    @id @default(cuid())
+  userId     String
+  type       String
+  url        String
+  expiresAt  DateTime?
+  isVerified Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id])
+}
+
+model MaintenanceLog {
+  id          String    @id @default(cuid())
+  carId       String
+  type        String
+  description String?
+  cost        Float?
+  date        DateTime
+  nextDueDate DateTime?
+  createdAt   DateTime  @default(now())
+  car         Car       @relation(fields: [carId], references: [id])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  oldData   Json?
+  newData   Json?
+  ip        String?
+  createdAt DateTime @default(now())
+}
+
+model CustomerNote {
+  id        String   @id @default(cuid())
+  userId    String
+  note      String
+  createdBy String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  MANAGER
+  BRANCH_STAFF
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIALLY_PAID
+  REFUNDED
+  FAILED
+}
+
+enum CarStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+  RETIRED
+}
+
+enum FuelType {
+  PETROL
+  DIESEL
+  HYBRID
+  ELECTRIC
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
+}
+
+enum CarCategory {
+  ECONOMY
+  COMPACT
+  MIDSIZE
+  SUV
+  LUXURY
+  SPORTS
+  VAN
+  CONVERTIBLE
+  MINI
+  PICKUP
+  SEDAN
+}
