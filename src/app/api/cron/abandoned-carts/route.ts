@@ -4,6 +4,8 @@ import { sendEmail } from '@/src/lib/email';
 import { abandonedCartTemplate } from '@/src/lib/email-templates';
 import { subHours, subDays } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   // Optional: Add basic auth to protect this cron endpoint
   const authHeader = req.headers.get('authorization');

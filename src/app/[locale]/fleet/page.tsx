@@ -43,7 +43,15 @@ export default function FleetPage() {
       if (sortBy === 'price-desc') return b.priceDay - a.priceDay;
       if (sortBy === 'rating') return b.rating - a.rating;
       return 0;
-    });
+    })
+    // Deduplicate: show only ONE card per unique model (make + model + transmission)
+    .filter((car, index, self) =>
+      index === self.findIndex(c =>
+        c.make === car.make &&
+        c.model === car.model &&
+        c.transmission === car.transmission
+      )
+    );
 
   return (
     <div className="pt-28 pb-24 min-h-screen">

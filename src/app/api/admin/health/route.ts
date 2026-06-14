@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import db from '@/src/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   // Check both our variable names AND Vercel's Supabase integration variable names
   const envStatus: Record<string, boolean> = {

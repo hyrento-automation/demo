@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getPublicCars } from '@/src/lib/actions/car.actions'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const cars = await getPublicCars()

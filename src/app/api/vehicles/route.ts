@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAvailableVehicles } from '@/src/lib/actions/booking.actions'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const pickupDate = searchParams.get('pickupDate') || undefined

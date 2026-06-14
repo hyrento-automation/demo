@@ -58,12 +58,12 @@ export default function RootLayout({
         <AuthSessionProvider>
           <AppChrome>{children}</AppChrome>
           <CookieBanner />
-          {/* WhatsApp Floating Button */}
           <a
             href="https://wa.me/2305255369?text=Hello%2C%20I'm%20interested%20in%20renting%20a%20car.%20Can%20you%20help%20me%3F"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat on WhatsApp"
+            className="whatsapp-btn"
             style={{
               position: 'fixed',
               bottom: '28px',
@@ -79,14 +79,6 @@ export default function RootLayout({
               boxShadow: '0 8px 32px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.15)',
               transition: 'transform 0.3s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s ease',
               textDecoration: 'none',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.12) translateY(-3px)';
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 16px 48px rgba(37,211,102,0.55), 0 4px 12px rgba(0,0,0,0.2)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1) translateY(0)';
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 32px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.15)';
             }}
           >
             <svg width="30" height="30" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">

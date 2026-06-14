@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import db from '@/src/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/admin/calendar/events?from=2026-04-13&to=2026-04-19
 // Returns all cars + their bookings for the date window
 export async function GET(req: NextRequest) {
