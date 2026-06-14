@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server'
 import db from '@/src/lib/db'
 
 export async function GET() {
+  // Check both our variable names AND Vercel's Supabase integration variable names
   const envStatus: Record<string, boolean> = {
-    DATABASE_URL: !!process.env.DATABASE_URL,
-    DIRECT_URL: !!process.env.DIRECT_URL,
+    DATABASE_URL: !!(process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL),
+    DIRECT_URL: !!(process.env.DIRECT_URL || process.env.POSTGRES_URL_NON_POOLING),
     NEXTAUTH_SECRET: !!process.env.NEXTAUTH_SECRET,
     NEXT_PUBLIC_SUPABASE_URL: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
