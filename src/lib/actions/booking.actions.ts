@@ -182,7 +182,11 @@ async function createPublicBookingWithSupabase(data: Parameters<typeof createPub
   })
   if (paymentError) throw paymentError
 
-  revalidatePath('/admin/bookings')
+  try {
+    revalidatePath('/admin/bookings')
+  } catch (error) {
+    console.warn('Booking created; cache revalidation was unavailable:', error)
+  }
   return { success: true, bookingRef: booking.bookingRef, id: booking.id }
 }
 
