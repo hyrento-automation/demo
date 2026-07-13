@@ -66,6 +66,126 @@ async function getAvailableVehiclesFromSupabase(startDate?: string, endDate?: st
   }))
 }
 
+type CreateBookingResult =
+  | { success: true; bookingRef: string; id: string }
+  | { success: false; error: string }
+
+async function createPublicBookingWithSupabase(data: Parameters<typeof createPublicBooking>[0]): Promise<CreateBookingResult> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) throw new Error('Booking service is not configured')
+
+  const supabase = createClient(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+  const now = new Date().toISOString()
+  const start = new Date(`${data.pickupDate}T${data.pickupTime}`)
+  const end = new Date(`${data.dropoffDate}T${data.dropoffTime}`)
+  const totalDays = Math.ceil(Math.abs(end.getTime() - start.getTime()) / 86400000) || 1
+  const bookingRef = `${process.env.NEXT_PUBLIC_BOOKING_REF_PREFIX || 'CHM'}-2026-${Math.floor(10000 + Math.random() * 90000)}`
+
+  const { data: existingUser, error: userLookupError } = await supabase
+    .from('User')
+    .select('id,email,name')
+    .eq('email', data.driver.email)
+    .maybeSingle()
+  if (userLookupError) throw userLookupError
+
+  let user = existingUser
+  if (!user) {
+    const { data: createdUser, error: userCreateError } = await supabase
+      .from('User')
+      .insert({
+        id: crypto.randomUUID(),
+        email: data.driver.email,
+        name: `${data.driver.firstName} ${data.driver.lastName}`,
+        phone: data.driver.phone,
+        role: 'CUSTOMER',
+        createdAt: now,
+        updatedAt: now,
+      })
+      .select('id,email,name')
+      .single()
+    if (userCreateError) throw userCreateError
+    user = createdUser
+  }
+
+  const { data: car, error: carError } = await supabase
+    .from('Car')
+    .select('id,make,model,pricePerDay')
+    .eq('id', data.vehicleId)
+    .single()
+  if (carError || !car) throw carError || new Error('Vehicle not found')
+
+  const { data: addons, error: addonError } = await supabase
+    .from('Addon')
+    .select('id,name,price')
+    .eq('isActive', true)
+  if (addonError) throw addonError
+
+  const bookingId = crypto.randomUUID()
+  const { data: booking, error: bookingError } = await supabase
+    .from('Booking')
+    .insert({
+      id: bookingId,
+      bookingRef,
+      userId: user.id,
+      carId: data.vehicleId,
+      pickupDate: start.toISOString(),
+      returnDate: end.toISOString(),
+      totalDays,
+      pickupLocation: data.pickupLocation,
+      returnLocation: data.dropoffLocation,
+      basePrice: car.pricePerDay * totalDays,
+      totalPrice: data.totalPrice * 40,
+      currency: 'MUR',
+      status: 'CONFIRMED',
+      paymentStatus: 'PENDING',
+      driverName: `${data.driver.title} ${data.driver.firstName} ${data.driver.lastName}`,
+      driverEmail: data.driver.email,
+      driverPhone: data.driver.phone,
+      specialRequests: data.idDocumentNote || null,
+      createdAt: now,
+      updatedAt: now,
+    })
+    .select('id,bookingRef')
+    .single()
+  if (bookingError || !booking) throw bookingError || new Error('Unable to create booking')
+
+  const bookingAddons = data.options.flatMap(option => {
+    const addon = (addons || []).find(item =>
+      item.name.toLowerCase().includes(option.id.split('-')[0].toLowerCase()) ||
+      (option.id === 'accident-protection' && item.name === 'Full Insurance Cover')
+    )
+    return addon ? [{
+      id: crypto.randomUUID(),
+      bookingId,
+      addonId: addon.id,
+      quantity: option.quantity,
+      price: addon.price || 0,
+    }] : []
+  })
+  if (bookingAddons.length) {
+    const { error } = await supabase.from('BookingAddon').insert(bookingAddons)
+    if (error) throw error
+  }
+
+  const { error: paymentError } = await supabase.from('Payment').insert({
+    id: crypto.randomUUID(),
+    bookingId,
+    amount: data.totalPrice * 40 * (data.paymentMode === '25%' ? 0.25 : 1),
+    currency: 'MUR',
+    provider: 'demo',
+    status: 'PENDING',
+    type: data.paymentMode === '25%' ? 'deposit' : 'full',
+    createdAt: now,
+  })
+  if (paymentError) throw paymentError
+
+  revalidatePath('/admin/bookings')
+  return { success: true, bookingRef: booking.bookingRef, id: booking.id }
+}
+
 /**
  * Fetches available vehicles for the public booking flow based on dates.
  */
@@ -147,7 +267,7 @@ export async function createPublicBooking(data: {
   totalPrice: number
   paymentMode: string
   idDocumentNote?: string
-}) {
+}): Promise<CreateBookingResult> {
   try {
     // 1. Generate Booking Reference
     const num = Math.floor(10000 + Math.random() * 90000)
@@ -276,6 +396,11 @@ export async function createPublicBooking(data: {
     return { success: true, bookingRef: booking.bookingRef, id: booking.id }
   } catch (error: any) {
     console.error("Booking Creation Error:", error)
-    return { success: false, error: error.message }
+    try {
+      return await createPublicBookingWithSupabase(data)
+    } catch (fallbackError) {
+      console.error('Supabase booking fallback error:', fallbackError)
+      return { success: false, error: 'We could not complete your booking. Please try again or contact our team.' }
+    }
   }
 }

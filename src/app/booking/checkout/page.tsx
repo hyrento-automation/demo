@@ -183,7 +183,7 @@ export default function DriverDetailsPage() {
 
       const res = await createPublicBooking(payload)
 
-      if (res.success && res.bookingRef) {
+      if (res.success) {
         setBookingRef(res.bookingRef)
         setStep(4)
         router.push('/booking/confirmation')
