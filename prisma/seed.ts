@@ -82,6 +82,7 @@ async function main() {
 
   // ─── COUPONS ─────────────────────────────────────────────────────────────
   await prisma.coupon.createMany({
+    skipDuplicates: true,
     data: [
       { code: 'WELCOME10', type: 'percentage', value: 10, minBookingVal: 1000, maxUses: 500, expiresAt: new Date('2025-12-31') },
       { code: 'SUMMER25', type: 'percentage', value: 25, minBookingVal: 5000, maxUses: 100, expiresAt: new Date('2025-08-31') },
@@ -92,8 +93,15 @@ async function main() {
 
   // ─── ADMIN USER ──────────────────────────────────────────────────────────
   const hashedPassword = await bcrypt.hash('Admin@1234', 12)
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: { email: 'admin@hyrento.com' },
+    update: {
+      passwordHash: hashedPassword,
+      name: 'Admin User',
+      role: 'ADMIN',
+      emailVerified: new Date(),
+    },
+    create: {
       email: 'admin@hyrento.com',
       passwordHash: hashedPassword,
       name: 'Admin User',
@@ -778,6 +786,12 @@ async function main() {
 
   for (const carData of cars) {
     const { thumbnailUrl, ...rest } = carData
+    const existingCar = rest.plateNumber
+      ? await prisma.car.findUnique({ where: { plateNumber: rest.plateNumber } })
+      : null
+
+    if (existingCar) continue
+
     await prisma.car.create({
       data: {
         ...rest,
@@ -792,8 +806,17 @@ async function main() {
   }
 
   // ─── DEMO CUSTOMER ───────────────────────────────────────────────────────
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: { email: 'demo@customer.com' },
+    update: {
+      name: 'Sarah Thompson',
+      phone: '+44 7700 900123',
+      role: 'CUSTOMER',
+      emailVerified: new Date(),
+      loyaltyPoints: 350,
+      isVIP: true,
+    },
+    create: {
       email: 'demo@customer.com',
       name: 'Sarah Thompson',
       phone: '+44 7700 900123',
