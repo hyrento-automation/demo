@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Bell, ChevronDown, ArrowRight, Menu, X, Car, User, Settings, LogOut, Check } from 'lucide-react';
 import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 import { cn } from '@/src/lib/utils';
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -21,6 +22,7 @@ export default function Navbar() {
   const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
   const pathname = usePathname();
   const { currency, setCurrency } = useCurrencyStore();
+  const brand = useBrand();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -55,11 +57,17 @@ export default function Navbar() {
             </svg>
             <div className="flex flex-col">
               <span className="text-[19px] font-display font-black tracking-tight text-white leading-none">
-                Pleasure Drive
+                {brand.name}
               </span>
-              <span className="text-[9px] font-bold text-[#00B5A5] uppercase tracking-[0.25em] mt-0.5 leading-none">
-                LTD
-              </span>
+              {brand.name.toLowerCase().includes('mauritius') ? (
+                <span className="text-[9px] font-bold text-[#00B5A5] uppercase tracking-[0.25em] mt-0.5 leading-none">
+                  MAURITIUS
+                </span>
+              ) : (
+                <span className="text-[9px] font-bold text-[#00B5A5] uppercase tracking-[0.25em] mt-0.5 leading-none">
+                  PREMIUM RENTALS
+                </span>
+              )}
             </div>
           </Link>
 

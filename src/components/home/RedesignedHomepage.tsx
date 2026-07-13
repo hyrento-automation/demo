@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useBookingStore } from '@/src/store/bookingStore';
 import { cn } from '@/src/lib/utils';
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 // Fallback mockup cars matching the screenshot if API has no cars or is loading
 const MOCKUP_CARS = [
@@ -103,6 +104,7 @@ const VEHICLE_TYPES = [
 export default function RedesignedHomepage() {
   const router = useRouter();
   const { setSearchParams, setStep, setVehicle } = useBookingStore();
+  const brand = useBrand();
   
   const [vehicles, setVehicles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -764,7 +766,7 @@ export default function RedesignedHomepage() {
           <div className="text-center space-y-2 mb-12">
             <p className="text-[11px] font-black uppercase tracking-[0.25em] text-[#00B5A5]">Our Commitment</p>
             <h2 className="text-3xl lg:text-4xl font-display font-black text-[#0D1B2A] tracking-tight">
-              Why Choose Pleasure Drive
+              Why Choose {brand.name}
             </h2>
           </div>
 

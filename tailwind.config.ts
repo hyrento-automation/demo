@@ -12,19 +12,19 @@ const config: Config = {
     extend: {
       colors: {
         navy: {
-          DEFAULT: '#1E293B',
-          light: '#334155',
-          dark: '#0F172A',
+          DEFAULT: 'var(--navy)',
+          light: 'var(--navy-light)',
+          dark: 'var(--navy-dark)',
         },
         gold: {
-          DEFAULT: '#0D9B84',
-          light: '#2FBFA9',
-          dark: '#087B68',
+          DEFAULT: 'var(--gold)',
+          light: 'var(--gold-light)',
+          dark: 'var(--gold-dark)',
         },
-        offWhite: '#F8FAFC',
-        'mid-gray': '#94A3B8',
-        'light-gray': '#F1F5F9',
-        'dark-gray': '#334155',
+        offWhite: 'var(--off-white)',
+        'mid-gray': 'var(--mid-gray)',
+        'light-gray': 'var(--light-gray)',
+        'dark-gray': 'var(--dark-gray)',
       },
       fontFamily: {
         display: ['var(--font-inter)', 'sans-serif'],

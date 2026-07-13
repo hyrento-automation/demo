@@ -165,4 +165,12 @@ SELECT 'img-porsche-001', id,
   true, 1
 FROM "Car" WHERE slug = 'porsche-911-carrera-2024'
 ON CONFLICT (id) DO NOTHING;
-\n-- ================================\n-- Storage (Images)\n-- ================================\nALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;\nDROP POLICY IF EXISTS "Public Access" ON storage.objects;\nDROP POLICY IF EXISTS "Public Upload" ON storage.objects;\nCREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'vehicle-images');\nCREATE POLICY "Public Upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'vehicle-images');\n
+
+-- ================================
+-- Storage (Images)
+-- ================================
+ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public Access" ON storage.objects;
+DROP POLICY IF EXISTS "Public Upload" ON storage.objects;
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'vehicle-images');
+CREATE POLICY "Public Upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'vehicle-images');

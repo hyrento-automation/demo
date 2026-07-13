@@ -1,8 +1,13 @@
+"use client"
+
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Instagram, Twitter, Shield, Heart } from 'lucide-react';
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 export default function Footer() {
+  const brand = useBrand();
+
   return (
     <footer className="bg-[#0D1B2A] text-white pt-16 pb-8 border-t border-white/5 relative overflow-hidden">
       
@@ -22,16 +27,22 @@ export default function Footer() {
               </svg>
               <div className="flex flex-col">
                 <span className="text-md font-display font-black tracking-tight text-white leading-none">
-                  Pleasure Drive
+                  {brand.name}
                 </span>
-                <span className="text-[8px] font-bold text-[#00B5A5] uppercase tracking-[0.2em] mt-0.5 leading-none">
-                  LTD
-                </span>
+                {brand.name.toLowerCase().includes('mauritius') ? (
+                  <span className="text-[8px] font-bold text-[#00B5A5] uppercase tracking-[0.2em] mt-0.5 leading-none">
+                    MAURITIUS
+                  </span>
+                ) : (
+                  <span className="text-[8px] font-bold text-[#00B5A5] uppercase tracking-[0.2em] mt-0.5 leading-none">
+                    PREMIUM
+                  </span>
+                )}
               </div>
             </Link>
 
             <p className="text-[13px] text-white/55 leading-relaxed">
-              Premium car rental service in Mauritius. Drive your way. Explore paradise.
+              Premium car rental service. Drive your way. Explore paradise with {brand.name}.
             </p>
 
             {/* Social Icons */}
@@ -111,7 +122,7 @@ export default function Footer() {
           
           {/* Copyright text */}
           <p className="text-[11px] text-white/35 font-bold uppercase tracking-wider">
-            © {new Date().getFullYear()} Pleasure Drive Ltd. All rights reserved.
+            © {new Date().getFullYear()} {brand.name}. All rights reserved.
           </p>
 
           {/* Secure Payments & Cards */}
