@@ -23,11 +23,11 @@ export default function AdminSettingsPage() {
     setDbStatus('checking')
     try {
       const res = await fetch('/api/admin/health')
+      const data = await res.json()
+      setEnvStatus(data.envStatus || {})
       if (res.ok) {
-        const data = await res.json()
         setDbStatus('connected')
         setTableCount(data.tableCount || null)
-        setEnvStatus(data.envStatus || {})
       } else {
         setDbStatus('error')
       }

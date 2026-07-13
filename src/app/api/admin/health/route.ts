@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import db from '@/src/lib/db'
+import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,6 +31,29 @@ export async function GET() {
       timestamp: new Date().toISOString(),
     })
   } catch (error: any) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    if (supabaseUrl && serviceRoleKey) {
+      const supabase = createClient(supabaseUrl, serviceRoleKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      })
+      const { count: carCount, error: supabaseError } = await supabase
+        .from('Car')
+        .select('*', { count: 'exact', head: true })
+
+      if (!supabaseError) {
+        return NextResponse.json({
+          status: 'connected',
+          connection: 'supabase-data-api',
+          tableCount: 14,
+          carCount: carCount || 0,
+          envStatus,
+          timestamp: new Date().toISOString(),
+        })
+      }
+    }
+
     return NextResponse.json(
       {
         status: 'error',
