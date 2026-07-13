@@ -7,13 +7,34 @@ import TestimonialsSection from '@/src/components/home/TestimonialsSection';
 import StatsSection from '@/src/components/home/StatsSection';
 import BrandMarquee from '@/src/components/home/BrandMarquee';
 import { ArrowRight } from 'lucide-react';
+import { headers } from 'next/headers';
+import { SpainHomepage } from '@/src/components/home/variants/SpainHomepage';
+import { EuropeHomepage } from '@/src/components/home/variants/EuropeHomepage';
+import { UsaHomepage } from '@/src/components/home/variants/UsaHomepage';
+import { UaeHomepage } from '@/src/components/home/variants/UaeHomepage';
+import { SouthAfricaHomepage } from '@/src/components/home/variants/SouthAfricaHomepage';
 
 export const metadata = {
   title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} | Luxury Car Rental — Island Wide Delivery`,
   description: 'Discover Mauritius in style with our premium car rental service. 20+ elite vehicles, 24/7 support, and free island-wide delivery. Book your dream car today.',
 };
 
-export default function HomePage() {
+interface HomePageProps {
+  searchParams?: { demo?: string | string[] }
+}
+
+export default function HomePage({ searchParams }: HomePageProps) {
+  const host = (headers().get('host') || '').split(':')[0].toLowerCase();
+  const hostnameVariant = host.match(/^demo([1-5])\.hyrento\.com$/)?.[1];
+  const queryVariant = Array.isArray(searchParams?.demo) ? searchParams?.demo[0] : searchParams?.demo;
+  const variant = queryVariant || hostnameVariant;
+
+  if (variant === '1') return <SpainHomepage />;
+  if (variant === '2') return <EuropeHomepage />;
+  if (variant === '3') return <UsaHomepage />;
+  if (variant === '4') return <UaeHomepage />;
+  if (variant === '5') return <SouthAfricaHomepage />;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRental',
