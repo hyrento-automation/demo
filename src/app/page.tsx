@@ -92,7 +92,7 @@ export default function HomePage() {
               step: '03',
               title: 'We Deliver to You',
               desc: 'Our team delivers your car to your hotel, airport, or any location island-wide. Drive away and explore.',
-              img: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=600&auto=format&fit=crop',
+              img: '/assets/imgi_52_91bdc986-9e60-4e87-b58c-7b6c9e38fb77.png',
             },
           ].map((step, i) => (
             <div key={i} className="group text-center space-y-6">
@@ -146,7 +146,7 @@ export default function HomePage() {
       <section className="py-24 max-w-7xl mx-auto px-6 w-full">
         <div className="relative rounded-[3rem] overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=2070&auto=format&fit=crop"
+            src="/assets/imgi_56_newsletter-min.jpg"
             alt="Mauritius coastal road drive"
             className="w-full h-[500px] object-cover"
           />
