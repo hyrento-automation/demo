@@ -790,7 +790,22 @@ async function main() {
       ? await prisma.car.findUnique({ where: { plateNumber: rest.plateNumber } })
       : null
 
-    if (existingCar) continue
+    if (existingCar) {
+      await prisma.car.update({
+        where: { id: existingCar.id },
+        data: {
+          ...rest,
+          thumbnailUrl,
+          images: {
+            deleteMany: {},
+            create: [
+              { url: thumbnailUrl || '', isPrimary: true, order: 0, alt: `${carData.make} ${carData.model} front view` },
+            ],
+          },
+        },
+      })
+      continue
+    }
 
     await prisma.car.create({
       data: {

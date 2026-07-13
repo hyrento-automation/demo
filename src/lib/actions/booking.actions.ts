@@ -5,6 +5,66 @@ import { BookingStatus, PaymentStatus, CarStatus } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { sendEmail } from "@/src/lib/email"
 import { bookingConfirmationTemplate, adminBookingNotificationTemplate } from "@/src/lib/email-templates"
+import { createClient } from '@supabase/supabase-js'
+
+async function getAvailableVehiclesFromSupabase(startDate?: string, endDate?: string) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return []
+
+  const supabase = createClient(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+
+  let unavailableCarIds: string[] = []
+  if (startDate && endDate) {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    if (!Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime())) {
+      const { data: bookings } = await supabase
+        .from('Booking')
+        .select('carId')
+        .in('status', ['CONFIRMED', 'ACTIVE', 'PENDING'])
+        .lt('pickupDate', end.toISOString())
+        .gt('returnDate', start.toISOString())
+      unavailableCarIds = Array.from(new Set((bookings || []).map(booking => booking.carId)))
+    }
+  }
+
+  const { data: cars, error } = await supabase
+    .from('Car')
+    .select('*')
+    .eq('status', 'AVAILABLE')
+    .order('pricePerDay', { ascending: true })
+
+  if (error || !cars) {
+    if (error) console.error('Supabase vehicle fallback failed:', error.message)
+    return []
+  }
+
+  const availableCars = cars.filter(car => !unavailableCarIds.includes(car.id))
+  const { data: images } = availableCars.length
+    ? await supabase
+        .from('CarImage')
+        .select('carId,url,order')
+        .in('carId', availableCars.map(car => car.id))
+        .order('order', { ascending: true })
+    : { data: [] }
+
+  return availableCars.map(car => ({
+    id: car.id,
+    name: `${car.make} ${car.model}`,
+    image: car.thumbnailUrl || images?.find(image => image.carId === car.id)?.url || 'https://images.unsplash.com/photo-1489824904134-891e080c8f67?q=80&w=400&auto=format&fit=crop',
+    category: car.category,
+    transmission: car.transmission === 'AUTOMATIC' ? 'Automatic' : 'Manual',
+    seats: car.seats,
+    luggage: car.luggage,
+    fuelType: car.fuelType.charAt(0) + car.fuelType.slice(1).toLowerCase(),
+    pricePerDay: car.pricePerDay / 40,
+    features: car.features,
+    available: 5,
+  }))
+}
 
 /**
  * Fetches available vehicles for the public booking flow based on dates.
@@ -61,7 +121,7 @@ export async function getAvailableVehicles(startDate?: string, endDate?: string)
     }))
   } catch (error) {
     console.error("Failed to fetch vehicles:", error)
-    return []
+    return getAvailableVehiclesFromSupabase(startDate, endDate)
   }
 }
 
