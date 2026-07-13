@@ -65,6 +65,8 @@ export default function FleetSection() {
         return dbCategories.includes(v.category)
       })
 
+  const displayedVehicles = filteredVehicles.slice(0, 12)
+
   if (loading) return <div className="py-24 text-center text-navy font-bold animate-pulse">Synchronizing Fleet...</div>
 
   if (error || vehicles.length === 0) return (
@@ -114,12 +116,12 @@ export default function FleetSection() {
         {/* Results Header */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-mid-gray font-bold">
-            Showing <span className="text-navy">{filteredVehicles.length}</span> vehicles
+            Showing <span className="text-navy">{displayedVehicles.length}</span> vehicles
           </p>
         </div>
 
         {/* Grid */}
-        <VehicleGrid vehicles={filteredVehicles} />
+        <VehicleGrid vehicles={displayedVehicles} />
       </div>
     </section>
   )

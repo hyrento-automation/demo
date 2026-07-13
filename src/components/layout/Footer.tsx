@@ -1,190 +1,188 @@
-"use client"
-
 import React from 'react';
 import Link from 'next/link';
-import { Facebook, Instagram, Twitter, Shield, Heart } from 'lucide-react';
-import { useBrand } from '@/src/components/providers/BrandProvider';
+import { Car, Phone, Mail, MapPin, ArrowUpRight, Shield, Star } from 'lucide-react';
+
+const footerLinks = {
+  fleet: [
+    { name: 'Luxury Sedans', href: '/fleet' },
+    { name: 'Sports Cars', href: '/fleet' },
+    { name: 'Luxury SUVs', href: '/fleet' },
+    { name: 'Compact Cars', href: '/fleet' },
+    { name: 'Economy Class', href: '/fleet' },
+    { name: 'Premium Vans', href: '/fleet' },
+  ],
+  company: [
+    { name: 'About Us', href: '/about' },
+    { name: 'Our Locations', href: '/locations' },
+    { name: 'Contact', href: '/contact' },
+  ],
+  legal: [
+    { name: 'Terms & Conditions', href: '/terms' },
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Cookie Policy', href: '/privacy#cookies' },
+    { name: 'Rental Agreement', href: '/rental-agreement' },
+  ],
+};
+
+const awards = ['Best Luxury Rental 2023', 'Island Excellence Award', 'Top Rated Service'];
 
 export default function Footer() {
-  const brand = useBrand();
-
   return (
-    <footer className="bg-[#0D1B2A] text-white pt-16 pb-8 border-t border-white/5 relative overflow-hidden">
-      
-      {/* Wave pattern background effect */}
-      <div className="absolute top-0 right-0 w-[400px] h-[300px] rounded-full bg-[#00B5A5]/[0.02] blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[300px] rounded-full bg-[#00B5A5]/[0.01] blur-3xl pointer-events-none" />
+    <footer className="bg-navy-dark relative overflow-hidden">
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 pb-12 border-b border-white/5">
-          
-          {/* Logo & Brand Info Column */}
-          <div className="lg:col-span-1 space-y-6">
-            <Link href="/" className="flex items-center gap-2 group">
-              <svg width="28" height="18" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#00B5A5]">
-                <path d="M10,25 Q30,5 50,25 T90,25" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
-                <path d="M10,42 Q30,22 50,42 T90,42" stroke="currentColor" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
-              </svg>
-              <div className="flex flex-col">
-                <span className="text-md font-display font-black tracking-tight text-white leading-none">
-                  {brand.name}
-                </span>
-                {brand.name.toLowerCase().includes('mauritius') ? (
-                  <span className="text-[8px] font-bold text-[#00B5A5] uppercase tracking-[0.2em] mt-0.5 leading-none">
-                    MAURITIUS
-                  </span>
-                ) : (
-                  <span className="text-[8px] font-bold text-[#00B5A5] uppercase tracking-[0.2em] mt-0.5 leading-none">
-                    PREMIUM
-                  </span>
-                )}
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-[600px] h-[400px] rounded-full bg-gold/[0.02] blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[300px] rounded-full bg-navy-light/30 blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6">
+
+        {/* CTA Banner */}
+        <div className="py-16 border-b border-white/5">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold mb-3">Ready to Explore Mauritius?</p>
+              <h3 className="text-4xl md:text-5xl font-display text-white leading-tight">
+                Your perfect ride <span className="italic text-gold">awaits.</span>
+              </h3>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/booking"
+                className="group h-14 px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest flex items-center gap-3 transition-all duration-300 shadow-[0_8px_24px_rgba(201,168,76,0.4)] hover:shadow-[0_12px_32px_rgba(201,168,76,0.5)] hover:-translate-y-0.5"
+              >
+                Book Your Car
+                <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+              <a
+                href="tel:+2302110000"
+                className="h-14 px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold flex items-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-300"
+              >
+                <Phone size={18} className="text-gold" />
+                +230 211 0000
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Footer Grid */}
+        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+
+          {/* Brand Column */}
+          <div className="lg:col-span-2 space-y-8">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="h-12 w-12 rounded-2xl bg-gold flex items-center justify-center shadow-[0_4px_16px_rgba(201,168,76,0.4)]">
+                <Car size={24} className="text-white" />
+              </div>
+              <div>
+                <p className="text-xl font-display font-bold text-white leading-none">Car Hire</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.25em] text-gold leading-none mt-1">Mauritius</p>
               </div>
             </Link>
 
-            <p className="text-[13px] text-white/55 leading-relaxed">
-              Premium car rental service. Drive your way. Explore paradise with {brand.name}.
+            <p className="text-sm text-white/50 leading-relaxed max-w-sm">
+              Mauritius's most trusted luxury car rental service since 2010.
+              Experience the island in the finest machines, delivered wherever you need them.
             </p>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-3.5">
-              <a href="#" className="h-8 w-8 rounded-full bg-white/5 hover:bg-[#00B5A5]/10 hover:text-[#00B5A5] text-white/70 flex items-center justify-center transition-all">
-                <Facebook size={15} />
-              </a>
-              <a href="#" className="h-8 w-8 rounded-full bg-white/5 hover:bg-[#00B5A5]/10 hover:text-[#00B5A5] text-white/70 flex items-center justify-center transition-all">
-                <Instagram size={15} />
-              </a>
-              <a href="#" className="h-8 w-8 rounded-full bg-white/5 hover:bg-[#00B5A5]/10 hover:text-[#00B5A5] text-white/70 flex items-center justify-center transition-all">
-                <Twitter size={15} />
-              </a>
+            {/* Contact Info */}
+            <div className="space-y-4">
+              {[
+                { icon: Phone, text: '+230 211 0000', href: 'tel:+2302110000' },
+                { icon: Mail, text: 'info@carhiremauritius.com', href: 'mailto:info@carhiremauritius.com' },
+                { icon: MapPin, text: 'SSR Airport, Plaine Magnien, Mauritius', href: '/locations' },
+              ].map(({ icon: Icon, text, href }) => (
+                <a key={text} href={href} className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition-colors group">
+                  <Icon size={16} className="text-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <span>{text}</span>
+                </a>
+              ))}
+            </div>
+
+            {/* Social links — add real URLs when social profiles are created */}
+          </div>
+
+          {/* Fleet Links */}
+          <div className="space-y-6">
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/30">Fleet</h4>
+            <ul className="space-y-3">
+              {footerLinks.fleet.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/50 hover:text-gold transition-colors hover:translate-x-0.5 inline-block"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company Links */}
+          <div className="space-y-6">
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/30">Company</h4>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/50 hover:text-gold transition-colors hover:translate-x-0.5 inline-block"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/30 pt-4">Legal</h4>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/50 hover:text-gold transition-colors hover:translate-x-0.5 inline-block"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Awards Column */}
+          <div className="space-y-6">
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/30">Recognition</h4>
+            <div className="space-y-4">
+              {awards.map((award, i) => (
+                <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
+                  <Star size={16} className="text-gold flex-shrink-0" fill="currentColor" />
+                  <span className="text-xs text-white/60 leading-tight">{award}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 rounded-xl bg-gold/10 border border-gold/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Shield size={14} className="text-gold" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-gold">Fully Insured</span>
+              </div>
+              <p className="text-xs text-white/50 leading-relaxed">All vehicles comprehensively insured & GPS-tracked for your safety.</p>
             </div>
           </div>
-
-          {/* Company Column */}
-          <div className="space-y-4">
-            <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#00B5A5]">Company</h4>
-            <ul className="space-y-2.5">
-              {['About Us', 'Careers', 'Blog', 'Contact Us'].map((item) => (
-                <li key={item}>
-                  <Link href={item === 'About Us' ? '/about' : item === 'Contact Us' ? '/contact' : '#'} className="text-[13px] text-white/55 hover:text-[#00B5A5] transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Fleet Column */}
-          <div className="space-y-4">
-            <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#00B5A5]">Fleet</h4>
-            <ul className="space-y-2.5">
-              {['All Cars', 'SUVs', 'Economy', 'Luxury'].map((item) => (
-                <li key={item}>
-                  <Link href="/fleet" className="text-[13px] text-white/55 hover:text-[#00B5A5] transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Locations Column */}
-          <div className="space-y-4">
-            <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#00B5A5]">Locations</h4>
-            <ul className="space-y-2.5">
-              {['Mauritius Airport', 'Grand Baie', 'Flic en Flac', 'All Locations'].map((item) => (
-                <li key={item}>
-                  <Link href="/locations" className="text-[13px] text-white/55 hover:text-[#00B5A5] transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Column */}
-          <div className="space-y-4">
-            <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#00B5A5]">Support</h4>
-            <ul className="space-y-2.5">
-              {['Help Center', 'FAQs', 'Terms & Conditions', 'Privacy Policy'].map((item) => (
-                <li key={item}>
-                  <Link href={item === 'Terms & Conditions' ? '/terms' : item === 'Privacy Policy' ? '/privacy' : '#'} className="text-[13px] text-white/55 hover:text-[#00B5A5] transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
         </div>
 
-        {/* Bottom Bar: Payments & Copyright */}
-        <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-6">
-          
-          {/* Copyright text */}
-          <p className="text-[11px] text-white/35 font-bold uppercase tracking-wider">
-            © {new Date().getFullYear()} {brand.name}. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="py-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/30">
+            © {new Date().getFullYear()} Car Hire Mauritius. All rights reserved.
           </p>
-
-          {/* Secure Payments & Cards */}
-          <div className="flex flex-col sm:flex-row items-center gap-6">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">We Accept</span>
-              
-              {/* Payment Badge Strip */}
-              <div className="flex items-center gap-2.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl">
-                
-                {/* Visa Icon */}
-                <div className="text-[9px] font-black text-[#1A1F71] bg-white px-1.5 py-0.5 rounded italic leading-none select-none">
-                  VISA
-                </div>
-
-                {/* Mastercard Circles */}
-                <div className="flex items-center -space-x-1">
-                  <div className="w-3 h-3 rounded-full bg-[#EB001B]" />
-                  <div className="w-3 h-3 rounded-full bg-[#F79E1B] opacity-85" />
-                </div>
-
-                {/* Amex Icon */}
-                <div className="text-[8px] font-black text-white bg-[#007cc3] px-1 rounded leading-none select-none">
-                  AMEX
-                </div>
-
-                {/* Apple Pay */}
-                <div className="text-[8px] font-black text-white bg-black border border-white/25 px-1 py-0.5 rounded leading-none select-none">
-                   Pay
-                </div>
-
-                {/* Google Pay */}
-                <div className="text-[8px] font-black text-white leading-none select-none flex items-center">
-                  <span className="text-[#4285F4]">G</span>
-                  <span className="text-[#EA4335]">o</span>
-                  <span className="text-[#FBBC05]">o</span>
-                  <span className="text-[#4285F4]">g</span>
-                  <span className="text-[#34A853]">l</span>
-                  <span className="text-[#EA4335]">e</span>
-                  <span className="text-white/60 ml-0.5">Pay</span>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Secure Payments Seal */}
-            <div className="flex items-center gap-2 text-white/55">
-              <Shield size={14} className="text-[#00B5A5]" />
-              <div className="flex flex-col text-left">
-                <span className="text-[9px] font-black uppercase tracking-wider text-white">Secure Payments</span>
-                <span className="text-[9px] text-white/40 leading-none">Your booking is safe and secure</span>
-              </div>
-            </div>
+          <div className="flex items-center gap-6">
+            <span className="text-xs text-white/20">Designed for excellence in island travel</span>
+            <div className="h-1 w-1 rounded-full bg-gold" />
+            <span className="text-xs text-gold">Since 2010</span>
           </div>
-
-          {/* Made with love in Mauritius */}
-          <div className="flex items-center gap-1.5 text-[11px] text-white/35 font-bold uppercase tracking-wider">
-            <span>Made with</span>
-            <Heart size={10} className="text-[#00B5A5]" fill="currentColor" />
-            <span>in Mauritius</span>
-          </div>
-
         </div>
       </div>
     </footer>
