@@ -88,7 +88,7 @@ export async function getPublicCars() {
     
     return formatPublicCars(cars)
   } catch (error) {
-    console.error("Error fetching public cars:", error)
+    console.warn("Direct database unavailable; using the Supabase fleet fallback.")
     return formatPublicCars(await getCarsFromSupabase())
   }
 }
