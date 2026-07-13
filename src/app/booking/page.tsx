@@ -6,6 +6,7 @@ import { useBookingStore, BookingVehicle } from '@/src/store/bookingStore'
 import BookingLayout from '@/src/components/booking/BookingLayout'
 import { getBranchCharges } from '@/src/lib/actions/admin.actions'
 import { MapPin, Users, Briefcase, Car, Settings2, Wind, Fuel, Check, ArrowRight, ChevronDown, Pencil, Loader2 } from 'lucide-react'
+import { useBrand } from '@/src/components/providers/BrandProvider'
 
 // Vehicles are now fetched from the database
 
@@ -18,6 +19,7 @@ const CATEGORIES = [
 ]
 
 export default function VehicleListPage() {
+  const brand = useBrand()
   const router = useRouter()
   const { setVehicle, setStep, searchParams, setSearchParams, getRentalDays, setLocationCharges } = useBookingStore()
   const [vehicles, setVehicles] = useState<BookingVehicle[]>([])
@@ -257,10 +259,10 @@ export default function VehicleListPage() {
           {/* Error CTA */}
           {fetchError && (
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
-              <a href="tel:+2302110000" className="flex-1 h-12 rounded-lg bg-navy text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-gold transition-colors">
-                📞 Call +230 211 0000
+              <a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className="flex-1 h-12 rounded-lg bg-navy text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-gold transition-colors">
+                📞 Call {brand.phone}
               </a>
-              <a href="https://wa.me/2302110000" target="_blank" rel="noopener noreferrer" className="flex-1 h-12 rounded-lg bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors">
+              <a href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 h-12 rounded-lg bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors">
                 💬 WhatsApp Us
               </a>
             </div>

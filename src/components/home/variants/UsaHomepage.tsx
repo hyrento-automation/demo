@@ -24,7 +24,7 @@ export function UsaHomepage() {
           </div>
         </div>
       </section>
-      <SharedMarketSections label="Made for the open road" heading="From compact city cars to full-size adventures" description="A bold American storefront backed by the same live fleet, checkout, customer and operations system." />
+      <SharedMarketSections market="usa" />
     </div>
   )
 }

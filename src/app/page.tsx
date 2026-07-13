@@ -13,11 +13,16 @@ import { EuropeHomepage } from '@/src/components/home/variants/EuropeHomepage';
 import { UsaHomepage } from '@/src/components/home/variants/UsaHomepage';
 import { UaeHomepage } from '@/src/components/home/variants/UaeHomepage';
 import { SouthAfricaHomepage } from '@/src/components/home/variants/SouthAfricaHomepage';
+import { getBrandConfig } from '@/src/lib/brand';
+import type { Metadata } from 'next';
 
-export const metadata = {
-  title: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} | Luxury Car Rental — Island Wide Delivery`,
-  description: 'Discover Mauritius in style with our premium car rental service. 20+ elite vehicles, 24/7 support, and free island-wide delivery. Book your dream car today.',
-};
+export function generateMetadata(): Metadata {
+  const brand = getBrandConfig(headers().get('host'))
+  return {
+    title: `${brand.name} | Premium Car Rental`,
+    description: `Discover ${brand.country} with our premium fleet, 24/7 support, and concierge delivery ${brand.deliveryLabel}.`,
+  }
+}
 
 interface HomePageProps {
   searchParams?: { demo?: string | string[] }
@@ -25,6 +30,7 @@ interface HomePageProps {
 
 export default function HomePage({ searchParams }: HomePageProps) {
   const host = (headers().get('host') || '').split(':')[0].toLowerCase();
+  const brand = getBrandConfig(host)
   const hostnameVariant = host.match(/^demo([1-5])\.hyrento\.com$/)?.[1];
   const queryVariant = Array.isArray(searchParams?.demo) ? searchParams?.demo[0] : searchParams?.demo;
   const variant = queryVariant || hostnameVariant;
@@ -38,11 +44,11 @@ export default function HomePage({ searchParams }: HomePageProps) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRental',
-    name: process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd',
+    name: brand.name,
     image: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=1200',
     description: 'Mauritius\'s most trusted luxury car rental service since 2010.',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://carehireos.shop',
-    telephone: process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052528340',
+    telephone: brand.phone,
     priceRange: '$$$',
     address: {
       '@type': 'PostalAddress',

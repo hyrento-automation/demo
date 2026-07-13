@@ -23,7 +23,7 @@ export function SouthAfricaHomepage() {
           </div>
         </div>
       </section>
-      <SharedMarketSections label="Adventure-ready fleet" heading="City polish. Open-country confidence." description="A destination-led South African homepage using the same vehicles, booking flow and business operations." />
+      <SharedMarketSections market="south-africa" />
     </div>
   )
 }

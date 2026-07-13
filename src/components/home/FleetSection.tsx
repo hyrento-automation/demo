@@ -4,8 +4,26 @@ import React, { useState, useEffect } from 'react'
 import CategoryTabs from './CategoryTabs'
 import VehicleGrid from './VehicleGrid'
 import { VehicleCategory } from '../../types/fleet.types'
+import { useBrand } from '@/src/components/providers/BrandProvider'
 
-export default function FleetSection() {
+interface FleetSectionProps {
+  eyebrow?: string
+  heading?: string
+  highlightedHeading?: string
+  description?: string
+  className?: string
+  dark?: boolean
+}
+
+export default function FleetSection({
+  eyebrow = 'Premium Selection',
+  heading = 'Explore Our',
+  highlightedHeading = 'Short-Term Rentals',
+  description = 'Discover our wide range of vehicles available for short-term rental. Perfect for your travel needs.',
+  className = 'bg-offWhite',
+  dark = false,
+}: FleetSectionProps) {
+  const brand = useBrand()
   const [activeCategory, setActiveCategory] = useState<VehicleCategory>('All')
   const [vehicles, setVehicles] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -82,10 +100,10 @@ export default function FleetSection() {
           Our vehicles are available — please contact us directly to check availability and make a booking.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="tel:+2302110000" className="h-14 px-8 rounded-2xl bg-navy text-white font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-gold transition-all duration-300">
-            📞 Call +230 211 0000
+          <a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className="h-14 px-8 rounded-2xl bg-navy text-white font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-gold transition-all duration-300">
+            📞 Call {brand.phone}
           </a>
-          <a href="https://wa.me/2302110000" target="_blank" rel="noopener noreferrer" className="h-14 px-8 rounded-2xl bg-emerald-500 text-white font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all duration-300">
+          <a href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="h-14 px-8 rounded-2xl bg-emerald-500 text-white font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all duration-300">
             💬 WhatsApp Us
           </a>
         </div>
@@ -94,16 +112,16 @@ export default function FleetSection() {
   )
 
   return (
-    <section className="bg-offWhite py-24 px-4 border-t border-gray-100">
+    <section className={`${className} py-24 px-4 border-t border-gray-100`}>
       <div className="max-w-[1200px] mx-auto">
         {/* Heading */}
         <div className="text-center space-y-4 mb-12">
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold">Premium Selection</p>
-          <h2 className="text-5xl md:text-6xl font-display text-navy">
-            Explore Our <span className="italic text-gold">Short-Term Rentals</span>
+          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold">{eyebrow}</p>
+          <h2 className={`text-5xl md:text-6xl font-display ${dark ? 'text-white' : 'text-navy'}`}>
+            {heading} <span className="italic text-gold">{highlightedHeading}</span>
           </h2>
-          <p className="text-mid-gray font-body max-w-xl mx-auto leading-relaxed">
-            Discover our wide range of vehicles available for short-term rental. Perfect for your travel needs.
+          <p className={`${dark ? 'text-white/55' : 'text-mid-gray'} font-body max-w-xl mx-auto leading-relaxed`}>
+            {description}
           </p>
         </div>
 
@@ -115,8 +133,8 @@ export default function FleetSection() {
 
         {/* Results Header */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-sm text-mid-gray font-bold">
-            Showing <span className="text-navy">{displayedVehicles.length}</span> vehicles
+          <p className={`text-sm font-bold ${dark ? 'text-white/55' : 'text-mid-gray'}`}>
+            Showing <span className={dark ? 'text-white' : 'text-navy'}>{displayedVehicles.length}</span> vehicles
           </p>
         </div>
 

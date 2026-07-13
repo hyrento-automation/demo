@@ -1,6 +1,9 @@
+"use client"
+
 import React from 'react';
 import Link from 'next/link';
 import { Car, Phone, Mail, MapPin, ArrowUpRight, Shield, Star } from 'lucide-react';
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 const footerLinks = {
   fleet: [
@@ -27,6 +30,7 @@ const footerLinks = {
 const awards = ['Best Luxury Rental 2023', 'Island Excellence Award', 'Top Rated Service'];
 
 export default function Footer() {
+  const brand = useBrand();
   return (
     <footer className="bg-navy-dark relative overflow-hidden">
       {/* Top accent line */}
@@ -42,7 +46,7 @@ export default function Footer() {
         <div className="py-16 border-b border-white/5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold mb-3">Ready to Explore Mauritius?</p>
+              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold mb-3">Ready to Explore {brand.country}?</p>
               <h3 className="text-4xl md:text-5xl font-display text-white leading-tight">
                 Your perfect ride <span className="italic text-gold">awaits.</span>
               </h3>
@@ -56,11 +60,11 @@ export default function Footer() {
                 <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
               <a
-                href="tel:+2302110000"
+                href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`}
                 className="h-14 px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold flex items-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-300"
               >
                 <Phone size={18} className="text-gold" />
-                +230 211 0000
+                {brand.phone}
               </a>
             </div>
           </div>
@@ -77,21 +81,21 @@ export default function Footer() {
               </div>
               <div>
                 <p className="text-xl font-display font-bold text-white leading-none">Car Hire</p>
-                <p className="text-[11px] font-black uppercase tracking-[0.25em] text-gold leading-none mt-1">Mauritius</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.25em] text-gold leading-none mt-1">{brand.country}</p>
               </div>
             </Link>
 
             <p className="text-sm text-white/50 leading-relaxed max-w-sm">
-              Mauritius's most trusted luxury car rental service since 2010.
-              Experience the island in the finest machines, delivered wherever you need them.
+              {brand.country}&apos;s trusted premium car rental service since 2010.
+              Experience every journey in the finest vehicles, delivered wherever you need them.
             </p>
 
             {/* Contact Info */}
             <div className="space-y-4">
               {[
-                { icon: Phone, text: '+230 211 0000', href: 'tel:+2302110000' },
-                { icon: Mail, text: 'info@carhiremauritius.com', href: 'mailto:info@carhiremauritius.com' },
-                { icon: MapPin, text: 'SSR Airport, Plaine Magnien, Mauritius', href: '/locations' },
+                { icon: Phone, text: brand.phone, href: `tel:${brand.phone.replace(/[^0-9+]/g, '')}` },
+                { icon: Mail, text: brand.email, href: `mailto:${brand.email}` },
+                { icon: MapPin, text: brand.headquarters, href: '/locations' },
               ].map(({ icon: Icon, text, href }) => (
                 <a key={text} href={href} className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition-colors group">
                   <Icon size={16} className="text-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
@@ -176,10 +180,10 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} Car Hire Mauritius. All rights reserved.
+            © {new Date().getFullYear()} Car Hire {brand.country}. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <span className="text-xs text-white/20">Designed for excellence in island travel</span>
+            <span className="text-xs text-white/20">Designed for exceptional journeys in {brand.country}</span>
             <div className="h-1 w-1 rounded-full bg-gold" />
             <span className="text-xs text-gold">Since 2010</span>
           </div>

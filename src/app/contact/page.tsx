@@ -2,42 +2,7 @@
 
 import React, { useState } from 'react';
 import { Mail, MapPin, Phone, MessageSquare, Clock, ArrowRight, CheckCircle, Send } from 'lucide-react';
-import type { Metadata } from 'next';
-
-const CONTACT_ITEMS = [
-  {
-    icon: Phone,
-    title: 'Call Us',
-    detail: process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 211 0000',
-    sub: '24/7 Support Line',
-    href: `tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+2302110000'}`,
-    color: 'text-blue-500', bg: 'bg-blue-50',
-  },
-  {
-    icon: MessageSquare,
-    title: 'WhatsApp',
-    detail: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '+230 5255 3669',
-    sub: 'Instant messaging — we reply in minutes',
-    href: `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_PHONE?.replace(/[^0-9]/g, '') || '2305702000'}`,
-    color: 'text-emerald-500', bg: 'bg-emerald-50',
-  },
-  {
-    icon: Mail,
-    title: 'Email Us',
-    detail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com',
-    sub: 'General enquiries & booking questions',
-    href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com'}`,
-    color: 'text-purple-500', bg: 'bg-purple-50',
-  },
-  {
-    icon: Clock,
-    title: 'Office Hours',
-    detail: '08:00 – 18:00',
-    sub: 'Mon – Sun · Airport branch 24/7',
-    href: '/locations',
-    color: 'text-gold', bg: 'bg-gold/10',
-  },
-];
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 const FAQ = [
   { q: 'Do you offer free cancellation?', a: 'Yes. Cancel any booking up to 24 hours before your pickup time for a full refund, no questions asked.' },
@@ -47,6 +12,13 @@ const FAQ = [
 ];
 
 export default function ContactPage() {
+  const brand = useBrand();
+  const contactItems = [
+    { icon: Phone, title: 'Call Us', detail: brand.phone, sub: '24/7 Support Line', href: `tel:${brand.phone.replace(/[^0-9+]/g, '')}`, color: 'text-blue-500', bg: 'bg-blue-50' },
+    { icon: MessageSquare, title: 'WhatsApp', detail: brand.whatsapp, sub: 'Instant messaging — we reply in minutes', href: `https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+    { icon: Mail, title: 'Email Us', detail: brand.email, sub: 'General enquiries & booking questions', href: `mailto:${brand.email}`, color: 'text-purple-500', bg: 'bg-purple-50' },
+    { icon: Clock, title: 'Office Hours', detail: '08:00 – 18:00', sub: 'Mon – Sun · Airport support 24/7', href: '/locations', color: 'text-gold', bg: 'bg-gold/10' },
+  ];
   const [formState, setFormState] = useState({
     name: '', email: '', phone: '', subject: 'booking', message: '',
   });
@@ -70,7 +42,7 @@ export default function ContactPage() {
             Let's <span className="italic text-gold">Connect</span>
           </h1>
           <p className="text-white/60 text-lg max-w-xl mx-auto">
-            Whether you have a question about our fleet, need a custom quote, or want to plan your island adventure — we're here.
+            Whether you have a fleet question, need a custom quote, or want to plan a journey through {brand.country} — we&apos;re here.
           </p>
         </div>
       </section>
@@ -78,9 +50,9 @@ export default function ContactPage() {
       {/* CONTACT CARDS */}
       <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {CONTACT_ITEMS.map((item, i) => (
+          {contactItems.map((item) => (
             <a
-              key={i}
+              key={item.title}
               href={item.href}
               className="group p-8 rounded-[2rem] bg-white border border-gray-100 hover:border-gold/30 hover:shadow-[0_20px_60px_rgba(27,45,79,0.1)] transition-all duration-500 hover:-translate-y-2 block"
             >
@@ -213,9 +185,9 @@ export default function ContactPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/80 to-transparent" />
               <div className="absolute bottom-0 p-8">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gold mb-2">Emergency Line</p>
-                <p className="text-white font-bold text-lg mb-1">"Breakdown support — active island-wide, 24/7."</p>
-                <a href={`tel:${process.env.NEXT_PUBLIC_EMERGENCY_PHONE || '+2305255369'}`} className="text-gold font-black text-xl tracking-wider hover:underline">
-                  {process.env.NEXT_PUBLIC_EMERGENCY_PHONE || '+230 5255 3669'}
+                <p className="text-white font-bold text-lg mb-1">Breakdown support — active {brand.deliveryLabel}, 24/7.</p>
+                <a href={`tel:${brand.emergencyPhone.replace(/[^0-9+]/g, '')}`} className="text-gold font-black text-xl tracking-wider hover:underline">
+                  {brand.emergencyPhone}
                 </a>
               </div>
             </div>
@@ -228,11 +200,11 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-widest text-navy/40">Headquarters</p>
-                  <p className="font-bold text-navy">Port Louis, Mauritius</p>
+                  <p className="font-bold text-navy">{brand.headquarters}</p>
                 </div>
               </div>
               <p className="text-sm text-mid-gray leading-relaxed">
-                Our main office is in the capital city, with branches at SSR Airport, Grand Baie, and Flic en Flac.
+                Our local network covers {brand.locationSummary}, with concierge delivery available {brand.deliveryLabel}.
               </p>
               <a
                 href="/locations"

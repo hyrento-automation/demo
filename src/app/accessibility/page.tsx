@@ -1,4 +1,5 @@
 import React from 'react';
+import { SHARED_CONTACT } from '@/src/lib/market';
 
 export const metadata = {
   title: 'Accessibility Statement',
@@ -33,8 +34,8 @@ export default function AccessibilityPage() {
             We welcome your feedback on the accessibility of {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'}. Please let us know if you encounter accessibility barriers on our platform:
           </p>
           <ul className="list-disc pl-6 space-y-2 my-6">
-            <li>Phone: <a href={`tel:${process.env.NEXT_PUBLIC_BRAND_PHONE || '+23052528340'}`} className="text-gold hover:underline">{process.env.NEXT_PUBLIC_BRAND_PHONE || '+230 5255 3669'}</a></li>
-            <li>E-mail: <a href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com'}`} className="text-gold hover:underline">{process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'pleasuredriveltd@gmail.com'}</a></li>
+            <li>Phone: <a href={SHARED_CONTACT.phoneHref} className="text-gold hover:underline">{SHARED_CONTACT.phone}</a></li>
+            <li>E-mail: <a href={`mailto:${SHARED_CONTACT.email}`} className="text-gold hover:underline">{SHARED_CONTACT.email}</a></li>
             <li>Postal Address: SSR International Airport, Plaine Magnien, Mauritius</li>
           </ul>
           <p>

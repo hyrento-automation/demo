@@ -40,7 +40,7 @@ export function SpainHomepage() {
           </div>
         </div>
       </section>
-      <SharedMarketSections label="Spanish road collection" heading="Cars selected for coast, city and countryside" description="The same dependable booking platform, presented for travellers exploring Spain and the Mediterranean." />
+      <SharedMarketSections market="spain" />
     </div>
   )
 }

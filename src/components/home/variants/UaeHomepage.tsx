@@ -24,7 +24,7 @@ export function UaeHomepage() {
           </div>
         </div>
       </section>
-      <div className="text-[#111827]"><SharedMarketSections label="Curated in Dubai" heading="Luxury without compromise" description="A refined storefront for premium UAE rentals, connected to the same inventory and administration platform." /></div>
+      <SharedMarketSections market="uae" />
     </div>
   )
 }

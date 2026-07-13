@@ -8,6 +8,7 @@ import { Phone, Menu, X, ChevronDown, Car, MapPin, Info, Mail, LayoutDashboard, 
 import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 import { useTransition } from 'react';
 import { cn } from '@/src/lib/utils';
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 const navLinks = [
   { name: 'Fleet', href: '/fleet', icon: Car, desc: 'Browse our elite cars' },
@@ -17,6 +18,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const brand = useBrand();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -75,7 +77,7 @@ export default function Navbar() {
                 Car Hire
               </span>
               <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gold leading-none -mt-0.5 block">
-                Mauritius
+                {brand.country}
               </span>
             </div>
           </Link>
@@ -111,7 +113,7 @@ export default function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-3">
             <a
-              href="tel:+2302110000"
+              href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`}
               className={cn(
                 "hidden xl:flex items-center gap-2 text-[13px] font-bold transition-all duration-300",
                 isScrolled || !isTransparentPage ? "text-navy hover:text-gold" : "text-white/80 hover:text-white"
@@ -120,7 +122,7 @@ export default function Navbar() {
               <span className="h-7 w-7 rounded-full bg-gold/10 flex items-center justify-center">
                 <Phone size={13} className="text-gold" />
               </span>
-              <span>+230 211 0000</span>
+              <span>{brand.phone}</span>
             </a>
 
             {/* Currency Switcher */}
@@ -261,11 +263,11 @@ export default function Navbar() {
               Book Now
             </Link>
             <a
-              href="tel:+2302110000"
+              href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`}
               className="w-full h-12 rounded-2xl bg-navy/5 text-navy font-bold flex items-center justify-center gap-2 transition-all hover:bg-navy/10"
             >
               <Phone size={16} className="text-gold" />
-              +230 211 0000
+              {brand.phone}
             </a>
           </div>
         </div>

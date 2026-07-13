@@ -25,7 +25,7 @@ export function EuropeHomepage() {
           </div>
         </div>
       </section>
-      <SharedMarketSections label="The continental collection" heading="Designed for grand tours and effortless city breaks" description="Premium mobility for travellers crossing Europe, from alpine passes to historic capitals." />
+      <SharedMarketSections market="europe" />
     </div>
   )
 }

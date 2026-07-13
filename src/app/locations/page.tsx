@@ -1,255 +1,69 @@
-import React from 'react';
-import Link from 'next/link';
-import { MapPin, Plane, Ship, Building, Phone, Clock, ArrowRight, Car, Navigation } from 'lucide-react';
-import type { Metadata } from 'next';
+import Link from 'next/link'
+import { headers } from 'next/headers'
+import { ArrowRight, Building, Car, Clock, MapPin, Navigation, Phone, Plane, Ship } from 'lucide-react'
+import type { Metadata } from 'next'
+import { getMarketConfig, SHARED_CONTACT, type LocationIcon } from '@/src/lib/market'
 
-export const metadata: Metadata = {
-  title: `Our Locations | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} — 5 Island-Wide Branches`,
-  description: `${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} operates from 5 branches across Mauritius including Mapou, Trou aux Biches, Pereybere, SSR Airport, and Flic en Flac. Island-wide delivery available.`,
-};
+const icons = { plane: Plane, building: Building, car: Car, map: MapPin, ship: Ship } satisfies Record<LocationIcon, typeof MapPin>
 
-const LOCATIONS = [
-  {
-    name: 'SSR Airport Branch',
-    type: 'Airport Branch',
-    icon: Plane,
-    address: 'SSR International Airport, Plaine Magnien, Mauritius',
-    phone: '+230 5255 3669',
-    whatsapp: '+230 5255 3669',
-    hours: '24 / 7 (Pre-booked pickups)',
-    desc: 'Our flagship branch located right at the airport. Experience seamless meet & greet service from our team the moment you land.',
-    features: ['Meet & Greet Service', 'Instant Handover', 'All Hours'],
-    img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop',
-    mapUrl: 'https://maps.google.com/?q=SSR+International+Airport+Mauritius',
-    featured: true,
-  },
-  {
-    name: 'Pereybere',
-    type: 'Main Hub',
-    icon: Building,
-    address: '23, Escale Nord Business Hub, Chemins 20 Pieds, Grand Bay, Mauritius',
-    phone: '+230 5255 3669',
-    whatsapp: '+230 5255 3669',
-    hours: '08:00 – 18:00 Daily',
-    desc: 'Serving the north of the island in the heart of Mauritius\'s premier resort town. Ideal for villa deliveries, hotel handovers, and pickups.',
-    features: ['Villa Delivery', 'Hotel Pickup', 'North Coast'],
-    img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1000&auto=format&fit=crop',
-    mapUrl: 'https://maps.google.com/?q=Pereybere+Mauritius',
-    featured: false,
-  },
-  {
-    name: 'Trou aux Biches',
-    type: 'North Coast Branch',
-    icon: Ship,
-    address: 'Trou aux Biches, Mauritius',
-    phone: '+230 5255 3669',
-    whatsapp: '+230 5255 3669',
-    hours: '08:00 – 18:00 Daily',
-    desc: 'Located on the popular north coast, perfect for guests staying along Trou aux Biches and nearby beach resorts.',
-    features: ['Beach Pickups', 'Resort Delivery', 'North Coast'],
-    img: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000&auto=format&fit=crop',
-    mapUrl: 'https://maps.google.com/?q=Trou+aux+Biches+Mauritius',
-    featured: false,
-  },
-  {
-    name: 'Flic en Flac',
-    type: 'West Coast Hub',
-    icon: MapPin,
-    address: 'Flic en Flac, Mauritius',
-    phone: '+230 5255 3669',
-    whatsapp: '+230 5255 3669',
-    hours: '08:00 – 19:00 Daily',
-    desc: 'Our west coast hub serving the most beautiful lagoon resorts along the sunset coast.',
-    features: ['Resort Delivery', 'Beach Pickups', 'West Coast'],
-    img: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1000&auto=format&fit=crop',
-    mapUrl: 'https://maps.google.com/?q=Flic+en+Flac+Mauritius',
-    featured: false,
-  },
-  {
-    name: 'Mapou',
-    type: 'Central Branch',
-    icon: Car,
-    address: 'Mapou, Mauritius',
-    phone: '+230 5255 3669',
-    whatsapp: '+230 5255 3669',
-    hours: '08:00 – 18:00 Daily',
-    desc: 'Conveniently located in central Mauritius, easy access for vehicle handovers and returns.',
-    features: ['Central Location', 'Vehicle Handover', 'Easy Access'],
-    img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1000&auto=format&fit=crop',
-    mapUrl: 'https://maps.google.com/?q=Mapou+Mauritius',
-    featured: false,
-  },
-];
+export function generateMetadata(): Metadata {
+  const market = getMarketConfig(headers().get('host'))
+  return {
+    title: `Car Hire Locations in ${market.country}`,
+    description: `Premium car pickup and delivery in ${market.locationSummary}. Explore every Car Hire ${market.country} location.`,
+  }
+}
 
 export default function LocationsPage() {
+  const market = getMarketConfig(headers().get('host'))
+
   return (
-    <div className="pt-20 pb-24">
-
-      {/* HERO */}
+    <div className="pb-24 pt-20">
       <section className="relative overflow-hidden bg-navy py-28">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop"
-            alt="Mauritius island aerial"
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 dot-pattern opacity-30" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-6 text-center space-y-6">
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold">Where to Find Us</p>
-          <h1 className="text-6xl md:text-8xl font-display text-white">
-            Island <span className="italic text-gold">Coverage</span>
-          </h1>
-          <p className="text-white/60 text-lg max-w-xl mx-auto leading-relaxed">
-            5 branches + complimentary island-wide concierge delivery. Wherever you are in Mauritius, we'll bring the car to you.
-          </p>
-
-          {/* Quick stats */}
-          <div className="flex flex-wrap justify-center gap-6 pt-8">
-            {[
-              { val: '5', label: 'Branch Locations' },
-              { val: '2h', label: 'Max Delivery Time' },
-              { val: '24/7', label: 'Airport Branch' },
-              { val: 'Free', label: 'Island Delivery' },
-            ].map((s, i) => (
-              <div key={i} className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md text-center">
-                <p className="text-3xl font-display font-black text-gold">{s.val}</p>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mt-1">{s.label}</p>
-              </div>
+        <img src={market.locationsHeroImage} alt={`${market.country} destination`} className="absolute inset-0 h-full w-full object-cover opacity-25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/90 via-navy/65 to-navy/30" />
+        <div className="relative mx-auto max-w-7xl px-6 text-center">
+          <p className="text-[11px] font-black uppercase tracking-[.3em] text-gold">Where to find us</p>
+          <h1 className="mt-5 text-6xl font-display text-white md:text-8xl">{market.coverageLabel.split(' ')[0]} <span className="italic text-gold">Coverage</span></h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">{market.locations.length} key locations with concierge delivery {market.deliveryLabel}. Wherever the journey begins, we bring the car to you.</p>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            {[{ val: String(market.locations.length), label: 'Key Locations' }, { val: '2h', label: 'Target Delivery' }, { val: '24/7', label: 'Airport Support' }, { val: 'Direct', label: 'Local Assistance' }].map(stat => (
+              <div key={stat.label} className="min-w-36 rounded-2xl border border-white/10 bg-white/5 px-7 py-4 backdrop-blur"><p className="text-3xl font-black text-gold">{stat.val}</p><p className="mt-1 text-[10px] font-black uppercase tracking-[.18em] text-white/40">{stat.label}</p></div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* LOCATIONS GRID */}
-      <section className="max-w-7xl mx-auto px-6 py-24 space-y-8">
-        {LOCATIONS.map((loc, i) => (
-          <div
-            key={i}
-            className={`group grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-card hover:shadow-[0_24px_80px_rgba(27,45,79,0.12)] transition-all duration-700 ${loc.featured ? 'ring-2 ring-gold/30' : ''}`}
-          >
-            {/* Image */}
-            <div className={`relative aspect-[4/3] lg:aspect-auto overflow-hidden ${i % 2 !== 0 ? 'lg:order-2' : ''}`}>
-              <img
-                src={loc.img}
-                alt={loc.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-navy/60 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-transparent" />
-              {loc.featured && (
-                <div className="absolute top-6 left-6 px-4 py-2 rounded-full bg-gold text-white text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">
-                  Primary Branch
-                </div>
-              )}
-            </div>
-
-            {/* Content */}
-            <div className={`p-10 lg:p-14 bg-white flex flex-col justify-center ${i % 2 !== 0 ? 'lg:order-1' : ''}`}>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-14 w-14 rounded-2xl bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-500">
-                  <loc.icon size={28} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-gold">{loc.type}</p>
-                  <h2 className="text-2xl font-display font-bold text-navy">{loc.name}</h2>
-                </div>
+      <section className="mx-auto max-w-7xl space-y-8 px-6 py-24">
+        {market.locations.map((place, index) => {
+          const Icon = icons[place.icon]
+          return (
+            <article key={place.name} className={`group grid overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white shadow-card transition-all duration-500 hover:shadow-luxury lg:grid-cols-2 ${place.featured ? 'ring-2 ring-gold/25' : ''}`}>
+              <div className={`relative min-h-80 overflow-hidden ${index % 2 ? 'lg:order-2' : ''}`}>
+                <img src={place.img} alt={place.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/45 to-transparent" />
+                {place.featured && <span className="absolute left-6 top-6 rounded-full bg-gold px-4 py-2 text-[10px] font-black uppercase tracking-[.2em] text-white">Primary Location</span>}
               </div>
-
-              <p className="text-mid-gray leading-relaxed mb-8">{loc.desc}</p>
-
-              {/* Features */}
-              <div className="flex flex-wrap gap-2 mb-8">
-                {loc.features.map((f) => (
-                  <span key={f} className="px-3 py-1.5 rounded-full bg-offWhite text-navy font-bold text-[11px] uppercase tracking-wider border border-light-gray">
-                    {f}
-                  </span>
-                ))}
+              <div className={`flex flex-col justify-center p-9 lg:p-14 ${index % 2 ? 'lg:order-1' : ''}`}>
+                <div className="flex items-center gap-4"><span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/10 text-gold"><Icon size={27} /></span><div><p className="text-[10px] font-black uppercase tracking-[.24em] text-gold">{place.type}</p><h2 className="text-3xl font-black text-navy">{place.name}</h2></div></div>
+                <p className="mt-7 leading-7 text-mid-gray">{place.desc}</p>
+                <div className="mt-6 flex flex-wrap gap-2">{place.features.map(feature => <span key={feature} className="rounded-full bg-offWhite px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-navy">{feature}</span>)}</div>
+                <div className="mt-8 grid gap-5 border-t border-light-gray pt-7 sm:grid-cols-2">
+                  <div className="flex gap-3"><Navigation size={17} className="mt-1 shrink-0 text-gold" /><div><p className="text-[9px] font-black uppercase tracking-widest text-navy/40">Address</p><p className="mt-1 text-sm font-bold text-navy">{place.address}</p></div></div>
+                  <div className="flex gap-3"><Clock size={17} className="mt-1 shrink-0 text-gold" /><div><p className="text-[9px] font-black uppercase tracking-widest text-navy/40">Opening Hours</p><p className="mt-1 text-sm font-bold text-navy">{place.hours}</p></div></div>
+                  <div className="flex gap-3"><Phone size={17} className="mt-1 shrink-0 text-gold" /><div><p className="text-[9px] font-black uppercase tracking-widest text-navy/40">Phone</p><a href={SHARED_CONTACT.phoneHref} className="mt-1 block text-sm font-bold text-navy hover:text-gold">{SHARED_CONTACT.phone}</a></div></div>
+                  <div className="flex gap-3"><Car size={17} className="mt-1 shrink-0 text-gold" /><div><p className="text-[9px] font-black uppercase tracking-widest text-navy/40">WhatsApp</p><a href={SHARED_CONTACT.whatsappHref} target="_blank" rel="noreferrer" className="mt-1 block text-sm font-bold text-navy hover:text-gold">{SHARED_CONTACT.whatsapp}</a></div></div>
+                </div>
+                <div className="mt-8 flex flex-wrap gap-3"><Link href="/booking" className="inline-flex h-12 items-center gap-2 rounded-xl bg-navy px-6 text-[11px] font-black uppercase tracking-widest text-white hover:bg-gold">Book from here <ArrowRight size={14} /></Link><a href={place.mapUrl} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center gap-2 rounded-xl border border-gray-200 px-6 text-sm font-bold text-navy hover:border-gold hover:text-gold"><MapPin size={14} /> View map</a></div>
               </div>
-
-              {/* Contact details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 pt-6 border-t border-light-gray">
-                <div className="flex items-start gap-3">
-                  <Navigation size={16} className="text-gold mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-navy/40 mb-0.5">Address</p>
-                    <p className="text-sm font-bold text-navy">{loc.address}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Phone size={16} className="text-gold mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-navy/40 mb-0.5">Phone</p>
-                    <a href={`tel:${loc.phone.replace(/\s+/g, '')}`} className="text-sm font-bold text-navy hover:text-gold transition-colors">{loc.phone}</a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Clock size={16} className="text-gold mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-navy/40 mb-0.5">Opening Hours</p>
-                    <p className="text-sm font-bold text-navy">{loc.hours}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Car size={16} className="text-gold mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-navy/40 mb-0.5">WhatsApp</p>
-                    <a href={`https://wa.me/${loc.whatsapp.replace(/\s+/g,'')}`} className="text-sm font-bold text-navy hover:text-gold transition-colors">{loc.whatsapp}</a>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <Link
-                  href="/booking"
-                  className="group/btn h-12 px-6 rounded-xl bg-navy hover:bg-gold text-white font-black uppercase tracking-widest text-[11px] flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(201,168,76,0.35)]"
-                >
-                  Book from Here <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                </Link>
-                <a
-                  href={loc.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="h-12 px-6 rounded-xl border border-gray-200 text-navy font-bold text-sm flex items-center justify-center gap-2 hover:border-gold hover:text-gold transition-all duration-300"
-                >
-                  <MapPin size={14} />
-                  View Map
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
+            </article>
+          )
+        })}
       </section>
 
-      {/* MAP PLACEHOLDER */}
-      <section className="max-w-7xl mx-auto px-6 pb-12">
-        <div className="relative h-[500px] rounded-[3rem] overflow-hidden bg-navy shadow-luxury">
-          <img
-            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=2070&auto=format&fit=crop"
-            alt="Mauritius island map"
-            className="w-full h-full object-cover opacity-30"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center space-y-6">
-              <div className="h-20 w-20 rounded-full bg-gold/20 flex items-center justify-center mx-auto">
-                <MapPin size={40} className="text-gold animate-bounce" />
-              </div>
-              <h3 className="text-4xl font-display text-white">Interactive Island Map</h3>
-              <p className="text-white/50 max-w-md">
-                Add your Google Maps API key to activate real-time branch locations, route planning, and live traffic updates across Mauritius.
-              </p>
-              <div className="flex items-center justify-center gap-4">
-                {LOCATIONS.map((loc, i) => (
-                  <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
-                    <div className="h-2 w-2 rounded-full bg-gold" />
-                    <span className="text-white text-[11px] font-bold">{loc.name.split(' ')[0]}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="mx-auto max-w-7xl px-6">
+        <div className="rounded-[3rem] bg-navy p-10 text-center text-white md:p-16"><MapPin size={42} className="mx-auto text-gold" /><h2 className="mt-5 text-4xl font-display">Delivery throughout {market.country}</h2><p className="mx-auto mt-4 max-w-2xl leading-7 text-white/55">Tell us where you are staying and our team will arrange the most convenient handover from {market.locationSummary}.</p><a href={SHARED_CONTACT.whatsappHref} target="_blank" rel="noreferrer" className="mt-8 inline-flex h-14 items-center rounded-xl bg-gold px-8 text-xs font-black uppercase tracking-widest text-white">Plan on WhatsApp</a></div>
       </section>
     </div>
-  );
+  )
 }

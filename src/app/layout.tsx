@@ -24,8 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
       default: `${brandConfig.name} | Luxury Car Rental — Island-Wide Delivery`,
       template: `%s | ${brandConfig.name}`,
     },
-    description: `${brandConfig.name} is the island's most trusted luxury car rental service. Premium fleet, free island-wide delivery, 24/7 support. Book your dream car today.`,
-    keywords: ['car hire mauritius', 'luxury car rental mauritius', 'rent a car mauritius', 'car hire SSR airport', 'sports car rental mauritius'],
+    description: `${brandConfig.name} offers premium vehicles, concierge delivery ${brandConfig.deliveryLabel}, and 24/7 support. Book your car today.`,
+    keywords: [`car hire ${brandConfig.country}`, `luxury car rental ${brandConfig.country}`, `rent a car ${brandConfig.country}`, 'premium car hire', 'airport car rental'],
     authors: [{ name: brandConfig.name }],
     creator: brandConfig.name,
     openGraph: {
@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
       url: process.env.NEXT_PUBLIC_APP_URL || 'https://carehireos.shop',
       siteName: brandConfig.name,
       title: `${brandConfig.name} | Luxury Car Rental`,
-      description: `Experience Mauritius in the finest machines. Premium fleet, free delivery, 24/7 concierge support.`,
+      description: `Experience ${brandConfig.country} in the finest vehicles. Premium fleet, concierge delivery, and 24/7 support.`,
       images: [
         {
           url: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=1200',
@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `${brandConfig.name} | Luxury Car Rental`,
-      description: `Experience Mauritius in the finest machines. Premium fleet, free delivery, 24/7 support.`,
+      description: `Experience ${brandConfig.country} in the finest vehicles. Premium fleet, concierge delivery, and 24/7 support.`,
     },
     robots: {
       index: true,

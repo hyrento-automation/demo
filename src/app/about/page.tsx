@@ -2,11 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 import { Award, Shield, Users, Trophy, ArrowRight, Play, Target, Heart, Globe } from 'lucide-react';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { getMarketConfig } from '@/src/lib/market';
 
-export const metadata: Metadata = {
-  title: `About Us | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} — Island's Premier Car Rental`,
-  description: `Founded in 2010, ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} is the island's most trusted luxury car rental service. Learn our story, values, and commitment to excellence.`,
-};
+export function generateMetadata(): Metadata {
+  const market = getMarketConfig(headers().get('host'))
+  return {
+    title: `About Car Hire ${market.country}`,
+    description: `Meet Car Hire ${market.country}: premium vehicles, attentive local support, and dependable delivery ${market.deliveryLabel}.`,
+  }
+}
 
 const VALUES = [
   {
@@ -23,8 +28,8 @@ const VALUES = [
   },
   {
     icon: Heart,
-    title: 'Island Hospitality',
-    desc: 'Born in Mauritius. Our local concierge team treats every traveller like a guest in our own home — 24/7.',
+    title: 'Local Hospitality',
+    desc: 'Our local concierge team treats every traveller like a guest in our own home — 24/7.',
     color: 'text-red-500', bg: 'bg-red-50',
   },
   {
@@ -41,16 +46,19 @@ const TEAM = [
   { name: 'Tom Séverin', role: 'Fleet Manager', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop' },
 ];
 
-const TIMELINE = [
-  { year: '2010', event: 'Founded with just 3 cars in Port Louis' },
+const getTimeline = (country: string) => [
+  { year: '2010', event: `Founded with just 3 cars in ${country}` },
   { year: '2014', event: 'Expanded to first luxury fleet of 10 vehicles' },
-  { year: '2017', event: 'Opened 4 island-wide branches including SSR Airport' },
+  { year: '2017', event: 'Opened regional branches with dedicated airport service' },
   { year: '2020', event: 'Launched 24/7 concierge and GPS tracking platform' },
   { year: '2023', event: 'Voted Best Luxury Car Rental by Tropical Travel Awards' },
   { year: '2024', event: 'Full slate of 2024 model year vehicles introduced' },
 ];
 
 export default function AboutPage() {
+  const market = getMarketConfig(headers().get('host'))
+  const timeline = getTimeline(market.country)
+
   return (
     <div className="pt-20 pb-24">
 
@@ -58,8 +66,8 @@ export default function AboutPage() {
       <section className="relative min-h-[70vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1544735048-35756ea33235?q=80&w=2070&auto=format&fit=crop"
-            alt="Mauritius luxury travel"
+            src={market.aboutHeroImage}
+            alt={`${market.country} premium travel`}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-navy/40" />
@@ -71,10 +79,10 @@ export default function AboutPage() {
             <h1 className="text-6xl md:text-8xl font-display text-white leading-[0.95]">
               Elevating<br />
               <span className="italic text-gold">Every Journey</span><br />
-              in Mauritius
+              in {market.country}
             </h1>
             <p className="text-xl text-white/70 leading-relaxed">
-              Born from a love of our island and a passion for exceptional service, {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} has been redefining what it means to travel in Mauritius since 2010.
+              {market.aboutStory}
             </p>
             <div className="flex items-center gap-4">
               <Link
@@ -124,7 +132,7 @@ export default function AboutPage() {
             <div className="absolute bottom-0 right-0 w-[55%] h-[55%] rounded-[2.5rem] overflow-hidden shadow-luxury border-4 border-white">
               <img
                 src="https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=800&auto=format&fit=crop"
-                alt="Mauritius coastal drive"
+                alt={`${market.country} scenic drive`}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
@@ -146,14 +154,14 @@ export default function AboutPage() {
               </h2>
             </div>
             <p className="text-lg text-mid-gray leading-relaxed">
-              Founded in 2010, {process.env.NEXT_PUBLIC_BRAND_NAME || 'Pleasure Drive Ltd'} was born from a simple vision: to provide a car rental service that truly matches the unparalleled beauty and hospitality of our island.
+              Founded in 2010, Car Hire {market.country} was born from a simple vision: make premium car rental feel personal, dependable, and effortless.
             </p>
             <p className="text-mid-gray leading-relaxed">
-              We don't just hand over keys — we craft memories. From the moment you land at SSR Airport to your final sunset drive along the Grand Baie coast, our elite fleet and dedicated team are your island companions.
+              {market.aboutMission}
             </p>
             <div className="grid grid-cols-2 gap-6 pt-4">
               {[
-                { icon: Target, text: 'Island-wide delivery within 2 hours' },
+                { icon: Target, text: `Concierge delivery ${market.deliveryLabel}` },
                 { icon: Shield, text: 'All vehicles fully insured & tracked' },
                 { icon: Users, text: 'Multilingual concierge team' },
                 { icon: Award, text: 'Premium 2023–2024 model fleet' },
@@ -202,12 +210,12 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
           <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold mb-4">Our Journey</p>
-          <h2 className="text-5xl font-display">14 years of <span className="italic text-gold">island excellence</span></h2>
+          <h2 className="text-5xl font-display">14 years of <span className="italic text-gold">{market.adjective} excellence</span></h2>
         </div>
         <div className="relative">
           <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-gold/50 via-gold/20 to-transparent hidden md:block" />
           <div className="space-y-12">
-            {TIMELINE.map((item, i) => (
+            {timeline.map((item, i) => (
               <div key={i} className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8`}>
                 <div className="flex-1 md:text-right text-left">
                   {i % 2 === 0 ? (
@@ -258,17 +266,17 @@ export default function AboutPage() {
         <div className="relative rounded-[3rem] overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=2070&auto=format&fit=crop"
-            alt="Mauritius luxury drive"
+            alt={`${market.country} premium drive`}
             className="w-full h-[400px] object-cover"
           />
           <div className="absolute inset-0 bg-navy/80 backdrop-blur-sm flex items-center justify-center">
             <div className="text-center space-y-6 max-w-xl px-6">
               <Trophy size={64} className="text-gold mx-auto" />
               <h2 className="text-4xl md:text-5xl font-display text-white">
-                Voted Best Luxury Car Rental <span className="italic text-gold">in Mauritius 2023</span>
+                Trusted premium car rental <span className="italic text-gold">in {market.country}</span>
               </h2>
               <p className="text-white/60 leading-relaxed">
-                Awarded by the Tropical Travel Awards Committee for sustained excellence in customer service and fleet quality.
+                Recognised by travellers for attentive service, dependable vehicles, and a booking experience designed around the journey.
               </p>
               <Link
                 href="/booking"
