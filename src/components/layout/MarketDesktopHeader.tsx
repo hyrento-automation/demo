@@ -21,12 +21,17 @@ interface MarketDesktopHeaderProps {
   isScrolled: boolean
 }
 
-function CurrencySelect({ currency, setCurrency, dark = false, squared = false }: { currency: Currency; setCurrency: (currency: Currency) => void; dark?: boolean; squared?: boolean }) {
+function CurrencySelect({ currency, setCurrency, dark = false }: { currency: Currency; setCurrency: (currency: Currency) => void; dark?: boolean }) {
   return (
-    <label className={cn('hidden items-center gap-1 px-3 py-2 md:flex', squared ? 'rounded-none border' : 'rounded-full', dark ? 'border-white/15 bg-white/5 text-white' : 'border-navy/10 bg-navy/5 text-navy')}>
+    <label className={cn('hidden items-center gap-1 px-1 py-2 md:flex', dark ? 'text-white' : 'text-navy')}>
       <DollarSign size={13} />
       <span className="sr-only">Currency</span>
-      <select value={currency} onChange={(event) => setCurrency(event.target.value as Currency)} className="cursor-pointer appearance-none bg-transparent text-[10px] font-black outline-none">
+      <select
+        value={currency}
+        onChange={(event) => setCurrency(event.target.value as Currency)}
+        className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-[10px] font-black shadow-none outline-none ring-0 focus:border-0 focus:ring-0"
+        style={{ border: 0, background: 'transparent', boxShadow: 'none' }}
+      >
         <option value="MUR" className="text-navy">MUR</option>
         <option value="USD" className="text-navy">USD</option>
         <option value="EUR" className="text-navy">EUR</option>
@@ -36,8 +41,8 @@ function CurrencySelect({ currency, setCurrency, dark = false, squared = false }
   )
 }
 
-function LanguageBadge({ dark = false, squared = false }: { dark?: boolean; squared?: boolean }) {
-  return <span className={cn('hidden items-center gap-1 px-3 py-2 text-[10px] font-black md:flex', squared ? 'rounded-none border' : 'rounded-full', dark ? 'border-white/15 bg-white/5 text-white' : 'border-navy/10 bg-navy/5 text-navy')}><Globe size={13} /> EN</span>
+function LanguageBadge({ dark = false }: { dark?: boolean }) {
+  return <span className={cn('hidden items-center gap-1 px-1 py-2 text-[10px] font-black md:flex', dark ? 'text-white' : 'text-navy')}><Globe size={13} /> EN</span>
 }
 
 function HeaderLinks({ links, pathname, className, activeClassName, divider = false }: { links: HeaderLink[]; pathname: string; className: string; activeClassName: string; divider?: boolean }) {
@@ -83,7 +88,7 @@ export function MarketDesktopHeader({ brand, pathname, links, currency, setCurre
         <div className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-6">
           <Link href="/" className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center border border-[#c9ff74]/40 text-[#c9ff74]"><Car size={20} /></span><span><strong className="block text-base uppercase tracking-[.16em]">Car Hire</strong><small className="block text-[9px] font-bold uppercase tracking-[.28em] text-white/45">Europe</small></span></Link>
           <HeaderLinks links={links} pathname={pathname} className="border-b border-transparent px-5 py-2 text-[11px] font-black uppercase tracking-[.18em] text-white/60 hover:text-white" activeClassName="border-[#c9ff74] text-[#c9ff74]" />
-          <div className="flex items-center gap-3"><PhoneLink brand={brand} dark compact /><CurrencySelect currency={currency} setCurrency={setCurrency} dark squared /><Link href="/booking" className="border border-[#c9ff74] px-5 py-3 text-[10px] font-black uppercase tracking-[.18em] text-[#c9ff74] hover:bg-[#c9ff74] hover:text-[#18211d]">Plan the drive</Link></div>
+          <div className="flex items-center gap-3"><PhoneLink brand={brand} dark compact /><CurrencySelect currency={currency} setCurrency={setCurrency} dark /><Link href="/booking" className="border border-[#c9ff74] px-5 py-3 text-[10px] font-black uppercase tracking-[.18em] text-[#c9ff74] hover:bg-[#c9ff74] hover:text-[#18211d]">Plan the drive</Link></div>
         </div>
       </nav>
     )
@@ -95,7 +100,7 @@ export function MarketDesktopHeader({ brand, pathname, links, currency, setCurre
         <div className="mx-auto flex h-[78px] max-w-[1500px] items-center px-7">
           <Link href="/" className="flex min-w-[245px] items-center gap-3 text-[#132d4f]"><span className="flex h-11 w-11 items-center justify-center bg-[#154b8b] text-white"><Flag size={21} /></span><span><strong className="block text-lg font-black uppercase leading-none">Car Hire</strong><small className="mt-1 block text-[10px] font-black uppercase tracking-[.25em] text-[#d7392f]">United States</small></span></Link>
           <div className="flex flex-1 justify-center"><HeaderLinks divider links={links} pathname={pathname} className="px-5 py-2 text-xs font-black uppercase tracking-[.14em] text-[#526174] hover:text-[#154b8b]" activeClassName="text-[#d7392f]" /></div>
-          <div className="flex min-w-[370px] items-center justify-end gap-3"><PhoneLink brand={brand} compact /><CurrencySelect currency={currency} setCurrency={setCurrency} squared /><LanguageBadge squared /><Link href="/booking" className="bg-[#154b8b] px-6 py-3 text-xs font-black uppercase tracking-[.14em] text-white shadow-[5px_5px_0_#d7392f] hover:-translate-y-0.5">Book &amp; go</Link></div>
+          <div className="flex min-w-[370px] items-center justify-end gap-3"><PhoneLink brand={brand} compact /><CurrencySelect currency={currency} setCurrency={setCurrency} /><LanguageBadge /><Link href="/booking" className="bg-[#154b8b] px-6 py-3 text-xs font-black uppercase tracking-[.14em] text-white shadow-[5px_5px_0_#d7392f] hover:-translate-y-0.5">Book &amp; go</Link></div>
         </div>
       </nav>
     )
@@ -107,7 +112,7 @@ export function MarketDesktopHeader({ brand, pathname, links, currency, setCurre
         <div className="mx-auto grid h-[88px] max-w-[1500px] grid-cols-[1fr_auto_1fr] items-center px-8">
           <HeaderLinks links={links} pathname={pathname} className="px-4 py-3 text-[10px] font-black uppercase tracking-[.22em] text-white/50 hover:text-[#e8ca83]" activeClassName="text-[#e8ca83]" />
           <Link href="/" className="flex flex-col items-center px-10 text-center"><Crown size={20} className="mb-1 text-[#d7b568]" /><strong className="font-display text-lg uppercase tracking-[.18em]">Car Hire</strong><small className="text-[9px] font-black uppercase tracking-[.42em] text-[#d7b568]">UAE</small></Link>
-          <div className="flex items-center justify-end gap-3"><PhoneLink brand={brand} dark compact /><CurrencySelect currency={currency} setCurrency={setCurrency} dark squared /><LanguageBadge dark squared /><Link href="/booking" className="border border-[#d7b568] bg-[#d7b568] px-6 py-3 text-[10px] font-black uppercase tracking-[.2em] text-black hover:bg-transparent hover:text-[#e8ca83]">Reserve</Link></div>
+          <div className="flex items-center justify-end gap-3"><PhoneLink brand={brand} dark compact /><CurrencySelect currency={currency} setCurrency={setCurrency} dark /><LanguageBadge dark /><Link href="/booking" className="border border-[#d7b568] bg-[#d7b568] px-6 py-3 text-[10px] font-black uppercase tracking-[.2em] text-black hover:bg-transparent hover:text-[#e8ca83]">Reserve</Link></div>
         </div>
       </nav>
     )
