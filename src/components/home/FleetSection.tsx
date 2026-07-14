@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import CategoryTabs from './CategoryTabs'
 import VehicleGrid from './VehicleGrid'
+import type { VehicleCardMarket } from './VehicleCard'
 import { VehicleCategory } from '../../types/fleet.types'
 import { useBrand } from '@/src/components/providers/BrandProvider'
 
@@ -13,6 +14,7 @@ interface FleetSectionProps {
   description?: string
   className?: string
   dark?: boolean
+  cardMarket?: VehicleCardMarket
 }
 
 export default function FleetSection({
@@ -22,6 +24,7 @@ export default function FleetSection({
   description = 'Discover our wide range of vehicles available for short-term rental. Perfect for your travel needs.',
   className = 'bg-offWhite',
   dark = false,
+  cardMarket,
 }: FleetSectionProps) {
   const brand = useBrand()
   const [activeCategory, setActiveCategory] = useState<VehicleCategory>('All')
@@ -139,7 +142,7 @@ export default function FleetSection({
         </div>
 
         {/* Grid */}
-        <VehicleGrid vehicles={displayedVehicles} />
+        <VehicleGrid vehicles={displayedVehicles} market={cardMarket} />
       </div>
     </section>
   )

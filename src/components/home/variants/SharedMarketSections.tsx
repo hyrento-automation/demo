@@ -135,6 +135,7 @@ export function SharedMarketSections({ market }: { market: Market }) {
         description={config.fleetDescription}
         className={isDark ? 'bg-[#0f1115]' : layout.page}
         dark={isDark}
+        cardMarket={market}
       />
 
       <section className={`${layout.surface} px-6 py-24`}>

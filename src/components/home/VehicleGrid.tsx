@@ -3,13 +3,15 @@
 import React from 'react'
 import { Vehicle } from '../../types/fleet.types'
 import VehicleCard from './VehicleCard'
+import type { VehicleCardMarket } from './VehicleCard'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface VehicleGridProps {
   vehicles: Vehicle[]
+  market?: VehicleCardMarket
 }
 
-export default function VehicleGrid({ vehicles }: VehicleGridProps) {
+export default function VehicleGrid({ vehicles, market }: VehicleGridProps) {
   return (
     <motion.div 
       layout 
@@ -25,7 +27,7 @@ export default function VehicleGrid({ vehicles }: VehicleGridProps) {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
           >
-            <VehicleCard vehicle={vehicle} />
+            <VehicleCard vehicle={vehicle} market={market} />
           </motion.div>
         ))}
       </AnimatePresence>
