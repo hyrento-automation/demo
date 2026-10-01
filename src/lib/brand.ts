@@ -1,18 +1,25 @@
 import { getMarketConfig, SHARED_CONTACT } from '@/src/lib/market'
+import { getCompanyByHost, getCompanyBySlug, extractSubdomain, Company } from '@/src/data/companies'
 
 export interface BrandConfig {
   name: string
+  slug?: string
+  logo?: string
+  currency?: string
   country: string
   adjective: string
   coverageLabel: string
   deliveryLabel: string
   headquarters: string
   locationSummary: string
+  address?: string
+  city?: string
   phone: string
   whatsapp: string
   emergencyPhone: string
   email: string
   bookingRefPrefix: string
+  website?: string
   theme: {
     primary: string
     primaryLight: string
@@ -52,9 +59,21 @@ const MARKET_THEMES: Record<string, ThemeConfig> = {
     primary: '#121418', primaryLight: '#292D34', primaryDark: '#080A0D',
     accent: '#C39A45', accentLight: '#E8CA83', accentDark: '#8E6B28',
   },
+  'United Arab Emirates': {
+    primary: '#121418', primaryLight: '#292D34', primaryDark: '#080A0D',
+    accent: '#C39A45', accentLight: '#E8CA83', accentDark: '#8E6B28',
+  },
   'South Africa': {
     primary: '#173D32', primaryLight: '#2B5C4E', primaryDark: '#0C271F',
     accent: '#D99036', accentLight: '#F2B85B', accentDark: '#9F5F2D',
+  },
+  India: {
+    primary: '#1A2C38', primaryLight: '#2B4354', primaryDark: '#0E1920',
+    accent: '#F59E0B', accentLight: '#FBBF24', accentDark: '#D97706',
+  },
+  Switzerland: {
+    primary: '#20262E', primaryLight: '#333D4A', primaryDark: '#14181E',
+    accent: '#EF4444', accentLight: '#F87171', accentDark: '#DC2626',
   },
 }
 
@@ -76,6 +95,20 @@ export const BRAND_PRESETS: Record<string, BrandConfig> = {
   },
 }
 
+function getAdjective(country: string): string {
+  switch (country.toLowerCase()) {
+    case 'spain': return 'Spanish'
+    case 'india': return 'Indian'
+    case 'united arab emirates':
+    case 'uae': return 'Emirati'
+    case 'switzerland': return 'Swiss'
+    case 'south africa': return 'South African'
+    case 'usa':
+    case 'united states': return 'American'
+    default: return 'Mauritian'
+  }
+}
+
 export function getBrandConfig(hostname?: string | null): BrandConfig {
   // 1. Check NEXT_PUBLIC_BRAND_THEME env var override first
   const envTheme = process.env.NEXT_PUBLIC_BRAND_THEME
@@ -85,13 +118,57 @@ export function getBrandConfig(hostname?: string | null): BrandConfig {
 
   // 2. Client-side fallback to window.location.hostname
   let activeHost = hostname
-  if (!activeHost && typeof window !== 'undefined') {
-    activeHost = window.location.hostname
+  let queryDemo: string | null = null
+
+  if (typeof window !== 'undefined') {
+    if (!activeHost) {
+      activeHost = window.location.hostname
+    }
+    const params = new URLSearchParams(window.location.search)
+    queryDemo = params.get('demo') || params.get('brand') || params.get('company')
   }
 
+  // 3. Check for specific company match (by query param first, then by subdomain)
+  let company: Company | null = null
+  if (queryDemo) {
+    company = getCompanyBySlug(queryDemo)
+  }
+  if (!company && activeHost) {
+    company = getCompanyByHost(activeHost)
+  }
+
+  if (company) {
+    const theme = MARKET_THEMES[company.country] || DEFAULT_THEME
+    const adjective = getAdjective(company.country)
+    const locSummary = company.address || `${company.city || ''}, ${company.country}`.trim()
+    const hq = company.city ? `${company.city}, ${company.country}` : company.address || company.country
+
+    return {
+      name: company.name,
+      slug: company.slug,
+      logo: company.logo,
+      country: company.country,
+      adjective,
+      coverageLabel: `${company.city || company.country} Coverage`,
+      deliveryLabel: company.city ? `in and around ${company.city}` : `across ${company.country}`,
+      headquarters: hq,
+      locationSummary: locSummary,
+      address: company.address,
+      city: company.city,
+      phone: company.phone,
+      whatsapp: company.whatsapp || company.phone,
+      emergencyPhone: company.phone,
+      email: company.email,
+      bookingRefPrefix: company.bookingRefPrefix || company.slug.slice(0, 3).toUpperCase(),
+      currency: company.currency || 'MUR',
+      website: company.website,
+      theme,
+    }
+  }
+
+  // 4. Fallback to country markets (demo1..demo5) or default
   const market = getMarketConfig(activeHost)
 
-  // Contact details intentionally stay shared across every country demo.
   return {
     name: `Car Hire ${market.country}`,
     country: market.country,

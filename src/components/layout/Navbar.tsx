@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { Car, Info, LayoutDashboard, Mail, MapPin, Menu, Phone, X } from 'lucide-react'
+import { Car, Info, LayoutDashboard, Mail, MapPin, Menu, Phone, X, MessageSquare } from 'lucide-react'
 import { useCurrencyStore } from '@/src/store/useCurrencyStore'
 import { cn } from '@/src/lib/utils'
 import { useBrand } from '@/src/components/providers/BrandProvider'
@@ -40,28 +40,105 @@ export default function Navbar() {
     <>
       <MarketDesktopHeader brand={brand} pathname={pathname} links={desktopLinks} currency={currency} setCurrency={setCurrency} isScrolled={useSolidHeader} />
 
+      {/* Mobile Header */}
       <nav aria-label="Mobile navigation" className="fixed inset-x-0 top-0 z-[100] p-3 lg:hidden">
-        <div className="flex h-14 items-center justify-between rounded-2xl border border-white/15 bg-navy/95 px-3 text-white shadow-xl backdrop-blur-xl">
-          <Link href="/" className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold text-white"><Car size={19} /></span><span><strong className="block text-sm font-black leading-none">Car Hire</strong><small className="mt-1 block text-[9px] font-black uppercase tracking-[.2em] text-gold">{brand.country}</small></span></Link>
-          <button type="button" onClick={() => setIsMobileMenuOpen((open) => !open)} aria-expanded={isMobileMenuOpen} aria-controls="mobile-menu" aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'} className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/20">
+        <div className="flex h-16 items-center justify-between rounded-2xl border border-white/15 bg-navy/95 px-3 text-white shadow-xl backdrop-blur-xl">
+          <Link href="/" className="flex items-center gap-3 max-w-[75%]">
+            {brand.logo ? (
+              <img src={brand.logo} alt={brand.name} className="h-9 w-auto max-w-[120px] object-contain rounded" />
+            ) : (
+              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gold text-white font-black text-sm">
+                {brand.name.slice(0, 2).toUpperCase()}
+              </span>
+            )}
+            <span className="truncate">
+              <strong className="block text-sm font-black leading-tight truncate text-white">{brand.name}</strong>
+              <small className="mt-0.5 block text-[9px] font-black uppercase tracking-[.15em] text-gold truncate">
+                {brand.city ? `${brand.city}, ${brand.country}` : brand.country}
+              </small>
+            </span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/20 flex-shrink-0"
+          >
             {isMobileMenuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
       </nav>
 
+      {/* Mobile Drawer */}
       <div id="mobile-menu" className={cn('fixed inset-0 z-[99] transition-all duration-500 lg:hidden', isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0')}>
         <button type="button" aria-label="Close menu" className="absolute inset-0 bg-navy-dark/80 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
         <div className={cn('absolute right-0 top-0 flex h-full w-[320px] flex-col bg-white shadow-2xl transition-transform duration-500', isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full')}>
-          <div className="flex items-center justify-between border-b border-light-gray p-6"><div><span className="text-xl font-display font-bold text-navy">Car Hire</span><p className="text-[10px] font-black uppercase tracking-[.2em] text-gold">{brand.country}</p></div><button type="button" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu" className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy/5 text-navy"><X size={20} /></button></div>
+          <div className="flex items-center justify-between border-b border-light-gray p-6">
+            <div className="max-w-[200px]">
+              {brand.logo ? (
+                <img src={brand.logo} alt={brand.name} className="h-8 w-auto max-w-[150px] object-contain mb-1" />
+              ) : null}
+              <span className="text-lg font-display font-bold text-navy truncate block">{brand.name}</span>
+              <p className="text-[10px] font-black uppercase tracking-[.15em] text-gold truncate">
+                {brand.city ? `${brand.city}, ${brand.country}` : brand.country}
+              </p>
+            </div>
+            <button type="button" onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu" className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy/5 text-navy">
+              <X size={20} />
+            </button>
+          </div>
           <div className="flex-1 space-y-2 overflow-y-auto p-6">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               const Icon = link.icon
-              return <Link key={link.href} href={link.href} className={cn('flex items-center gap-4 rounded-2xl p-4 transition-colors', isActive ? 'bg-gold/10 text-gold' : 'text-navy hover:bg-offWhite')}><span className={cn('flex h-10 w-10 items-center justify-center rounded-xl', isActive ? 'bg-gold text-white' : 'bg-navy/5 text-navy')}><Icon size={18} /></span><span><strong className="block text-sm">{link.name}</strong><small className="text-xs text-mid-gray">{link.desc}</small></span></Link>
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn('flex items-center gap-4 rounded-2xl p-4 transition-colors', isActive ? 'bg-gold/10 text-gold' : 'text-navy hover:bg-offWhite')}
+                >
+                  <span className={cn('flex h-10 w-10 items-center justify-center rounded-xl', isActive ? 'bg-gold text-white' : 'bg-navy/5 text-navy')}>
+                    <Icon size={18} />
+                  </span>
+                  <span>
+                    <strong className="block text-sm">{link.name}</strong>
+                    <small className="text-xs text-mid-gray">{link.desc}</small>
+                  </span>
+                </Link>
+              )
             })}
-            {!!session && <Link href="/admin" className="flex items-center gap-4 rounded-2xl p-4 text-navy hover:bg-offWhite"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy/5"><LayoutDashboard size={18} /></span><span><strong className="block text-sm">Admin</strong><small className="text-xs text-mid-gray">Dashboard &amp; analytics</small></span></Link>}
+            {!!session && (
+              <Link href="/admin" className="flex items-center gap-4 rounded-2xl p-4 text-navy hover:bg-offWhite">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy/5">
+                  <LayoutDashboard size={18} />
+                </span>
+                <span>
+                  <strong className="block text-sm">Admin</strong>
+                  <small className="text-xs text-mid-gray">Dashboard &amp; analytics</small>
+                </span>
+              </Link>
+            )}
           </div>
-          <div className="space-y-3 border-t border-light-gray p-6"><Link href="/booking" className="flex h-14 w-full items-center justify-center rounded-2xl bg-gold font-black uppercase tracking-widest text-white">Book now</Link><a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-navy/5 font-bold text-navy"><Phone size={16} className="text-gold" /> {brand.phone}</a></div>
+          <div className="space-y-3 border-t border-light-gray p-6">
+            <Link href="/booking" className="flex h-14 w-full items-center justify-center rounded-2xl bg-gold font-black uppercase tracking-widest text-white shadow-lg">
+              Book now
+            </Link>
+            <a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-navy/5 font-bold text-navy text-sm">
+              <Phone size={16} className="text-gold" /> {brand.phone}
+            </a>
+            {brand.whatsapp && (
+              <a
+                href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-50 text-emerald-700 font-bold text-sm border border-emerald-100"
+              >
+                <MessageSquare size={16} className="text-emerald-600" /> WhatsApp
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </>

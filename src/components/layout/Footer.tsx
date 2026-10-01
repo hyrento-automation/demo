@@ -79,9 +79,14 @@ export default function Footer() {
               <div className="h-12 w-12 rounded-2xl bg-gold flex items-center justify-center shadow-[0_4px_16px_rgba(201,168,76,0.4)]">
                 <Car size={24} className="text-white" />
               </div>
+              {brand.logo ? (
+                <img src={brand.logo} alt={brand.name} className="h-10 w-auto max-w-[150px] object-contain rounded" />
+              ) : null}
               <div>
-                <p className="text-xl font-display font-bold text-white leading-none">Car Hire</p>
-                <p className="text-[11px] font-black uppercase tracking-[0.25em] text-gold leading-none mt-1">{brand.country}</p>
+                <p className="text-xl font-display font-bold text-white leading-none">{brand.name}</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.25em] text-gold leading-none mt-1">
+                  {brand.city ? `${brand.city}, ${brand.country}` : brand.country}
+                </p>
               </div>
             </Link>
 
