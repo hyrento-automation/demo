@@ -7,9 +7,8 @@ import BookingLayout from '@/src/components/booking/BookingLayout'
 import { getBranchCharges } from '@/src/lib/actions/admin.actions'
 import { MapPin, Users, Briefcase, Car, Settings2, Wind, Fuel, Check, ArrowRight, ChevronDown, Pencil, Loader2 } from 'lucide-react'
 import { useBrand } from '@/src/components/providers/BrandProvider'
-
-// Vehicles are now fetched from the database
-
+import { useCurrencyStore, formatPrice, SupportedCurrency } from '@/src/store/useCurrencyStore'
+import { FALLBACK_FLEET } from '@/src/data/fallbackFleet'
 
 const CATEGORIES = [
   { name: 'Pickup', iconUrl: '/assets/imgi_10_vehicle_type_1594813606.png', from: 46, seats: 5, bags: 5 },
@@ -18,49 +17,59 @@ const CATEGORIES = [
   { name: '7-seater', iconUrl: '/assets/imgi_11_vehicle_type_1594813657.png', from: 43, seats: 7, bags: 5 },
 ]
 
+const getClientVehicles = (): BookingVehicle[] =>
+  FALLBACK_FLEET.map(car => ({
+    id: car.id,
+    name: `${car.make} ${car.model}`,
+    image: car.img,
+    category: car.category,
+    transmission: car.transmission === 'AUTOMATIC' ? 'Automatic' : 'Manual',
+    seats: car.seats,
+    luggage: car.luggage,
+    fuelType: car.fuelType.charAt(0) + car.fuelType.slice(1).toLowerCase(),
+    pricePerDay: Math.round(car.pricePerDay / 40) || 25,
+    features: car.features,
+    available: car.available || 5,
+  }))
+
 export default function VehicleListPage() {
   const brand = useBrand()
   const router = useRouter()
   const { setVehicle, setStep, searchParams, setSearchParams, getRentalDays, setLocationCharges } = useBookingStore()
-  const [vehicles, setVehicles] = useState<BookingVehicle[]>([])
-  const [loading, setLoading] = useState(true)
+  const { currency, setCurrency } = useCurrencyStore()
+  const [vehicles, setVehicles] = useState<BookingVehicle[]>(() => getClientVehicles())
+  const [loading, setLoading] = useState(false)
   const [fetchError, setFetchError] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [transFilters, setTransFilters] = useState<string[]>([])
   const [fuelFilters, setFuelFilters] = useState<string[]>([])
   const [seatFilter, setSeatFilter] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const [priceMax, setPriceMax] = useState<number>(9999)
+  const [priceMax, setPriceMax] = useState<number>(99999)
   const [mounted, setMounted] = useState(false)
   const days = isNaN(getRentalDays()) ? 1 : getRentalDays()
 
   useEffect(() => {
     setMounted(true)
     setStep(1)
-    setLoading(true)
-    setFetchError(false)
-
-    const timeout = setTimeout(() => {
-      setLoading(false)
-      setFetchError(true)
-    }, 8000)
 
     const params = new URLSearchParams({
       pickupDate: searchParams?.pickupDate || '',
       dropoffDate: searchParams?.dropoffDate || '',
     })
+
     fetch(`/api/vehicles?${params}`)
       .then(res => res.json())
       .then(data => {
-        clearTimeout(timeout)
-        setVehicles(Array.isArray(data) ? data : [])
-        setLoading(false)
+        if (Array.isArray(data) && data.length > 0) {
+          setVehicles(data)
+        } else {
+          setVehicles(getClientVehicles())
+        }
       })
       .catch(err => {
-        clearTimeout(timeout)
-        console.error('Error fetching vehicles:', err)
-        setLoading(false)
-        setFetchError(true)
+        console.warn('Vehicle API fallback to fleet:', err)
+        setVehicles(getClientVehicles())
       })
 
     // Fetch location-based charges for pickup/dropoff locations
@@ -71,8 +80,6 @@ export default function VehicleListPage() {
         })
         .catch(err => console.error('Failed to fetch branch charges:', err))
     }
-
-    return () => clearTimeout(timeout)
   }, [setStep, searchParams?.pickupDate, searchParams?.dropoffDate, searchParams?.pickupLocation, searchParams?.dropoffLocation, setLocationCharges])
 
 
@@ -126,7 +133,9 @@ export default function VehicleListPage() {
                   <MapPin size={12} className="text-red-500" />
                   <span className="text-xs font-bold text-[#0D9B84]">Pickup</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-relaxed">{searchParams.pickupLocation}</p>
+                <p className="text-xs text-gray-700 font-medium leading-relaxed">
+                  {searchParams.pickupLocation || (brand.city ? `${brand.city} Airport (${brand.country})` : brand.address || brand.country)}
+                </p>
                 <p className="text-[10px] text-gray-400 mt-0.5">
                   {new Date(searchParams.pickupDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} - {searchParams.pickupTime}
                 </p>
@@ -136,7 +145,9 @@ export default function VehicleListPage() {
                   <MapPin size={12} className="text-red-500" />
                   <span className="text-xs font-bold text-red-500">Drop-off</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-relaxed">{searchParams.dropoffLocation}</p>
+                <p className="text-xs text-gray-700 font-medium leading-relaxed">
+                  {searchParams.dropoffLocation || searchParams.pickupLocation || (brand.city ? `${brand.city} Airport (${brand.country})` : brand.address || brand.country)}
+                </p>
                 <p className="text-[10px] text-gray-400 mt-0.5">
                   {new Date(searchParams.dropoffDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} - {searchParams.dropoffTime}
                 </p>
@@ -146,15 +157,15 @@ export default function VehicleListPage() {
             {/* Map placeholder */}
             <div className="mt-4 rounded-lg overflow-hidden aspect-video bg-gray-100 relative">
               <img
-                src={`https://maps.googleapis.com/maps/api/staticmap?center=Mauritius&zoom=9&size=300x150&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}`}
-                alt="Map"
-                className="w-full h-full object-cover opacity-50"
+                src={`https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(brand.city ? `${brand.city}, ${brand.country}` : brand.country)}&zoom=10&size=300x150&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}`}
+                alt={`${brand.name} Locations`}
+                className="w-full h-full object-cover opacity-60"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=400&auto=format&fit=crop'
                 }}
               />
-              <div className="absolute bottom-2 left-2 text-[10px] text-[#0D9B84] underline cursor-pointer">
-                View larger map
+              <div className="absolute bottom-2 left-2 text-[10px] text-[#0D9B84] font-bold underline cursor-pointer">
+                {brand.city ? `${brand.city}, ${brand.country}` : brand.country}
               </div>
             </div>
           </div>
@@ -166,19 +177,19 @@ export default function VehicleListPage() {
             {/* Price Range */}
             <div>
               <div className="flex items-center gap-1.5 mb-2">
-                <span className="text-[#0D9B84] text-xs">€</span>
                 <span className="text-xs font-bold text-[#0D9B84]">Price range</span>
               </div>
-              <p className="text-[10px] text-gray-400 mb-2">The average car price is €360.00 € (per rental)</p>
               <input 
                 type="range" 
                 min={0} 
                 max={maxVehiclePrice} 
-                value={priceMax}
+                value={priceMax > maxVehiclePrice ? maxVehiclePrice : priceMax}
                 onChange={e => setPriceMax(Number(e.target.value))}
                 className="w-full accent-[#0D9B84]" 
               />
-              <p className="text-xs text-gray-600 mt-1">€ 0 - € {priceMax === 9999 ? maxVehiclePrice.toFixed(2) : priceMax.toFixed(2)}</p>
+              <p className="text-xs text-gray-600 mt-1">
+                {formatPrice(0, currency)} - {formatPrice(priceMax > maxVehiclePrice ? maxVehiclePrice : priceMax, currency)}
+              </p>
             </div>
 
             {/* Car Specification */}
@@ -286,7 +297,7 @@ export default function VehicleListPage() {
                   <span className="flex items-center gap-1"><Users size={10} /> {cat.seats}</span>
                   <span className="flex items-center gap-1"><Briefcase size={10} /> {cat.bags}</span>
                 </div>
-                <p className="text-xs font-bold text-[#0D9B84] mt-1">from € {cat.from}.00</p>
+                <p className="text-xs font-bold text-[#0D9B84] mt-1">from {formatPrice(cat.from, currency)}</p>
               </button>
             ))}
           </div>
@@ -294,12 +305,19 @@ export default function VehicleListPage() {
           {/* Currency Selector */}
           <div className="flex justify-end mb-4">
             <div className="flex items-center gap-2 text-xs text-gray-500">
-              <span>Select Currency</span>
-              <select className="border border-gray-200 rounded px-2 py-1 text-xs">
-                <option>🇲🇺 MUR</option>
-                <option>🇪🇺 EUR</option>
-                <option>🇺🇸 USD</option>
-                <option>🇬🇧 GBP</option>
+              <span className="font-semibold text-gray-700">Currency</span>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as SupportedCurrency)}
+                className="border border-gray-300 rounded-lg px-2.5 py-1 text-xs font-bold text-gray-800 bg-white shadow-sm focus:ring-1 focus:ring-[#0D9B84] cursor-pointer"
+              >
+                <option value="USD">🇺🇸 USD ($)</option>
+                <option value="EUR">🇪🇺 EUR (€)</option>
+                <option value="GBP">🇬🇧 GBP (£)</option>
+                <option value="INR">🇮🇳 INR (₹)</option>
+                <option value="AED">🇦🇪 AED</option>
+                <option value="MUR">🇲🇺 MUR (Rs)</option>
+                <option value="CHF">🇨🇭 CHF</option>
               </select>
             </div>
           </div>
@@ -376,9 +394,9 @@ export default function VehicleListPage() {
                         <div className="text-right mb-4">
                           <p className="text-[10px] text-gray-400 uppercase tracking-wider">Price for {days} days</p>
                           <p className="text-2xl font-bold text-gray-900">
-                            • € {(vehicle.pricePerDay * days).toFixed(2)}
+                            {formatPrice(vehicle.pricePerDay * days, currency)}
                           </p>
-                          <p className="text-[10px] text-gray-400">(VAT Included)</p>
+                          <p className="text-[10px] text-gray-400">({formatPrice(vehicle.pricePerDay, currency)} / day · VAT Included)</p>
                         </div>
 
                         {/* Included for free */}

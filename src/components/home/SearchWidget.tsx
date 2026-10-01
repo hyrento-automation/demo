@@ -6,16 +6,7 @@ import { Navigation, MapPin, Calendar, Clock, X } from 'lucide-react'
 import Script from 'next/script'
 import { useBookingStore } from '@/src/store/bookingStore'
 import { useGooglePlaces } from '@/src/hooks/useGooglePlaces'
-
-const LOCATIONS = [
-  'Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice',
-  'Port Louis City Centre, Mauritius',
-  'Grand Baie, Mauritius',
-  'Flic en Flac, Mauritius',
-  'Le Morne, Mauritius',
-  'Belle Mare, Mauritius',
-  'Tamarin, Mauritius',
-]
+import { useBrand } from '@/src/components/providers/BrandProvider'
 
 const TIME_OPTIONS = [
   '00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30',
@@ -27,11 +18,47 @@ const TIME_OPTIONS = [
 ]
 
 export default function SearchWidget() {
+  const brand = useBrand()
   const router = useRouter()
   const { setSearchParams, setStep } = useBookingStore()
 
-  const [pickup, setPickup] = useState('Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice')
-  const [dropoff, setDropoff] = useState('Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice')
+  const defaultLocation = React.useMemo(() => {
+    if (brand.country === 'Mauritius') {
+      return 'Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice'
+    }
+    const city = brand.city || brand.country
+    return `${city} International Airport (${brand.country})`
+  }, [brand.country, brand.city])
+
+  const dynamicLocations = React.useMemo(() => {
+    if (brand.country === 'Mauritius') {
+      return [
+        'Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice',
+        'Port Louis City Centre, Mauritius',
+        'Grand Baie, Mauritius',
+        'Flic en Flac, Mauritius',
+        'Le Morne, Mauritius',
+        'Belle Mare, Mauritius',
+        'Tamarin, Mauritius',
+      ]
+    }
+    const city = brand.city || brand.country
+    return [
+      `${city} International Airport (${brand.country})`,
+      `${city} City Centre / Downtown Hub`,
+      brand.address || `${city} Central Delivery Point, ${brand.country}`,
+      `${city} Hotels & Resorts Delivery`,
+      `${city} Regional Transit Station`,
+    ]
+  }, [brand.country, brand.city, brand.address])
+
+  const [pickup, setPickup] = useState(defaultLocation)
+  const [dropoff, setDropoff] = useState(defaultLocation)
+
+  React.useEffect(() => {
+    setPickup(defaultLocation)
+    setDropoff(defaultLocation)
+  }, [defaultLocation])
   const [pickupDate, setPickupDate] = useState('2026-06-15')
   const [pickupTime, setPickupTime] = useState('18:30')
   const [returnDate, setReturnDate] = useState('2026-06-25')
@@ -117,7 +144,7 @@ export default function SearchWidget() {
                     <MapPin size={12} className="text-[#0D9B84] flex-shrink-0" />
                     {pred.description}
                   </button>
-                )) : LOCATIONS.slice(0, 4).map((loc, i) => (
+                )) : dynamicLocations.slice(0, 5).map((loc, i) => (
                   <button
                     key={i}
                     onClick={() => { setPickup(loc); setShowPickupSuggestions(false) }}
@@ -180,7 +207,7 @@ export default function SearchWidget() {
                     <MapPin size={12} className="text-[#E8534A] flex-shrink-0" />
                     {pred.description}
                   </button>
-                )) : LOCATIONS.slice(0, 4).map((loc, i) => (
+                )) : dynamicLocations.slice(0, 5).map((loc, i) => (
                   <button
                     key={i}
                     onClick={() => { setDropoff(loc); setShowDropoffSuggestions(false) }}

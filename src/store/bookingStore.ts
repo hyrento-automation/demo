@@ -78,8 +78,8 @@ interface BookingState {
 }
 
 const defaultSearchParams: BookingSearchParams = {
-  pickupLocation: 'SSR International Airport, Plaine Magnien, Mauritius',
-  dropoffLocation: 'SSR International Airport, Plaine Magnien, Mauritius',
+  pickupLocation: '',
+  dropoffLocation: '',
   pickupDate: '2026-06-15',
   pickupTime: '18:30',
   dropoffDate: '2026-06-25',

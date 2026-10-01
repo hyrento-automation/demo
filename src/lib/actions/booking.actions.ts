@@ -215,7 +215,7 @@ export async function getAvailableVehicles(startDate?: string, endDate?: string)
           }
         : {}
 
-    const cars = await prisma.car.findMany({
+    const carsPromise = prisma.car.findMany({
       where: {
         status: "AVAILABLE",
         ...overlappingWindow
@@ -227,6 +227,12 @@ export async function getAvailableVehicles(startDate?: string, endDate?: string)
         pricePerDay: 'asc'
       }
     })
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('DB Timeout')), 1000)
+    )
+
+    const cars = await Promise.race([carsPromise, timeoutPromise])
 
     console.timeEnd(`[getAvailableVehicles - ${queryId}] Query Execution`)
     console.log(`[getAvailableVehicles - ${queryId}] Found ${cars.length} available vehicles.`)

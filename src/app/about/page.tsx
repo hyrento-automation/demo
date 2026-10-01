@@ -275,24 +275,24 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="relative rounded-[3rem] overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=2070&auto=format&fit=crop"
-            alt={`${market.country} premium drive`}
+            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2070&auto=format&fit=crop"
+            alt={`${brand.name} premium drive`}
             className="w-full h-[400px] object-cover"
           />
-          <div className="absolute inset-0 bg-navy/80 backdrop-blur-sm flex items-center justify-center">
+          <div className="absolute inset-0 bg-[#0A1118]/85 backdrop-blur-sm flex items-center justify-center">
             <div className="text-center space-y-6 max-w-xl px-6">
               <Trophy size={64} className="text-gold mx-auto" />
               <h2 className="text-4xl md:text-5xl font-display text-white">
-                Trusted premium car rental <span className="italic text-gold">in {market.country}</span>
+                Trusted premium car rental <span className="italic text-gold">across {brand.city ? `${brand.city}, ${brand.country}` : brand.country}</span>
               </h2>
-              <p className="text-white/60 leading-relaxed">
-                Recognised by travellers for attentive service, dependable vehicles, and a booking experience designed around the journey.
+              <p className="text-white/70 leading-relaxed">
+                {brand.name} is recognised by travellers for attentive service, dependable vehicles, and an effortless booking experience designed around your journey.
               </p>
               <Link
                 href="/booking"
                 className="inline-flex h-14 px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest text-[12px] items-center gap-2 transition-all hover:-translate-y-0.5 shadow-[0_8px_24px_rgba(201,168,76,0.5)]"
               >
-                Experience It Yourself <ArrowRight size={16} />
+                Experience it yourself <ArrowRight size={16} />
               </Link>
             </div>
           </div>

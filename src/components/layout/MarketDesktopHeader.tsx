@@ -32,12 +32,12 @@ function CurrencySelect({ currency, setCurrency, dark = false }: { currency: str
         className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-[10px] font-black shadow-none outline-none ring-0 focus:border-0 focus:ring-0"
         style={{ border: 0, background: 'transparent', boxShadow: 'none' }}
       >
-        <option value="MUR" className="text-navy">MUR</option>
-        <option value="USD" className="text-navy">USD</option>
-        <option value="EUR" className="text-navy">EUR</option>
-        <option value="GBP" className="text-navy">GBP</option>
-        <option value="INR" className="text-navy">INR</option>
+        <option value="USD" className="text-navy">USD ($)</option>
+        <option value="EUR" className="text-navy">EUR (€)</option>
+        <option value="GBP" className="text-navy">GBP (£)</option>
+        <option value="INR" className="text-navy">INR (₹)</option>
         <option value="AED" className="text-navy">AED</option>
+        <option value="MUR" className="text-navy">MUR (Rs)</option>
         <option value="CHF" className="text-navy">CHF</option>
       </select>
     </label>
