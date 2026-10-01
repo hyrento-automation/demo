@@ -9,8 +9,10 @@ import PaymentForm from '@/src/components/booking/PaymentForm'
 import DemoPaymentForm from '@/src/components/booking/DemoPaymentForm'
 import { createPublicBooking } from '@/src/lib/actions/booking.actions'
 import { ArrowLeft, ArrowRight, Plus, Check, Zap, Loader2, Upload, FileText, X, ShieldCheck, CreditCard, Car } from 'lucide-react'
+import { useBrand } from '@/src/components/providers/BrandProvider'
 
 export default function DriverDetailsPage() {
+  const brand = useBrand()
   const router = useRouter()
   const {
     selectedVehicle,
@@ -612,9 +614,9 @@ export default function DriverDetailsPage() {
             className="mt-0.5 rounded border-gray-300 text-[#0D9B84] focus:ring-[#0D9B84]"
           />
           <span className="text-xs text-gray-600 leading-relaxed">
-            I agree to the <span className="text-[#0D9B84] underline cursor-pointer">Car Hire Terms and Conditions</span>,{' '}
+            I agree to the <span className="text-[#0D9B84] underline cursor-pointer">{brand.name} Terms and Conditions</span>,{' '}
             <span className="text-[#0D9B84] underline cursor-pointer">Booking Terms and Conditions</span> and{' '}
-            <span className="text-[#0D9B84] underline cursor-pointer">Privacy policy</span>.
+            <span className="text-[#0D9B84] underline cursor-pointer">Privacy Policy</span>.
           </span>
         </label>
 

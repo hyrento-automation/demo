@@ -45,7 +45,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
     '@context': 'https://schema.org',
     '@type': 'AutoRental',
     name: brand.name,
-    image: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200',
     description: 'Mauritius\'s most trusted luxury car rental service since 2010.',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://carehireos.shop',
     telephone: brand.phone,
@@ -168,34 +168,48 @@ export default function HomePage({ searchParams }: HomePageProps) {
       <TestimonialsSection />
 
       {/* =========================================================
-          DESTINATION VISUAL SECTION
+          DESTINATION VISUAL SECTION / CALL TO ACTION
       ========================================================= */}
       <section className="py-24 max-w-7xl mx-auto px-6 w-full">
-        <div className="relative rounded-[3rem] overflow-hidden">
+        <div className="relative rounded-[3rem] overflow-hidden shadow-2xl">
           <img
             src="/assets/imgi_56_newsletter-min.jpg"
-            alt="Mauritius coastal road drive"
-            className="w-full h-[500px] object-cover"
+            alt="Scenic coastal drive"
+            className="w-full h-[520px] object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/90 via-navy/70 to-transparent" />
+          {/* Deep dark gradient overlay so text and CTA are 100% visible against the bright turquoise water */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#040911] via-[#091522]/90 to-transparent" />
 
-          <div className="absolute inset-0 flex items-center px-12 md:px-20">
+          <div className="absolute inset-0 flex items-center px-8 md:px-16 lg:px-20">
             <div className="max-w-xl space-y-6">
-              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold">Special Offer</p>
-              <h2 className="text-5xl md:text-6xl font-display text-white leading-tight">
-                7 Days, <span className="italic text-gold">15% Off</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 backdrop-blur-md">
+                <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                <span className="text-[11px] font-black uppercase tracking-[0.25em]">Special Long-Stay Offer</span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-display text-white leading-tight font-bold">
+                7 Days, <span className="italic text-amber-400">15% Off</span>
               </h2>
-              <p className="text-white/70 text-lg leading-relaxed">
-                Book any luxury vehicle for 7 or more days and unlock exclusive long-stay pricing. All categories included.
+              <p className="text-slate-200 text-base md:text-lg leading-relaxed">
+                Book any vehicle for 7 or more days with {brand.name} and unlock exclusive long-stay savings with comprehensive insurance and island-wide delivery included.
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
                   href="/booking"
-                  className="h-14 px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest text-[12px] flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 shadow-[0_8px_24px_rgba(201,168,76,0.5)]"
+                  className="h-14 px-8 rounded-2xl bg-gradient-to-r from-[#FF7A00] to-[#FF4500] hover:from-[#FF8A1A] hover:to-[#FF5510] text-white font-black uppercase tracking-widest text-[12px] flex items-center gap-3 transition-all duration-300 hover:-translate-y-0.5 shadow-[0_10px_30px_rgba(255,107,0,0.5)]"
                 >
                   Book Now
                   <ArrowRight size={16} />
                 </Link>
+                {brand.whatsapp && (
+                  <a
+                    href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-14 px-7 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-[13px] border border-white/20 backdrop-blur-md flex items-center gap-2 transition-all duration-300"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                )}
               </div>
             </div>
           </div>

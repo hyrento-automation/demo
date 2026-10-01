@@ -73,18 +73,18 @@ export function MarketDesktopHeader({ brand, pathname, links, currency, setCurre
   // If this is a specific company brand (from CSV or subdomain), display the company branded header
   if (brand.slug) {
     return (
-      <nav aria-label="Primary navigation" className={cn('fixed inset-x-0 top-0 z-[100] hidden transition-all duration-500 lg:block', isScrolled ? 'bg-white/95 py-3 shadow-lg backdrop-blur-xl' : 'bg-navy/90 py-4 shadow-md backdrop-blur-md')}>
+      <nav aria-label="Primary navigation" className="fixed inset-x-0 top-0 z-[100] hidden lg:block bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.06)] py-3.5 transition-all duration-300">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-3 max-w-[320px]">
+          <Link href="/" className="flex items-center gap-3 max-w-[340px]">
             {brand.logo ? (
-              <img src={brand.logo} alt={brand.name} className="h-10 w-auto max-w-[140px] object-contain rounded" />
+              <img src={brand.logo} alt={brand.name} className="h-10 w-auto max-w-[150px] object-contain rounded" />
             ) : (
               <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gold text-white font-black text-base shadow-md">
                 {brand.name.slice(0, 2).toUpperCase()}
               </span>
             )}
             <div className="truncate">
-              <strong className={cn('block font-display text-lg leading-tight truncate', isScrolled ? 'text-navy' : 'text-white')}>
+              <strong className="block font-display text-lg leading-tight truncate text-[#0D1B2A]">
                 {brand.name}
               </strong>
               <small className="block text-[10px] font-black uppercase tracking-[.18em] text-gold truncate">
@@ -96,26 +96,26 @@ export function MarketDesktopHeader({ brand, pathname, links, currency, setCurre
           <HeaderLinks
             links={links}
             pathname={pathname}
-            className={cn('rounded-lg px-4 py-2 text-xs font-black uppercase tracking-[.1em] transition-colors', isScrolled ? 'text-navy hover:text-gold' : 'text-white/80 hover:text-white')}
-            activeClassName="text-gold font-bold"
+            className="rounded-lg px-4 py-2 text-xs font-black uppercase tracking-[.1em] text-[#1B263B] hover:text-gold transition-colors"
+            activeClassName="text-gold font-bold bg-gold/5"
           />
 
           <div className="flex items-center gap-3">
-            <PhoneLink brand={brand} dark={!isScrolled} />
+            <PhoneLink brand={brand} dark={false} />
             {brand.whatsapp && (
               <a
                 href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Chat on WhatsApp"
-                className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors', isScrolled ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100' : 'bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm"
               >
-                <MessageSquare size={13} className="text-emerald-500" />
+                <MessageSquare size={13} className="text-emerald-600" />
                 <span>WhatsApp</span>
               </a>
             )}
-            <CurrencySelect currency={currency} setCurrency={setCurrency} dark={!isScrolled} />
-            <LanguageBadge dark={!isScrolled} />
+            <CurrencySelect currency={currency} setCurrency={setCurrency} dark={false} />
+            <LanguageBadge dark={false} />
             <Link href="/booking" className="rounded-xl bg-gold px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white shadow-md hover:bg-gold-dark transition-all">
               Book now
             </Link>
@@ -139,11 +139,11 @@ export function MarketDesktopHeader({ brand, pathname, links, currency, setCurre
   }
 
   return (
-    <nav aria-label="Primary navigation" className={cn('fixed inset-x-0 top-0 z-[100] hidden transition-all duration-500 lg:block', isScrolled ? 'bg-white/95 py-3 shadow-lg backdrop-blur-xl' : 'bg-transparent py-5')}>
+    <nav aria-label="Primary navigation" className="fixed inset-x-0 top-0 z-[100] hidden transition-all duration-500 lg:block bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.06)] py-3.5">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold text-white"><Car size={20} /></span><span><strong className={cn('block font-display text-[17px] leading-none', isScrolled ? 'text-navy' : 'text-white')}>{brand.name}</strong><small className="block text-[10px] font-black uppercase tracking-[.2em] text-gold">{brand.country}</small></span></Link>
-        <HeaderLinks links={links} pathname={pathname} className={cn('rounded-lg px-5 py-2 text-xs font-black uppercase tracking-[.1em]', isScrolled ? 'text-navy hover:text-gold' : 'text-white/80 hover:text-white')} activeClassName="text-gold" />
-        <div className="flex items-center gap-3"><PhoneLink brand={brand} dark={!isScrolled} /><CurrencySelect currency={currency} setCurrency={setCurrency} dark={!isScrolled} /><LanguageBadge dark={!isScrolled} /><Link href="/booking" className="rounded-xl bg-gold px-6 py-3 text-xs font-black uppercase tracking-widest text-white">Book now</Link></div>
+        <Link href="/" className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold text-white"><Car size={20} /></span><span><strong className="block font-display text-[17px] leading-none text-[#0D1B2A]">{brand.name}</strong><small className="block text-[10px] font-black uppercase tracking-[.2em] text-gold">{brand.country}</small></span></Link>
+        <HeaderLinks links={links} pathname={pathname} className="rounded-lg px-5 py-2 text-xs font-black uppercase tracking-[.1em] text-[#1B263B] hover:text-gold" activeClassName="text-gold" />
+        <div className="flex items-center gap-3"><PhoneLink brand={brand} dark={false} /><CurrencySelect currency={currency} setCurrency={setCurrency} dark={false} /><LanguageBadge dark={false} /><Link href="/booking" className="rounded-xl bg-gold px-6 py-3 text-xs font-black uppercase tracking-widest text-white">Book now</Link></div>
       </div>
     </nav>
   )

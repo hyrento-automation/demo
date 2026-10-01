@@ -91,7 +91,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-white/50 leading-relaxed max-w-sm">
-              {brand.country}&apos;s trusted premium car rental service since 2010.
+              {brand.name} is {brand.country}&apos;s trusted premium car rental service.
               Experience every journey in the finest vehicles, delivered wherever you need them.
             </p>
 
@@ -184,11 +184,11 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} Car Hire {brand.country}. All rights reserved.
+          <p className="text-xs text-white/40">
+            © {new Date().getFullYear()} {brand.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <span className="text-xs text-white/20">Designed for exceptional journeys in {brand.country}</span>
+            <span className="text-xs text-white/30">Designed for exceptional journeys with {brand.name}</span>
             <div className="h-1 w-1 rounded-full bg-gold" />
             <span className="text-xs text-gold">Since 2010</span>
           </div>

@@ -42,7 +42,7 @@ export default function Navbar() {
 
       {/* Mobile Header */}
       <nav aria-label="Mobile navigation" className="fixed inset-x-0 top-0 z-[100] p-3 lg:hidden">
-        <div className="flex h-16 items-center justify-between rounded-2xl border border-white/15 bg-navy/95 px-3 text-white shadow-xl backdrop-blur-xl">
+        <div className="flex h-16 items-center justify-between rounded-2xl border border-gray-200/90 bg-white/95 px-3 text-[#0D1B2A] shadow-xl backdrop-blur-xl">
           <Link href="/" className="flex items-center gap-3 max-w-[75%]">
             {brand.logo ? (
               <img src={brand.logo} alt={brand.name} className="h-9 w-auto max-w-[120px] object-contain rounded" />
@@ -52,22 +52,27 @@ export default function Navbar() {
               </span>
             )}
             <span className="truncate">
-              <strong className="block text-sm font-black leading-tight truncate text-white">{brand.name}</strong>
+              <strong className="block text-sm font-black leading-tight truncate text-[#0D1B2A]">{brand.name}</strong>
               <small className="mt-0.5 block text-[9px] font-black uppercase tracking-[.15em] text-gold truncate">
                 {brand.city ? `${brand.city}, ${brand.country}` : brand.country}
               </small>
             </span>
           </Link>
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen((open) => !open)}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/20 flex-shrink-0"
-          >
-            {isMobileMenuOpen ? <X size={21} /> : <Menu size={21} />}
-          </button>
+          <div className="flex items-center gap-2">
+            <Link href="/booking" className="rounded-xl bg-gold px-3.5 py-2 text-[11px] font-black uppercase tracking-wider text-white shadow-md">
+              Book
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-gray-50 text-[#0D1B2A] hover:bg-gray-100 flex-shrink-0"
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </nav>
 

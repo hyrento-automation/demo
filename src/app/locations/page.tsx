@@ -3,25 +3,28 @@ import { headers } from 'next/headers'
 import { ArrowRight, Building, Car, Clock, MapPin, Navigation, Phone, Plane, Ship } from 'lucide-react'
 import type { Metadata } from 'next'
 import { getMarketConfig, SHARED_CONTACT, type LocationIcon } from '@/src/lib/market'
+import { getBrandConfig } from '@/src/lib/brand'
 
 const icons = { plane: Plane, building: Building, car: Car, map: MapPin, ship: Ship } satisfies Record<LocationIcon, typeof MapPin>
 
 export function generateMetadata(): Metadata {
-  const market = getMarketConfig(headers().get('host'))
+  const brand = getBrandConfig(headers().get('host'))
   return {
-    title: `Car Hire Locations in ${market.country}`,
-    description: `Premium car pickup and delivery in ${market.locationSummary}. Explore every Car Hire ${market.country} location.`,
+    title: `${brand.name} Locations in ${brand.country}`,
+    description: `Premium car pickup and delivery across ${brand.country}. Explore every ${brand.name} location.`,
   }
 }
 
 export default function LocationsPage() {
-  const market = getMarketConfig(headers().get('host'))
+  const host = headers().get('host')
+  const brand = getBrandConfig(host)
+  const market = getMarketConfig(host)
 
   return (
     <div className="pb-24 pt-20">
-      <section className="relative overflow-hidden bg-navy py-28">
-        <img src={market.locationsHeroImage} alt={`${market.country} destination`} className="absolute inset-0 h-full w-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/90 via-navy/65 to-navy/30" />
+      <section className="relative overflow-hidden bg-[#0A1118] py-28">
+        <img src={market.locationsHeroImage} alt={`${brand.country} destination`} className="absolute inset-0 h-full w-full object-cover opacity-25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040911]/95 via-[#0A1118]/75 to-[#0A1118]/40" />
         <div className="relative mx-auto max-w-7xl px-6 text-center">
           <p className="text-[11px] font-black uppercase tracking-[.3em] text-gold">Where to find us</p>
           <h1 className="mt-5 text-6xl font-display text-white md:text-8xl">{market.coverageLabel.split(' ')[0]} <span className="italic text-gold">Coverage</span></h1>

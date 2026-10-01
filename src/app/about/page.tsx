@@ -4,12 +4,13 @@ import { Award, Shield, Users, Trophy, ArrowRight, Play, Target, Heart, Globe } 
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { getMarketConfig } from '@/src/lib/market';
+import { getBrandConfig } from '@/src/lib/brand';
 
 export function generateMetadata(): Metadata {
-  const market = getMarketConfig(headers().get('host'))
+  const brand = getBrandConfig(headers().get('host'))
   return {
-    title: `About Car Hire ${market.country}`,
-    description: `Meet Car Hire ${market.country}: premium vehicles, attentive local support, and dependable delivery ${market.deliveryLabel}.`,
+    title: `About ${brand.name} | Premium Car Rental`,
+    description: `Discover ${brand.name}: premium vehicles, attentive local support, and dependable delivery ${brand.deliveryLabel}.`,
   }
 }
 
@@ -56,45 +57,54 @@ const getTimeline = (country: string) => [
 ];
 
 export default function AboutPage() {
-  const market = getMarketConfig(headers().get('host'))
-  const timeline = getTimeline(market.country)
+  const host = headers().get('host');
+  const brand = getBrandConfig(host);
+  const market = getMarketConfig(host);
+  const timeline = getTimeline(brand.country);
 
   return (
     <div className="pt-20 pb-24">
 
       {/* HERO SECTION */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-[#080F18]">
         <div className="absolute inset-0">
           <img
-            src={market.aboutHeroImage}
-            alt={`${market.country} premium travel`}
+            src={market.aboutHeroImage || "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop"}
+            alt={`${brand.name} premium travel`}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-navy/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#040911]/95 via-[#080F18]/85 to-[#080F18]/45" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-32">
           <div className="max-w-2xl space-y-8">
             <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold">Our Story</p>
-            <h1 className="text-6xl md:text-8xl font-display text-white leading-[0.95]">
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-display text-white leading-[0.95] font-bold">
               Elevating<br />
               <span className="italic text-gold">Every Journey</span><br />
-              in {market.country}
+              with {brand.name}
             </h1>
-            <p className="text-xl text-white/70 leading-relaxed">
-              {market.aboutStory}
+            <p className="text-xl text-white/80 leading-relaxed">
+              {brand.name} is dedicated to providing seamless, premium vehicle hire across {brand.country}, combining personalized hospitality with first-class vehicles.
             </p>
             <div className="flex items-center gap-4">
               <Link
-                href="/fleet"
-                className="h-14 px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest text-[12px] flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 shadow-[0_8px_24px_rgba(201,168,76,0.5)]"
+                href="/booking"
+                className="h-14 px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest text-[12px] flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 shadow-[0_8px_24px_rgba(0,181,165,0.5)]"
               >
                 View Our Fleet <ArrowRight size={16} />
               </Link>
-              <button className="h-14 px-8 rounded-2xl border border-white/20 text-white font-bold flex items-center gap-2 hover:bg-white/10 transition-all">
-                <Play size={16} className="text-gold" fill="currentColor" />
-                Our Story
-              </button>
+              {brand.whatsapp && (
+                <a
+                  href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-14 px-8 rounded-2xl border border-white/20 text-white font-bold flex items-center gap-2 hover:bg-white/10 transition-all backdrop-blur-sm"
+                >
+                  <Play size={16} className="text-gold" fill="currentColor" />
+                  Contact Us
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -131,8 +141,8 @@ export default function AboutPage() {
             </div>
             <div className="absolute bottom-0 right-0 w-[55%] h-[55%] rounded-[2.5rem] overflow-hidden shadow-luxury border-4 border-white">
               <img
-                src="https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=800&auto=format&fit=crop"
-                alt={`${market.country} scenic drive`}
+                src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop"
+                alt={`${brand.country} scenic drive`}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
@@ -154,7 +164,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <p className="text-lg text-mid-gray leading-relaxed">
-              Founded in 2010, Car Hire {market.country} was born from a simple vision: make premium car rental feel personal, dependable, and effortless.
+              Founded in 2010, {brand.name} was born from a simple vision: make premium car rental in {brand.country} feel personal, dependable, and effortless.
             </p>
             <p className="text-mid-gray leading-relaxed">
               {market.aboutMission}

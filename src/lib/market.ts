@@ -76,8 +76,8 @@ export const MARKET_CONFIGS: Record<MarketConfig['key'], MarketConfig> = {
     headquarters: 'Port Louis, Mauritius',
     locationSummary: 'SSR Airport, Grand Baie, Flic en Flac, and Mapou',
     locationsHeroImage: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=2070&auto=format&fit=crop',
-    aboutHeroImage: 'https://images.unsplash.com/photo-1544735048-35756ea33235?q=80&w=2070&auto=format&fit=crop',
-    aboutStory: 'Born from a love of Mauritius and a passion for exceptional service, we have been elevating island travel since 2010.',
+    aboutHeroImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop',
+    aboutStory: 'Born from a love of exceptional journeys and a passion for dependable service, we have been elevating travel since 2010.',
     aboutMission: 'We pair local island knowledge with an international standard of service, from airport arrival to the final coastal drive.',
     locations: [
       location('SSR Airport', 'Airport Branch', 'plane', 'SSR International Airport, Plaine Magnien, Mauritius', 'Seamless meet-and-greet service from the moment you land.', ['Meet & Greet', 'Instant Handover', 'All Hours'], images.airport, true),

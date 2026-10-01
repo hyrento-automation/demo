@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: `Experience ${brandConfig.country} in the finest vehicles. Premium fleet, concierge delivery, and 24/7 support.`,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1506012733851-4043ce625295?q=80&w=1200',
+          url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200',
           width: 1200,
           height: 630,
           alt: `${brandConfig.name} — Luxury Island Rentals`,
