@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { Loader2, Lock } from 'lucide-react'
+import { useCurrencyStore } from '@/src/store/useCurrencyStore'
 
 interface PaymentFormProps {
   amount: number
@@ -13,6 +14,7 @@ interface PaymentFormProps {
 export default function PaymentForm({ amount, onSuccess, disabled }: PaymentFormProps) {
   const stripe = useStripe()
   const elements = useElements()
+  const { formatPrice } = useCurrencyStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -84,7 +86,7 @@ export default function PaymentForm({ amount, onSuccess, disabled }: PaymentForm
             <Loader2 size={18} className="animate-spin" /> Processing Securely...
           </>
         ) : (
-          `Pay Rs ${(amount).toLocaleString()} & Confirm Booking`
+          `Pay ${formatPrice(amount)} & Confirm Booking`
         )}
       </button>
       

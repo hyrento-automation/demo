@@ -141,7 +141,7 @@ interface ReceiptPDFProps {
 const ReceiptPDF = ({ bookingRef, driver, vehicle, searchParams, days, total, brand }: ReceiptPDFProps) => {
   const brandName = brand?.name?.toUpperCase() || 'HYRENTO CAR RENTAL'
   const brandAddress = brand?.address || brand?.locationSummary || `${brand?.city || ''}, ${brand?.country || ''}`.trim()
-  const currencySymbol = brand?.currency || 'MUR'
+  const currencySymbol = brand?.currency || 'USD'
 
   return (
     <Document>

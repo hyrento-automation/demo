@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Loader2, Lock, CreditCard } from 'lucide-react'
+import { useCurrencyStore } from '@/src/store/useCurrencyStore'
 
 interface DemoPaymentFormProps {
   amount: number
@@ -10,6 +11,7 @@ interface DemoPaymentFormProps {
 }
 
 export default function DemoPaymentForm({ amount, onSuccess, disabled }: DemoPaymentFormProps) {
+  const { formatPrice } = useCurrencyStore()
   const [loading, setLoading] = useState(false)
   const [cardNumber, setCardNumber] = useState('4242 4242 4242 4242')
   const [expiry, setExpiry] = useState('12/26')
@@ -90,7 +92,7 @@ export default function DemoPaymentForm({ amount, onSuccess, disabled }: DemoPay
             <Loader2 size={18} className="animate-spin" /> Processing Sandbox Transaction...
           </>
         ) : (
-          `Sandbox Pay Rs ${(amount).toLocaleString()} & Confirm Booking`
+          `Sandbox Pay ${formatPrice(amount)} & Confirm Booking`
         )}
       </button>
       

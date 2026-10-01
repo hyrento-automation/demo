@@ -46,7 +46,7 @@ export default function BookingConfirmationPage() {
   const days = getRentalDays()
   const total = getTotal()
   const activeOptions = selectedOptions.filter(opt => opt.quantity > 0)
-  const currencySymbol = brand?.currency || 'MUR'
+  const currencySymbol = brand?.currency || 'USD'
 
   return (
     <BookingLayout showSidebar={false}>

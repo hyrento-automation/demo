@@ -33,13 +33,15 @@ export function formatPrice(amountInUsd: number, currency: SupportedCurrency = '
 interface CurrencyState {
   currency: SupportedCurrency;
   setCurrency: (currency: SupportedCurrency) => void;
+  formatPrice: (amountInUsd: number) => string;
 }
 
 export const useCurrencyStore = create<CurrencyState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       currency: 'USD', // Default universal currency
       setCurrency: (currency) => set({ currency }),
+      formatPrice: (amountInUsd: number) => formatPrice(amountInUsd, get().currency),
     }),
     {
       name: 'currency-storage-v2',

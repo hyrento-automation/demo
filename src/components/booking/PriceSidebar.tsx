@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useBookingStore } from '@/src/store/bookingStore'
+import { useCurrencyStore } from '@/src/store/useCurrencyStore'
 import { MapPin, Check, Truck, Navigation } from 'lucide-react'
 
 export default function PriceSidebar() {
@@ -17,6 +18,7 @@ export default function PriceSidebar() {
     deliveryCharge,
   } = useBookingStore()
 
+  const { formatPrice } = useCurrencyStore()
   const days = getRentalDays()
   const rentalFee = getRentalFee()
   const total = getTotal()
@@ -85,7 +87,7 @@ export default function PriceSidebar() {
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Rental Fee</span>
-          <span className="font-medium">€ {rentalFee.toFixed(2)}</span>
+          <span className="font-medium">{formatPrice(rentalFee)}</span>
         </div>
 
         {/* Pickup Charge */}
@@ -95,7 +97,7 @@ export default function PriceSidebar() {
             Pickup Fee
           </span>
           {pickupCharge > 0 ? (
-            <span className="font-medium text-[#0D9B84]">€ {pickupCharge.toFixed(2)}</span>
+            <span className="font-medium text-[#0D9B84]">{formatPrice(pickupCharge)}</span>
           ) : (
             <span className="font-medium text-emerald-600 text-xs font-semibold">Free</span>
           )}
@@ -108,7 +110,7 @@ export default function PriceSidebar() {
             Delivery Fee
           </span>
           {deliveryCharge > 0 ? (
-            <span className="font-medium text-[#0D9B84]">€ {deliveryCharge.toFixed(2)}</span>
+            <span className="font-medium text-[#0D9B84]">{formatPrice(deliveryCharge)}</span>
           ) : (
             <span className="font-medium text-emerald-600 text-xs font-semibold">Free</span>
           )}
@@ -118,10 +120,10 @@ export default function PriceSidebar() {
           <div key={opt.id} className="flex justify-between">
             <span className="text-gray-600">{opt.name.split('–')[0].trim()} X {opt.quantity}</span>
             <span className="font-medium">
-              € {(opt.priceType === 'per_unit'
+              {formatPrice(opt.priceType === 'per_unit'
                 ? opt.pricePerDay * opt.quantity
                 : Math.min(opt.pricePerDay * days * opt.quantity, (opt.maxCharge || Infinity) * opt.quantity)
-              ).toFixed(2)}
+              )}
             </span>
           </div>
         ))}
@@ -130,7 +132,7 @@ export default function PriceSidebar() {
       {/* Total */}
       <div className="flex justify-between items-center py-3 border-t-2 border-gray-900 mb-4">
         <span className="font-bold text-gray-900">Total amount</span>
-        <span className="font-bold text-lg">€ {total.toFixed(2)}</span>
+        <span className="font-bold text-lg">{formatPrice(total)}</span>
       </div>
 
       {/* Payment breakdown */}
@@ -139,11 +141,11 @@ export default function PriceSidebar() {
           <p>You will pay 25 % online and the remaining amount on delivery.</p>
           <div className="flex justify-between mt-2">
             <span>To pay online (25 %)</span>
-            <span className="font-medium text-gray-700">€ {(total * 0.25).toFixed(2)}</span>
+            <span className="font-medium text-gray-700">{formatPrice(total * 0.25)}</span>
           </div>
           <div className="flex justify-between">
             <span>Balance (75 %)</span>
-            <span className="font-medium text-gray-700">€ {(total * 0.75).toFixed(2)}</span>
+            <span className="font-medium text-gray-700">{formatPrice(total * 0.75)}</span>
           </div>
         </div>
       )}
