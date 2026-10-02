@@ -168,7 +168,9 @@ export default function VehicleCard({ vehicle, market }: VehicleCardProps) {
   const tag = vehicle.tag || ''
   const theme = CARD_THEMES[market || 'default']
 
-  const priceAmount = Math.round(vehicle.priceFrom / 40) || 20
+  const rawPrice = vehicle.priceFrom ?? (vehicle as any).priceDay ?? (vehicle as any).pricePerDay ?? 800
+  const priceAmount = Math.round(rawPrice / 40) || 20
+  const imgUrl = vehicle.imageUrl || (vehicle as any).img || 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=400&auto=format&fit=crop'
   const price = (
     <div className={cn(theme.price, theme.priceMode === 'content' && 'text-right')}>
       <p className="text-2xl font-display font-black leading-none">{formatPrice(priceAmount)}</p>
@@ -180,7 +182,7 @@ export default function VehicleCard({ vehicle, market }: VehicleCardProps) {
     <article className={cn('group flex h-full flex-col overflow-hidden text-left transition-all duration-500', theme.card)}>
       <div className={cn('relative overflow-hidden', theme.image)}>
         <img
-          src={vehicle.imageUrl}
+          src={imgUrl}
           alt={`${make} ${model}`}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
@@ -210,8 +212,8 @@ export default function VehicleCard({ vehicle, market }: VehicleCardProps) {
 
         <div className={cn('mb-5', theme.specs)}>
           {[
-            { icon: User, label: `${vehicle.seats} Seats` },
-            { icon: Luggage, label: `${vehicle.bags} Bags` },
+            { icon: User, label: `${vehicle.seats || 4} Seats` },
+            { icon: Luggage, label: `${vehicle.bags ?? (vehicle as any).luggage ?? 2} Bags` },
             { icon: Gauge, label: vehicle.transmission?.toLowerCase().includes('auto') ? 'Auto' : 'Manual' },
             { icon: Fuel, label: fuel },
           ].map((spec) => (

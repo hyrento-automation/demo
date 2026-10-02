@@ -156,7 +156,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
       ========================================================= */}
       <section className="py-24 bg-offWhite">
         <div className="max-w-7xl mx-auto px-6">
-          <WhyChooseUs />
+          <WhyChooseUs brand={brand} />
         </div>
       </section>
 

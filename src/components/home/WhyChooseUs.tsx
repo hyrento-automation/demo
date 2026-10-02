@@ -1,6 +1,9 @@
+"use client"
+
 import React from 'react';
 import { ShieldCheck, Clock, MapPin, BadgeCheck, Headphones, Zap, Star, Award } from 'lucide-react';
 import { useBrand } from '@/src/components/providers/BrandProvider';
+import type { BrandConfig } from '@/src/lib/brand';
 
 const FEATURES = [
   {
@@ -41,8 +44,18 @@ const FEATURES = [
   },
 ];
 
-export default function WhyChooseUs() {
-  const brand = useBrand();
+interface WhyChooseUsProps {
+  brand?: BrandConfig;
+}
+
+export default function WhyChooseUs({ brand: propBrand }: WhyChooseUsProps = {}) {
+  let contextBrand: BrandConfig | null = null;
+  try {
+    contextBrand = useBrand();
+  } catch {
+    // Graceful fallback if rendered outside provider
+  }
+  const brand = propBrand || contextBrand || { country: 'Global', city: '' };
   const locationText = brand.country === 'Global' ? 'worldwide' : (brand.city || brand.country);
 
   return (
@@ -58,51 +71,30 @@ export default function WhyChooseUs() {
         </p>
       </div>
 
-      {/* Feature Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {FEATURES.map((f, i) => (
-          <div
-            key={i}
-            className="group relative p-8 rounded-[2rem] bg-white border border-gray-100 hover:border-gold/30 hover:shadow-[0_20px_60px_rgba(27,45,79,0.1)] transition-all duration-500 hover:-translate-y-2 overflow-hidden"
-          >
-            {/* Background glow on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gold/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* 4 Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {FEATURES.map((feature, i) => {
+          const Icon = feature.icon;
+          return (
+            <div
+              key={i}
+              className="group p-8 rounded-[2rem] bg-white border border-gray-100 hover:border-gold/30 hover:shadow-[0_20px_60px_rgba(27,45,79,0.08)] transition-all duration-500 hover:-translate-y-1 flex flex-col justify-between"
+            >
+              <div>
+                <div className={`h-14 w-14 rounded-2xl ${feature.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon size={26} className={feature.color} />
+                </div>
+                <h3 className="text-xl font-display font-bold text-navy mb-3">{feature.title}</h3>
+                <p className="text-mid-gray text-xs leading-relaxed">{feature.desc}</p>
+              </div>
 
-            {/* Icon */}
-            <div className={`relative h-14 w-14 rounded-2xl ${f.bg} flex items-center justify-center ${f.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
-              <f.icon size={26} />
+              <div className="mt-8 pt-6 border-t border-gray-50 flex items-baseline justify-between">
+                <span className="text-3xl font-display font-black text-navy">{feature.stat}</span>
+                <span className="text-[10px] font-bold text-mid-gray uppercase tracking-wider">{feature.statLabel}</span>
+              </div>
             </div>
-
-            {/* Stat */}
-            <div className="mb-4">
-              <p className={`text-4xl font-display font-black ${f.color} leading-none`}>{f.stat}</p>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-navy/30 mt-1">{f.statLabel}</p>
-            </div>
-
-            <h4 className="text-lg font-bold text-navy mb-2">{f.title}</h4>
-            <p className="text-sm text-mid-gray leading-relaxed">{f.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Trust Bar */}
-      <div className="flex flex-wrap items-center justify-center gap-8 py-8 border-y border-light-gray">
-        {[
-          { icon: Star, text: '4.9/5 Rating on Google', val: '2,400+ Reviews' },
-          { icon: Award, text: 'Best Luxury Car Rental 2023', val: 'Tropical Travel Awards' },
-          { icon: Headphones, text: 'Avg Response Time', val: '< 8 Minutes' },
-          { icon: Zap, text: 'Instant Booking', val: 'No Waiting Required' },
-        ].map((item, i) => (
-          <div key={i} className="flex items-center gap-4 group">
-            <div className="h-12 w-12 rounded-2xl bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
-              <item.icon size={20} />
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-wider text-navy/40">{item.text}</p>
-              <p className="text-sm font-bold text-navy">{item.val}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+"use client"
+
 // CalendarMonthView.jsx
 // Car Hire Admin — Month View Calendar
 
