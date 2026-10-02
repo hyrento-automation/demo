@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Clock, MapPin, BadgeCheck, Headphones, Zap, Star, Award } from 'lucide-react';
+import { useBrand } from '@/src/components/providers/BrandProvider';
 
 const FEATURES = [
   {
@@ -41,16 +42,19 @@ const FEATURES = [
 ];
 
 export default function WhyChooseUs() {
+  const brand = useBrand();
+  const locationText = brand.country === 'Global' ? 'worldwide' : (brand.city || brand.country);
+
   return (
     <div className="space-y-16">
       {/* Header */}
       <div className="text-center space-y-4">
         <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold">Why Choose Us</p>
         <h2 className="text-5xl md:text-6xl font-display">
-          The <span className="italic text-gold">island standard</span><br />in car rental
+          The <span className="italic text-gold">gold standard</span><br />in car rental
         </h2>
         <p className="text-mid-gray max-w-xl mx-auto font-body leading-relaxed">
-          For 14+ years, we've set the benchmark for luxury car rental in Mauritius. Here's what makes us different.
+          For over 14 years, we&apos;ve set the benchmark for premium car rental and customer satisfaction in {locationText}. Here&apos;s what makes us different.
         </p>
       </div>
 

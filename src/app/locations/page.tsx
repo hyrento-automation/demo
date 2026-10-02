@@ -22,7 +22,7 @@ export default function LocationsPage() {
 
   const cityOrCountry = brand.city || brand.country
 
-  const companyLocations = (brand.country !== 'Mauritius' || brand.slug)
+  const companyLocations = (brand.country !== 'Mauritius' || Boolean(brand.slug))
     ? [
         {
           name: `${cityOrCountry} International Airport`,

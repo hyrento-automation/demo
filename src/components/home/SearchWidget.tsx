@@ -23,6 +23,9 @@ export default function SearchWidget() {
   const { setSearchParams, setStep } = useBookingStore()
 
   const defaultLocation = React.useMemo(() => {
+    if (brand.country === 'Global') {
+      return 'International Airport Hub (Worldwide Delivery)'
+    }
     if (brand.country === 'Mauritius') {
       return 'Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice'
     }
@@ -31,6 +34,15 @@ export default function SearchWidget() {
   }, [brand.country, brand.city])
 
   const dynamicLocations = React.useMemo(() => {
+    if (brand.country === 'Global') {
+      return [
+        'International Airport Hub (Terminal Handover)',
+        'City Center Downtown Hub',
+        'Hotel & Resort Concierge Delivery',
+        'High-Speed Transit & Rail Station',
+        'VIP Private Concierge Address',
+      ]
+    }
     if (brand.country === 'Mauritius') {
       return [
         'Sir Seewoosagur Ramgoolam International Airport, Plaine Magnien, Maurice',
@@ -69,7 +81,22 @@ export default function SearchWidget() {
   const [showPickupSuggestions, setShowPickupSuggestions] = useState(false)
   const [showDropoffSuggestions, setShowDropoffSuggestions] = useState(false)
 
-  const { fetchPredictions, initService } = useGooglePlaces()
+  // Map country name to 2-letter ISO code for Google Places, or leave undefined for Global search
+  const countryCode = React.useMemo(() => {
+    const c = brand.country?.toLowerCase()
+    if (!c || c === 'global') return undefined
+    if (c === 'mauritius') return 'mu'
+    if (c === 'spain') return 'es'
+    if (c === 'india') return 'in'
+    if (c.includes('emirates') || c === 'uae') return 'ae'
+    if (c === 'switzerland') return 'ch'
+    if (c === 'south africa') return 'za'
+    if (c === 'usa' || c.includes('united states')) return 'us'
+    if (c === 'uk' || c.includes('united kingdom')) return 'gb'
+    return undefined
+  }, [brand.country])
+
+  const { fetchPredictions, initService } = useGooglePlaces(countryCode)
   const [pickupPredictions, setPickupPredictions] = useState<{description: string}[]>([])
   const [dropoffPredictions, setDropoffPredictions] = useState<{description: string}[]>([])
 

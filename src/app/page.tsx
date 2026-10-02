@@ -46,17 +46,15 @@ export default function HomePage({ searchParams }: HomePageProps) {
     '@type': 'AutoRental',
     name: brand.name,
     image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200',
-    description: 'Mauritius\'s most trusted luxury car rental service since 2010.',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://carehireos.shop',
+    description: `${brand.name} offers premium vehicles, concierge delivery ${brand.deliveryLabel}, and 24/7 global support.`,
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://hyrento.com',
     telephone: brand.phone,
     priceRange: '$$$',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'SSR International Airport',
-      addressLocality: 'Plaine Magnien',
-      addressRegion: 'Grand Port',
-      postalCode: '51520',
-      addressCountry: 'MU'
+      streetAddress: brand.address || 'Global Concierge Hub',
+      addressLocality: brand.city || brand.headquarters || 'International',
+      addressCountry: brand.country === 'Global' ? 'US' : brand.country,
     }
   };
 

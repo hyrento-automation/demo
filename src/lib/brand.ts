@@ -79,13 +79,13 @@ const MARKET_THEMES: Record<string, ThemeConfig> = {
 
 export const BRAND_PRESETS: Record<string, BrandConfig> = {
   default: {
-    name: 'Car Hire Mauritius',
-    country: 'Mauritius',
-    adjective: 'Mauritian',
-    coverageLabel: 'Island Coverage',
-    deliveryLabel: 'island-wide',
-    headquarters: 'Port Louis, Mauritius',
-    locationSummary: 'SSR Airport, Grand Baie, Flic en Flac, and Mapou',
+    name: 'Hyrento',
+    country: 'Global',
+    adjective: 'Global',
+    coverageLabel: 'Worldwide Coverage',
+    deliveryLabel: 'worldwide',
+    headquarters: 'Global Fleet Network',
+    locationSummary: 'Airport Terminals, City Centers & Hotel Handover Worldwide',
     phone: SHARED_CONTACT.phone,
     whatsapp: SHARED_CONTACT.whatsapp,
     emergencyPhone: SHARED_CONTACT.phone,
@@ -180,21 +180,22 @@ export function getBrandConfig(hostname?: string | null): BrandConfig {
 
   // 4. Fallback to country markets (demo1..demo5) or default
   const market = getMarketConfig(activeHost)
+  const isDefaultMarket = market.country === 'Global' || market.country === 'Mauritius'
 
   return {
-    name: `Car Hire ${market.country}`,
-    country: market.country,
-    adjective: market.adjective,
-    coverageLabel: market.coverageLabel,
-    deliveryLabel: market.deliveryLabel,
-    headquarters: market.headquarters,
-    locationSummary: market.locationSummary,
+    name: isDefaultMarket ? 'Hyrento Global' : `Hyrento ${market.country}`,
+    country: isDefaultMarket ? 'Global' : market.country,
+    adjective: isDefaultMarket ? 'Global' : market.adjective,
+    coverageLabel: isDefaultMarket ? 'Worldwide Coverage' : market.coverageLabel,
+    deliveryLabel: isDefaultMarket ? 'worldwide' : market.deliveryLabel,
+    headquarters: isDefaultMarket ? 'Global Fleet Network' : market.headquarters,
+    locationSummary: isDefaultMarket ? 'Airport Terminals, City Centers & Hotel Handover Worldwide' : market.locationSummary,
     phone: SHARED_CONTACT.phone,
     whatsapp: SHARED_CONTACT.whatsapp,
     emergencyPhone: SHARED_CONTACT.phone,
     email: SHARED_CONTACT.email,
     bookingRefPrefix: process.env.NEXT_PUBLIC_BOOKING_REF_PREFIX || BRAND_PRESETS.default.bookingRefPrefix,
-    currency: getCountryCurrency(market.country),
+    currency: isDefaultMarket ? 'USD' : getCountryCurrency(market.country),
     theme: MARKET_THEMES[market.country] || DEFAULT_THEME,
   }
 }

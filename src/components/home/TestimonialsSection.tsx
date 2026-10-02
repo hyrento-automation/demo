@@ -8,8 +8,8 @@ const TESTIMONIALS = [
     avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=200&auto=format&fit=crop&facepad=2',
     car: 'Porsche 718 Boxster',
     rating: 5,
-    review: 'Absolutely incredible experience. The Porsche was delivered perfectly to our hotel in Grand Baie, immaculately clean. The team responded to every message within minutes. We\'ll never rent from anyone else in Mauritius.',
-    trip: '10 days · Grand Baie',
+    review: 'Absolutely incredible experience. The Porsche was delivered perfectly to our location, immaculately clean. The team responded to every message within minutes. Best rental service we have ever used.',
+    trip: '10 days · Executive Trip',
   },
   {
     name: 'James Whitmore',

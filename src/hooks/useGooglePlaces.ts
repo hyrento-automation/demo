@@ -12,7 +12,7 @@ interface Prediction {
   place_id: string;
 }
 
-export function useGooglePlaces() {
+export function useGooglePlaces(countryCode?: string) {
   const [autocompleteService, setAutocompleteService] = useState<any>(null);
 
   const initService = useCallback(() => {
@@ -35,8 +35,13 @@ export function useGooglePlaces() {
         return;
       }
 
+      const request: any = { input }
+      if (countryCode) {
+        request.componentRestrictions = { country: countryCode.toLowerCase() }
+      }
+
       autocompleteService.getPlacePredictions(
-        { input, componentRestrictions: { country: 'mu' } }, // Restricted to Mauritius as per context
+        request,
         (predictions: any[], status: any) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
             callback(predictions.map((p: any) => ({ description: p.description, place_id: p.place_id })));
@@ -46,7 +51,7 @@ export function useGooglePlaces() {
         }
       );
     },
-    [autocompleteService]
+    [autocompleteService, countryCode]
   );
 
   return { fetchPredictions, initService };
