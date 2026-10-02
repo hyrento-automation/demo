@@ -32,19 +32,28 @@ export function formatPrice(amountInUsd: number, currency: SupportedCurrency = '
 
 interface CurrencyState {
   currency: SupportedCurrency;
-  setCurrency: (currency: SupportedCurrency) => void;
+  isManualSelection: boolean;
+  setCurrency: (currency: SupportedCurrency, isManual?: boolean) => void;
+  syncBrandCurrency: (brandCurrency?: string) => void;
   formatPrice: (amountInUsd: number) => string;
 }
 
 export const useCurrencyStore = create<CurrencyState>()(
   persist(
     (set, get) => ({
-      currency: 'USD', // Default universal currency
-      setCurrency: (currency) => set({ currency }),
+      currency: 'USD',
+      isManualSelection: false,
+      setCurrency: (currency, isManual = true) => set({ currency, isManualSelection: isManual }),
+      syncBrandCurrency: (brandCurrency?: string) => {
+        const state = get();
+        if (!state.isManualSelection && brandCurrency && CURRENCY_SYMBOLS[brandCurrency as SupportedCurrency]) {
+          set({ currency: brandCurrency as SupportedCurrency });
+        }
+      },
       formatPrice: (amountInUsd: number) => formatPrice(amountInUsd, get().currency),
     }),
     {
-      name: 'currency-storage-v2',
+      name: 'hyrento-currency-storage-v3',
     }
   )
 );

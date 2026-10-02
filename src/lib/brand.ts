@@ -109,6 +109,18 @@ function getAdjective(country: string): string {
   }
 }
 
+export function getCountryCurrency(country?: string): string {
+  if (!country) return 'USD'
+  const c = country.toLowerCase()
+  if (c.includes('india')) return 'INR'
+  if (c.includes('spain')) return 'EUR'
+  if (c.includes('emirates') || c.includes('uae') || c.includes('dubai')) return 'AED'
+  if (c.includes('switzerland')) return 'CHF'
+  if (c.includes('mauritius')) return 'MUR'
+  if (c.includes('uk') || c.includes('britain')) return 'GBP'
+  return 'USD'
+}
+
 export function getBrandConfig(hostname?: string | null): BrandConfig {
   // 1. Check NEXT_PUBLIC_BRAND_THEME env var override first
   const envTheme = process.env.NEXT_PUBLIC_BRAND_THEME
@@ -160,7 +172,7 @@ export function getBrandConfig(hostname?: string | null): BrandConfig {
       emergencyPhone: company.phone,
       email: company.email,
       bookingRefPrefix: company.bookingRefPrefix || company.slug.slice(0, 3).toUpperCase(),
-      currency: company.currency || 'MUR',
+      currency: company.currency || getCountryCurrency(company.country),
       website: company.website,
       theme,
     }
@@ -182,6 +194,7 @@ export function getBrandConfig(hostname?: string | null): BrandConfig {
     emergencyPhone: SHARED_CONTACT.phone,
     email: SHARED_CONTACT.email,
     bookingRefPrefix: process.env.NEXT_PUBLIC_BOOKING_REF_PREFIX || BRAND_PRESETS.default.bookingRefPrefix,
+    currency: getCountryCurrency(market.country),
     theme: MARKET_THEMES[market.country] || DEFAULT_THEME,
   }
 }
