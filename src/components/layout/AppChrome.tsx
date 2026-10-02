@@ -6,6 +6,8 @@ import Footer from '@/src/components/layout/Footer'
 import { useBrand } from '@/src/components/providers/BrandProvider'
 import { cn } from '@/src/lib/utils'
 
+import MobileBottomNav from '@/src/components/layout/MobileBottomNav'
+
 const homeHeaderSpacing: Record<string, string> = {
   Spain: 'bg-[#fff8ed] pt-24 lg:pt-[112px]',
   Europe: 'bg-[#f2f3ef] pt-24 lg:pt-[113px]',
@@ -38,13 +40,14 @@ export default function AppChrome({
       <Navbar />
       <main
         className={cn(
-          'flex-grow',
+          'flex-grow pb-20 lg:pb-0',
           isHomeRoute && (homeHeaderSpacing[brand.country] || homeHeaderSpacing.Mauritius),
         )}
       >
         {children}
       </main>
       <Footer />
+      <MobileBottomNav />
       {cookieBanner}
       {whatsappButton}
     </>

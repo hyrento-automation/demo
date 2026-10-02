@@ -105,9 +105,9 @@ export default function SearchWidget() {
         onLoad={initService}
         strategy="lazyOnload"
       />
-      <div className="bg-white rounded-2xl shadow-md px-4 sm:px-8 py-5 sm:py-7 max-w-[960px] mx-auto">
+      <div className="bg-white rounded-3xl shadow-xl border border-gray-100/90 px-4 sm:px-8 py-5 sm:py-7 max-w-[960px] mx-auto">
       {/* Row 1 — Address Inputs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-6 mb-4 sm:mb-5">
         {/* Pickup Address */}
         <div className="relative">
           <label className="flex items-center gap-2 mb-2">

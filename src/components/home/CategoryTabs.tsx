@@ -40,10 +40,10 @@ export default function CategoryTabs({ activeCategory, onChange }: CategoryTabsP
       <button
         key={cat}
         onClick={() => onChange(cat)}
-        className={`flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 border whitespace-nowrap shadow-sm ${
+        className={`flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm transition-all duration-200 border whitespace-nowrap shadow-sm active:scale-95 flex-shrink-0 ${
           isActive 
-          ? 'bg-gold/10 border-gold/30 text-gold shadow-gold/10' 
-          : 'bg-white border-gray-100 text-navy hover:bg-offWhite hover:border-gray-200'
+          ? 'bg-navy text-white border-navy shadow-md shadow-navy/20' 
+          : 'bg-white border-gray-200/80 text-gray-700 hover:bg-gray-50'
         }`}
       >
         <CarIcon type={cat} />
@@ -53,8 +53,9 @@ export default function CategoryTabs({ activeCategory, onChange }: CategoryTabsP
   }
 
   return (
-    <div className="mt-8 mb-10 w-full max-w-5xl mx-auto px-2 sm:px-4">
-      <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3">
+    <div className="mt-6 mb-8 w-full max-w-5xl mx-auto px-1 sm:px-4">
+      {/* Sleek native-app horizontal scrolling pills with hidden scrollbar */}
+      <div className="flex sm:flex-wrap items-center sm:justify-center gap-2 sm:gap-2.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none no-scrollbar px-2">
         {ALL_CATEGORIES.map(renderTab)}
       </div>
     </div>

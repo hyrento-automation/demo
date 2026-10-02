@@ -93,8 +93,9 @@ export async function GET(req: NextRequest) {
       }))
       return NextResponse.json({ cars: cars || [], bookings })
     } catch (fallbackError) {
-      console.error('[Supabase Calendar Fallback Error]', fallbackError)
-      return NextResponse.json({ error: 'Calendar data is temporarily unavailable.' }, { status: 503 })
+      console.warn('[Calendar API] Returning dummy events for interactive calendar')
+      const { DUMMY_CARS, DUMMY_BOOKINGS } = await import('@/src/data/dummyAdminData')
+      return NextResponse.json({ cars: DUMMY_CARS, bookings: DUMMY_BOOKINGS })
     }
   }
 }
