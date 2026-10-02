@@ -25,8 +25,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="w-64 bg-[#1E293B] text-white flex-col hidden md:flex fixed inset-y-0 z-50">
         <div className="p-6">
-          <Link href="/" className="inline-block">
-            <div className="font-[family-name:var(--font-inter)] font-black text-2xl italic tracking-widest text-[#0D9B84] uppercase">{process.env.NEXT_PUBLIC_BRAND_NAME?.toUpperCase() || 'CAR HIRE'}</div>
+          <Link href="/admin" className="inline-block">
+            <div className="font-[family-name:var(--font-inter)] font-black text-2xl italic tracking-widest text-[#0D9B84] uppercase">HYRENTO</div>
           </Link>
           <div className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50 mt-1">Admin Portal</div>
         </div>
@@ -52,28 +52,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-4 mt-auto mb-4 border-t border-white/10 mx-4">
           <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#0D9B84]/10 border border-[#0D9B84]/30">
             <div className="w-2 h-2 rounded-full bg-[#0D9B84] animate-pulse" />
-            <span className="text-xs font-bold text-[#0D9B84] uppercase tracking-widest">MVP — Open Access</span>
+            <span className="text-xs font-bold text-[#0D9B84] uppercase tracking-widest">Hyrento Cloud OS</span>
           </div>
         </div>
       </aside>
 
       {/* Main Container */}
       <main className="flex-1 md:pl-64 flex flex-col min-h-screen w-full overflow-x-hidden">
-        <header className="h-20 bg-white border-b border-gray-200 flex items-center px-4 md:px-8 sticky top-0 z-40 shadow-sm">
-          <div className="flex-1">
-            <h2 className="text-xl font-bold text-[#1E293B]">Command Center</h2>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right hidden sm:block">
-              <p className="text-sm font-bold text-[#1E293B]">System Admin</p>
-              <p className="text-xs text-[#0D9B84] font-bold">MVP Demo Mode</p>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-[#0D9B84] text-white flex items-center justify-center font-bold text-sm shadow-md">
-              SA
-            </div>
-          </div>
-        </header>
-
         <div className="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto overflow-x-hidden">
           {children}
         </div>

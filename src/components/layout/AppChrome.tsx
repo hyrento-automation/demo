@@ -15,7 +15,15 @@ const homeHeaderSpacing: Record<string, string> = {
   Mauritius: 'bg-[#E8F8F5] pt-24 lg:pt-24',
 }
 
-export default function AppChrome({ children }: { children: React.ReactNode }) {
+export default function AppChrome({ 
+  children,
+  cookieBanner,
+  whatsappButton,
+}: { 
+  children: React.ReactNode
+  cookieBanner?: React.ReactNode
+  whatsappButton?: React.ReactNode
+}) {
   const pathname = usePathname()
   const brand = useBrand()
   const isAdminRoute = pathname.startsWith('/admin')
@@ -37,6 +45,8 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <Footer />
+      {cookieBanner}
+      {whatsappButton}
     </>
   )
 }
