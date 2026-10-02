@@ -61,7 +61,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const host = headers().get('host') || '';
+  const host = (headers().get('x-forwarded-host') || headers().get('host') || '').split(':')[0].toLowerCase();
   const isAdminDomain = host.startsWith('admin.');
   const brandConfig = getBrandConfig(host);
 

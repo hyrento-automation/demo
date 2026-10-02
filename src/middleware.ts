@@ -9,10 +9,12 @@ const intlMiddleware = createMiddleware({
 
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const host = request.headers.get('host') || '';
+  const hostname = request.nextUrl.hostname.toLowerCase();
+  const hostHeader = (request.headers.get('x-forwarded-host') || request.headers.get('host') || '').toLowerCase();
+  const isAdmin = hostname.startsWith('admin.') || hostHeader.startsWith('admin.');
 
   // 1. Strict isolation for admin.hyrento.com: ZERO public website pages allowed
-  if (host.startsWith('admin.')) {
+  if (isAdmin) {
     if (
       pathname === '/' ||
       pathname === '' ||
