@@ -5,7 +5,6 @@ import Navbar from '@/src/components/layout/Navbar'
 import Footer from '@/src/components/layout/Footer'
 import { useBrand } from '@/src/components/providers/BrandProvider'
 import { cn } from '@/src/lib/utils'
-
 import MobileBottomNav from '@/src/components/layout/MobileBottomNav'
 
 const homeHeaderSpacing: Record<string, string> = {
@@ -21,16 +20,20 @@ export default function AppChrome({
   children,
   cookieBanner,
   whatsappButton,
+  isAdminDomain = false,
 }: { 
   children: React.ReactNode
   cookieBanner?: React.ReactNode
   whatsappButton?: React.ReactNode
+  isAdminDomain?: boolean
 }) {
   const pathname = usePathname()
   const brand = useBrand()
-  const isAdminRoute = pathname.startsWith('/admin') || (typeof window !== 'undefined' && window.location.hostname.startsWith('admin.'))
+  const isClientAdmin = typeof window !== 'undefined' && window.location.hostname.startsWith('admin.')
+  const isAdminRoute = isAdminDomain || isClientAdmin || pathname.startsWith('/admin')
   const isHomeRoute = pathname === '/' || pathname === '/en'
 
+  // If inside admin panel or on admin domain, strictly omit public website chrome (no Navbar, no Footer, no MobileBottomNav)
   if (isAdminRoute) {
     return <main className="flex-grow">{children}</main>
   }

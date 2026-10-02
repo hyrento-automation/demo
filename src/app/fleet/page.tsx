@@ -23,6 +23,10 @@ export default function FleetPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hostname.startsWith('admin.')) {
+      window.location.href = '/admin/fleet';
+      return;
+    }
     getPublicCars()
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {

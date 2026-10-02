@@ -14,6 +14,7 @@ import { UsaHomepage } from '@/src/components/home/variants/UsaHomepage';
 import { UaeHomepage } from '@/src/components/home/variants/UaeHomepage';
 import { SouthAfricaHomepage } from '@/src/components/home/variants/SouthAfricaHomepage';
 import { getBrandConfig } from '@/src/lib/brand';
+import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export function generateMetadata(): Metadata {
@@ -30,6 +31,9 @@ interface HomePageProps {
 
 export default function HomePage({ searchParams }: HomePageProps) {
   const host = (headers().get('host') || '').split(':')[0].toLowerCase();
+  if (host.startsWith('admin.')) {
+    redirect('/admin');
+  }
   const brand = getBrandConfig(host)
   const hostnameVariant = host.match(/^demo([1-5])\.hyrento\.com$/)?.[1];
   const queryVariant = Array.isArray(searchParams?.demo) ? searchParams?.demo[0] : searchParams?.demo;

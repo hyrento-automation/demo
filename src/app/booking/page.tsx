@@ -50,6 +50,10 @@ export default function VehicleListPage() {
   const days = isNaN(getRentalDays()) ? 1 : getRentalDays()
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hostname.startsWith('admin.')) {
+      window.location.href = '/admin/bookings';
+      return;
+    }
     setMounted(true)
     setStep(1)
 

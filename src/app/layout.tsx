@@ -82,6 +82,7 @@ export default function RootLayout({
         <AuthSessionProvider>
           <BrandProvider initialBrand={brandConfig}>
             <AppChrome
+              isAdminDomain={isAdminDomain}
               cookieBanner={!isAdminDomain ? <CookieBanner /> : null}
               whatsappButton={
                 !isAdminDomain ? (
