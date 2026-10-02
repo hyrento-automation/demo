@@ -50,26 +50,30 @@ export default function AddOptionsPage() {
           <h2 className="font-bold text-gray-900">Add Extra Options (Optional)</h2>
         </div>
 
-        <div className="divide-y divide-gray-100 relative">
-          {/* Tooltip for Accident Protection */}
-          {showTooltip && (
-            <div className="absolute top-2 left-4 right-4 sm:left-1/3 sm:right-auto z-20 bg-[#0D9B84] text-white rounded-lg p-4 shadow-xl sm:max-w-[280px] animate-fade-in">
-              <div className="flex items-start justify-between mb-2">
+        {/* Recommendation banner for Accident Protection (in-flow, never covers text) */}
+        {showTooltip && (
+          <div className="m-4 p-4 rounded-xl bg-gradient-to-r from-[#0D9B84] to-[#0B7A68] text-white shadow-sm relative animate-fade-in">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-base">🛡️</span>
                 <p className="font-bold text-sm">Recommended for you!</p>
-                <button
-                  onClick={() => setShowTooltip(false)}
-                  className="hover:bg-white/20 rounded p-0.5 transition-colors"
-                >
-                  <X size={14} />
-                </button>
               </div>
-              <p className="text-xs leading-relaxed opacity-90">
-                Reduce your liability to zero for complete peace of mind. Most of our customers choose
-                this option for a worry-free rental.
-              </p>
-              <div className="absolute -bottom-2 left-8 w-4 h-4 bg-[#0D9B84] rotate-45" />
+              <button
+                onClick={() => setShowTooltip(false)}
+                className="hover:bg-white/20 rounded p-1 transition-colors text-white"
+                aria-label="Dismiss recommendation"
+              >
+                <X size={16} />
+              </button>
             </div>
-          )}
+            <p className="text-xs leading-relaxed opacity-95 mt-1.5">
+              Reduce your liability to zero for complete peace of mind. Most of our customers choose
+              this option for a worry-free rental.
+            </p>
+          </div>
+        )}
+
+        <div className="divide-y divide-gray-100">
 
           {selectedOptions.map((option) => {
             const isAccident = option.id === 'accident-protection'

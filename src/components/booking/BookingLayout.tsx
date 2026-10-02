@@ -14,14 +14,14 @@ export default function BookingLayout({ children, showSidebar = true }: BookingL
   const { currentStep } = useBookingStore()
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5] pt-20">
+    <div className="min-h-screen bg-[#F5F5F5] pt-24 sm:pt-28 pb-28 lg:pb-16">
       {/* Step Progress */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4">
         <StepProgress />
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <div className={`flex gap-6 ${showSidebar ? '' : 'justify-center'}`}>
           {/* Main Content Area */}
           <div className={showSidebar ? 'flex-1 min-w-0' : 'w-full max-w-4xl'}>

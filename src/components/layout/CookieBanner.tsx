@@ -29,7 +29,7 @@ export default function CookieBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 transform transition-transform duration-500">
+    <div className="fixed bottom-16 lg:bottom-0 left-0 right-0 z-[95] p-3 sm:p-4 transform transition-transform duration-500">
       <div className="max-w-4xl mx-auto bg-navy text-white p-6 rounded-2xl shadow-2xl border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         
         <div className="flex-1 space-y-2">
