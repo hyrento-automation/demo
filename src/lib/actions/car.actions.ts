@@ -82,26 +82,36 @@ async function getCarsFromSupabase(): Promise<PublicCar[]> {
 export async function getPublicCars() {
   noStore();
   try {
-    const cars = await db.car.findMany({
+    const carsPromise = db.car.findMany({
       where: { status: 'AVAILABLE' },
       include: {
         images: true
       },
       orderBy: { pricePerDay: 'asc' }
     })
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Database query timed out')), 1500)
+    )
+
+    const cars = await Promise.race([carsPromise, timeoutPromise])
     
     if (cars && cars.length > 0) {
       return formatPublicCars(cars)
     }
   } catch (error) {
-    // Database unreachable; fallback to Supabase or static fleet
+    // Database query timed out or connection failed; seamlessly fallback
   }
 
-  const supabaseCars = await getCarsFromSupabase()
-  if (supabaseCars && supabaseCars.length > 0) {
-    return formatPublicCars(supabaseCars)
+  try {
+    const supabaseCars = await getCarsFromSupabase()
+    if (supabaseCars && supabaseCars.length > 0) {
+      return formatPublicCars(supabaseCars)
+    }
+  } catch (err) {
+    // Supabase fallback failed
   }
 
-  // Guaranteed fallback so every demo website displays cards immediately
+  // Guaranteed instant fallback so every demo website displays cars immediately without delay
   return FALLBACK_FLEET
 }

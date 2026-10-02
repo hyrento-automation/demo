@@ -7,13 +7,15 @@ import { User, Luggage, Gauge, Star, ArrowRight, Fuel, Shield, SlidersHorizontal
 import { getPublicCars } from '@/src/lib/actions/car.actions';
 import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 
+import { FALLBACK_FLEET } from '@/src/data/fallbackFleet';
+
 const CATEGORIES = ['All', 'Luxury', 'Sports', 'SUV', 'Economy', 'Van', 'Mini', 'Pickup'];
 const TRANSMISSIONS = ['All', 'Automatic', 'Manual'];
 
 export default function FleetPage() {
   const { formatPrice } = useCurrencyStore();
-  const [vehicles, setVehicles] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [vehicles, setVehicles] = useState<any[]>(() => FALLBACK_FLEET);
+  const [loading, setLoading] = useState(false);
   const [selectedCat, setSelectedCat] = useState('All');
   const [selectedTrans, setSelectedTrans] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,10 +23,15 @@ export default function FleetPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    getPublicCars().then(data => {
-      setVehicles(data);
-      setLoading(false);
-    });
+    getPublicCars()
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setVehicles(data);
+        }
+      })
+      .catch(err => {
+        console.warn('Fleet fetch fallback:', err);
+      });
   }, []);
 
   const filtered = vehicles

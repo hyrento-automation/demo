@@ -8,12 +8,14 @@ import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 import { formatPrice } from '@/src/lib/currency';
 import { useTranslations } from 'next-intl';
 
+import { FALLBACK_FLEET } from '@/src/data/fallbackFleet';
+
 const CATEGORIES = ['All', 'Luxury', 'Sports', 'SUV', 'Economy', 'Van', 'Mini', 'Pickup'];
 const TRANSMISSIONS = ['All', 'Automatic', 'Manual'];
 
 export default function FleetPage() {
-  const [vehicles, setVehicles] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [vehicles, setVehicles] = useState<any[]>(() => FALLBACK_FLEET);
+  const [loading, setLoading] = useState(false);
   const [selectedCat, setSelectedCat] = useState('All');
   const [selectedTrans, setSelectedTrans] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,10 +26,15 @@ export default function FleetPage() {
   const t = useTranslations('Fleet');
 
   useEffect(() => {
-    getPublicCars().then(data => {
-      setVehicles(data);
-      setLoading(false);
-    });
+    getPublicCars()
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setVehicles(data);
+        }
+      })
+      .catch(err => {
+        console.warn('Localized fleet fetch fallback:', err);
+      });
   }, []);
 
   const filtered = vehicles

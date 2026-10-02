@@ -17,6 +17,17 @@ interface FleetSectionProps {
   cardMarket?: VehicleCardMarket
 }
 
+import { FALLBACK_FLEET } from '@/src/data/fallbackFleet'
+
+const getInitialFleet = () => {
+  return FALLBACK_FLEET.map(v => ({
+    ...v,
+    priceFrom: v.priceDay,
+    imageUrl: v.img,
+    bags: v.luggage,
+  }))
+}
+
 export default function FleetSection({
   eyebrow = 'Premium Selection',
   heading = 'Explore Our',
@@ -28,42 +39,32 @@ export default function FleetSection({
 }: FleetSectionProps) {
   const brand = useBrand()
   const [activeCategory, setActiveCategory] = useState<VehicleCategory>('All')
-  const [vehicles, setVehicles] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+  const [vehicles, setVehicles] = useState<any[]>(() => getInitialFleet())
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false)
-      setError(true)
-    }, 8000)
-
     fetch('/api/cars')
       .then(res => res.json())
       .then(data => {
-        clearTimeout(timeout)
-        const mapped = data.map((v: any) => ({
-           ...v,
-           priceFrom: v.priceDay,
-           imageUrl: v.img,
-           bags: v.luggage
-        }))
-        const groupedMap = new Map()
-        mapped.forEach((v: any) => {
-           const key = `${v.make}-${v.model}`.toLowerCase()
-           if (!groupedMap.has(key)) groupedMap.set(key, v)
-        })
-        setVehicles(Array.from(groupedMap.values()))
-        setLoading(false)
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map((v: any) => ({
+             ...v,
+             priceFrom: v.priceDay,
+             imageUrl: v.img,
+             bags: v.luggage
+          }))
+          const groupedMap = new Map()
+          mapped.forEach((v: any) => {
+             const key = `${v.make}-${v.model}`.toLowerCase()
+             if (!groupedMap.has(key)) groupedMap.set(key, v)
+          })
+          setVehicles(Array.from(groupedMap.values()))
+        }
       })
       .catch(err => {
-        clearTimeout(timeout)
-        console.error('Error fetching cars:', err)
-        setLoading(false)
-        setError(true)
+        console.warn('Live fleet sync deferred; using standard fleet:', err)
       })
-
-    return () => clearTimeout(timeout)
   }, [])
 
   // Map UI-friendly category names to DB enum values
