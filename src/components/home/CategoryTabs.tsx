@@ -8,8 +8,10 @@ interface CategoryTabsProps {
   onChange: (cat: VehicleCategory) => void
 }
 
-const CATEGORIES_ROW_1: VehicleCategory[] = ['All', 'Mini', 'Compact', 'Standard', 'Sedan', 'Mid-SUV']
-const CATEGORIES_ROW_2: VehicleCategory[] = ['SUV', 'Pickup (4x4)', '7-seater', 'Premium 7-seater']
+const ALL_CATEGORIES: VehicleCategory[] = [
+  'All', 'Mini', 'Compact', 'Standard', 'Sedan', 
+  'Mid-SUV', 'SUV', 'Pickup (4x4)', '7-seater', 'Premium 7-seater'
+]
 
 const ICONS: Record<string, string> = {
   'All': '',
@@ -27,7 +29,7 @@ const ICONS: Record<string, string> = {
 const CarIcon = ({ type }: { type: VehicleCategory }) => {
   if (type === 'All' || !ICONS[type]) return null
   return (
-    <img src={ICONS[type]} alt={type} className="h-5 w-auto object-contain opacity-80" />
+    <img src={ICONS[type]} alt={type} className="h-4 sm:h-5 w-auto object-contain opacity-80 flex-shrink-0" />
   )
 }
 
@@ -38,10 +40,10 @@ export default function CategoryTabs({ activeCategory, onChange }: CategoryTabsP
       <button
         key={cat}
         onClick={() => onChange(cat)}
-        className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 border ${
+        className={`flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 border whitespace-nowrap shadow-sm ${
           isActive 
-          ? 'bg-gold/10 border-gold/20 text-gold' 
-          : 'bg-white border-transparent text-navy shadow-sm hover:bg-offWhite'
+          ? 'bg-gold/10 border-gold/30 text-gold shadow-gold/10' 
+          : 'bg-white border-gray-100 text-navy hover:bg-offWhite hover:border-gray-200'
         }`}
       >
         <CarIcon type={cat} />
@@ -51,12 +53,9 @@ export default function CategoryTabs({ activeCategory, onChange }: CategoryTabsP
   }
 
   return (
-    <div className="mt-10 mb-12 flex flex-col items-center gap-3">
-      <div className="flex flex-wrap justify-center gap-3">
-        {CATEGORIES_ROW_1.map(renderTab)}
-      </div>
-      <div className="flex flex-wrap justify-center gap-3">
-        {CATEGORIES_ROW_2.map(renderTab)}
+    <div className="mt-8 mb-10 w-full max-w-5xl mx-auto px-2 sm:px-4">
+      <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3">
+        {ALL_CATEGORIES.map(renderTab)}
       </div>
     </div>
   )

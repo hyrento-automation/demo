@@ -105,7 +105,7 @@ export default function SearchWidget() {
         onLoad={initService}
         strategy="lazyOnload"
       />
-      <div className="bg-white rounded-2xl shadow-md px-6 sm:px-8 py-7 max-w-[960px] mx-auto">
+      <div className="bg-white rounded-2xl shadow-md px-4 sm:px-8 py-5 sm:py-7 max-w-[960px] mx-auto">
       {/* Row 1 — Address Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-5">
         {/* Pickup Address */}
@@ -297,54 +297,54 @@ export default function SearchWidget() {
       </div>
 
       {/* Row 3 — Driver age + Age number + Payment logos + CTA */}
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
-        {/* Driver Age Radio */}
-        <div className="flex items-center gap-4">
-          <span className="font-bold text-sm text-[#1A4D5C]">Driver&apos;s age</span>
-          <div className="flex items-center gap-4">
-            {(['18-29', '30-69', '70+'] as const).map(age => (
-              <label key={age} onClick={() => setDriverAge(age)} className="flex items-center gap-1.5 cursor-pointer">
-                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                  driverAge === age ? 'border-[#0D9B84]' : 'border-gray-300'
-                }`}>
-                  {driverAge === age && <div className="w-2 h-2 rounded-full bg-[#0D9B84]" />}
-                </div>
-                <span className="text-sm text-gray-600">{age}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Age Number Input */}
-        <input
-          type="number"
-          value={ageValue}
-          onChange={(e) => setAgeValue(Number(e.target.value))}
-          className="w-20 border border-gray-300 rounded-lg px-3 py-3 text-center text-sm font-medium text-gray-800 focus:border-[#0D9B84] focus:ring-1 focus:ring-[#0D9B84] transition-colors"
-        />
-
-        {/* Payment Logos */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            {/* Visa */}
-            <div className="bg-[#1A1F71] text-white text-[9px] font-black px-2.5 py-1.5 rounded italic tracking-wide">
-              VISA
-            </div>
-            {/* Mastercard */}
-            <div className="flex items-center -space-x-1.5">
-              <div className="w-5 h-5 rounded-full bg-[#EB001B]" />
-              <div className="w-5 h-5 rounded-full bg-[#F79E1B] opacity-80" />
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 lg:gap-6 pt-2">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-6">
+          {/* Driver Age Radio */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span className="font-bold text-sm text-[#1A4D5C] whitespace-nowrap">Driver&apos;s age</span>
+            <div className="flex items-center gap-3">
+              {(['18-29', '30-69', '70+'] as const).map(age => (
+                <label key={age} onClick={() => setDriverAge(age)} className="flex items-center gap-1.5 cursor-pointer">
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                    driverAge === age ? 'border-[#0D9B84]' : 'border-gray-300'
+                  }`}>
+                    {driverAge === age && <div className="w-2 h-2 rounded-full bg-[#0D9B84]" />}
+                  </div>
+                  <span className="text-sm text-gray-600">{age}</span>
+                </label>
+              ))}
             </div>
           </div>
-          <span className="text-xs font-bold text-[#0D9B84] uppercase tracking-wide leading-tight">
-            Debit &<br />Credit
-          </span>
+
+          {/* Age Number Input */}
+          <input
+            type="number"
+            value={ageValue}
+            onChange={(e) => setAgeValue(Number(e.target.value))}
+            className="w-16 sm:w-20 border border-gray-300 rounded-lg px-2 sm:px-3 py-2 sm:py-3 text-center text-sm font-medium text-gray-800 focus:border-[#0D9B84] focus:ring-1 focus:ring-[#0D9B84] transition-colors"
+          />
+
+          {/* Payment Logos */}
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-1.5">
+              <div className="bg-[#1A1F71] text-white text-[9px] font-black px-2 py-1 rounded italic tracking-wide">
+                VISA
+              </div>
+              <div className="flex items-center -space-x-1.5">
+                <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#EB001B]" />
+                <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#F79E1B] opacity-80" />
+              </div>
+            </div>
+            <span className="text-[11px] font-bold text-[#0D9B84] uppercase tracking-wide leading-tight">
+              Debit & Credit
+            </span>
+          </div>
         </div>
 
         {/* CTA Button */}
         <button
           onClick={handleSearch}
-          className="ml-auto w-full md:w-auto px-8 lg:px-10 py-3.5 bg-[#0D9B84] text-white font-medium text-base rounded-xl hover:bg-[#00C4A0] transition-all duration-300 shadow-lg shadow-[#0D9B84]/20 hover:shadow-xl hover:shadow-[#0D9B84]/30 whitespace-nowrap"
+          className="w-full lg:w-auto px-8 lg:px-10 py-3.5 bg-[#0D9B84] text-white font-bold text-base rounded-xl hover:bg-[#00C4A0] transition-all duration-300 shadow-lg shadow-[#0D9B84]/20 hover:shadow-xl hover:shadow-[#0D9B84]/30 whitespace-nowrap text-center"
         >
           Search My Car Now
         </button>

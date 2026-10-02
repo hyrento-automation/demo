@@ -212,7 +212,7 @@ export default function VehicleCard({ vehicle, market }: VehicleCardProps) {
           {[
             { icon: User, label: `${vehicle.seats} Seats` },
             { icon: Luggage, label: `${vehicle.bags} Bags` },
-            { icon: Gauge, label: vehicle.transmission },
+            { icon: Gauge, label: vehicle.transmission?.toLowerCase().includes('auto') ? 'Auto' : 'Manual' },
             { icon: Fuel, label: fuel },
           ].map((spec) => (
             <div key={spec.label} className={cn('text-[9px] font-bold uppercase tracking-wide', theme.spec)}>

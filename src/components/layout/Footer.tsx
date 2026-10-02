@@ -43,27 +43,27 @@ export default function Footer() {
       <div className="relative max-w-7xl mx-auto px-6">
 
         {/* CTA Banner */}
-        <div className="py-16 border-b border-white/5">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="py-12 sm:py-16 border-b border-white/5">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 text-center md:text-left">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-gold mb-3">Ready to Explore {brand.country}?</p>
-              <h3 className="text-4xl md:text-5xl font-display text-white leading-tight">
+              <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] text-gold mb-2 sm:mb-3">Ready to Explore {brand.country}?</p>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-display text-white leading-tight">
                 Your perfect ride <span className="italic text-gold">awaits.</span>
               </h3>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full md:w-auto">
               <Link
                 href="/booking"
-                className="group h-14 px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest flex items-center gap-3 transition-all duration-300 shadow-[0_8px_24px_rgba(201,168,76,0.4)] hover:shadow-[0_12px_32px_rgba(201,168,76,0.5)] hover:-translate-y-0.5"
+                className="group h-12 sm:h-14 px-6 sm:px-8 rounded-2xl bg-gold hover:bg-gold-dark text-white font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_8px_24px_rgba(201,168,76,0.4)] hover:shadow-[0_12px_32px_rgba(201,168,76,0.5)] hover:-translate-y-0.5 text-xs sm:text-sm"
               >
                 Book Your Car
                 <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
               <a
                 href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`}
-                className="h-14 px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold flex items-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-300"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold flex items-center justify-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-300 text-xs sm:text-sm"
               >
-                <Phone size={18} className="text-gold" />
+                <Phone size={16} className="text-gold" />
                 {brand.phone}
               </a>
             </div>
@@ -71,7 +71,7 @@ export default function Footer() {
         </div>
 
         {/* Main Footer Grid */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="py-12 sm:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-12">
 
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-8">
