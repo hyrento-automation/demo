@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowRight, Fuel, Gauge, Luggage, Shield, Star, User } from 'lucide-react'
 import { Vehicle } from '../../types/fleet.types'
 import { cn } from '@/src/lib/utils'
+import { useCurrencyStore } from '@/src/store/useCurrencyStore'
 
 export type VehicleCardMarket = 'spain' | 'europe' | 'usa' | 'uae' | 'south-africa'
 
@@ -157,6 +158,7 @@ const CARD_THEMES: Record<'default' | VehicleCardMarket, CardTheme> = {
 }
 
 export default function VehicleCard({ vehicle, market }: VehicleCardProps) {
+  const { formatPrice } = useCurrencyStore()
   const parts = vehicle.name ? vehicle.name.split(' ') : ['Make', 'Model']
   const make = vehicle.make || parts[0]
   const model = vehicle.model || parts.slice(1).join(' ')
@@ -166,9 +168,10 @@ export default function VehicleCard({ vehicle, market }: VehicleCardProps) {
   const tag = vehicle.tag || ''
   const theme = CARD_THEMES[market || 'default']
 
+  const priceAmount = Math.round(vehicle.priceFrom / 40) || 20
   const price = (
     <div className={cn(theme.price, theme.priceMode === 'content' && 'text-right')}>
-      <p className="text-2xl font-display font-black leading-none">MUR {vehicle.priceFrom.toLocaleString()}</p>
+      <p className="text-2xl font-display font-black leading-none">{formatPrice(priceAmount)}</p>
       <p className={cn('mt-1 text-[9px] font-black uppercase tracking-[.18em]', theme.priceCaption)}>per day</p>
     </div>
   )

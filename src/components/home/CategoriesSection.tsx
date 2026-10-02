@@ -1,6 +1,9 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Car } from 'lucide-react';
+import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 
 const CATEGORIES = [
   {
@@ -34,6 +37,7 @@ const CATEGORIES = [
 ];
 
 export default function CategoriesSection() {
+  const { formatPrice } = useCurrencyStore();
   return (
     <section className="py-20 bg-offWhite">
       <div className="max-w-7xl mx-auto px-6">
@@ -85,7 +89,7 @@ export default function CategoriesSection() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-[9px] font-black uppercase tracking-widest text-white/40">From</p>
-                      <p className="text-xl font-display font-bold text-gold">MUR {cat.fromPrice.toLocaleString()}</p>
+                      <p className="text-xl font-display font-bold text-gold">{formatPrice(Math.round(cat.fromPrice / 40) || 50)}</p>
                       <p className="text-[9px] text-white/40 font-bold">/day</p>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-gold/20 group-hover:bg-gold flex items-center justify-center text-white transition-all duration-300 group-hover:scale-110">

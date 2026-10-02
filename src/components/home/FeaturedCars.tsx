@@ -1,6 +1,9 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import { User, Luggage, Gauge, Star, ArrowRight, Fuel, Shield } from 'lucide-react';
+import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 
 const FEATURED_CARS = [
   {
@@ -46,6 +49,9 @@ interface CarCardProps {
 }
 
 function CarCard({ car }: CarCardProps) {
+  const { formatPrice } = useCurrencyStore();
+  const priceAmount = Math.round(car.priceDay / 40) || 50;
+
   return (
     <div className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-gray-100/80 shadow-card hover:shadow-[0_32px_80px_rgba(27,45,79,0.18)] transition-all duration-700 hover:-translate-y-3 flex flex-col">
       {/* Image */}
@@ -80,7 +86,7 @@ function CarCard({ car }: CarCardProps) {
         <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
           <div>
             <p className="text-3xl font-display font-black text-white leading-none drop-shadow-lg">
-              MUR {car.priceDay.toLocaleString()}
+              {formatPrice(priceAmount)}
             </p>
             <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/70 mt-1">per day</p>
           </div>

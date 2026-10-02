@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { User, Luggage, Gauge, Star, ArrowRight, Fuel, Shield, SlidersHorizontal, Search, X, CheckCircle2 } from 'lucide-react';
 
 import { getPublicCars } from '@/src/lib/actions/car.actions';
+import { useCurrencyStore } from '@/src/store/useCurrencyStore';
 
 const CATEGORIES = ['All', 'Luxury', 'Sports', 'SUV', 'Economy', 'Van', 'Mini', 'Pickup'];
 const TRANSMISSIONS = ['All', 'Automatic', 'Manual'];
 
 export default function FleetPage() {
+  const { formatPrice } = useCurrencyStore();
   const [vehicles, setVehicles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCat, setSelectedCat] = useState('All');
@@ -238,7 +240,7 @@ export default function FleetPage() {
                       {/* Price on image */}
                       <div className="absolute bottom-4 left-4">
                         <p className="text-2xl font-display font-black text-white drop-shadow">
-                          MUR {car.priceDay.toLocaleString()}
+                          {formatPrice(Math.round(car.priceDay / 40) || 20)}
                         </p>
                         <p className="text-[10px] text-white/70 font-black uppercase tracking-wider">/day</p>
                       </div>
