@@ -26,7 +26,7 @@ export default function AppChrome({
 }) {
   const pathname = usePathname()
   const brand = useBrand()
-  const isAdminRoute = pathname.startsWith('/admin')
+  const isAdminRoute = pathname.startsWith('/admin') || (typeof window !== 'undefined' && window.location.hostname.startsWith('admin.'))
   const isHomeRoute = pathname === '/' || pathname === '/en'
 
   if (isAdminRoute) {
