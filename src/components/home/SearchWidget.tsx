@@ -127,11 +127,13 @@ export default function SearchWidget() {
 
   return (
     <>
-      <Script 
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-        onLoad={initService}
-        strategy="lazyOnload"
-      />
+      {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
+        <Script 
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          onLoad={initService}
+          strategy="lazyOnload"
+        />
+      )}
       <div className="bg-white rounded-3xl shadow-xl border border-gray-100/90 px-4 sm:px-8 py-5 sm:py-7 max-w-[960px] mx-auto">
       {/* Row 1 — Address Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-6 mb-4 sm:mb-5">

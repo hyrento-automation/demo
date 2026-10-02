@@ -63,7 +63,7 @@ function HeaderLinks({ links, pathname, className, activeClassName, divider = fa
 
 function PhoneLink({ brand, dark = false, compact = false }: { brand: BrandConfig; dark?: boolean; compact?: boolean }) {
   return (
-    <a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className={cn('hidden items-center gap-2 font-bold xl:flex', compact ? 'text-[11px]' : 'text-[13px]', dark ? 'text-white/80 hover:text-white' : 'text-navy/80 hover:text-gold')}>
+    <a href={`tel:${(brand?.phone || '').replace(/[^0-9+]/g, '')}`} className={cn('hidden items-center gap-2 font-bold xl:flex', compact ? 'text-[11px]' : 'text-[13px]', dark ? 'text-white/80 hover:text-white' : 'text-navy/80 hover:text-gold')}>
       <Phone size={14} className="text-gold" /> {brand.phone}
     </a>
   )

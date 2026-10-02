@@ -37,14 +37,14 @@ export default function MobileBottomNav() {
     },
     {
       name: 'WhatsApp',
-      href: brand.whatsapp ? `https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}` : '#',
+      href: brand?.whatsapp ? `https://wa.me/${(brand.whatsapp || '').replace(/[^0-9]/g, '')}` : '#',
       icon: MessageSquare,
       isExternal: true,
       color: 'text-emerald-500',
     },
     {
       name: 'Call',
-      href: `tel:${brand.phone.replace(/[^0-9+]/g, '')}`,
+      href: brand?.phone ? `tel:${(brand.phone || '').replace(/[^0-9+]/g, '')}` : '#',
       icon: Phone,
       isExternal: true,
     },

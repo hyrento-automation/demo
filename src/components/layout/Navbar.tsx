@@ -148,12 +148,12 @@ export default function Navbar() {
             <Link href="/booking" className="flex h-12 sm:h-14 w-full items-center justify-center rounded-2xl bg-gold font-black uppercase tracking-widest text-white shadow-lg text-sm sm:text-base">
               Book now
             </Link>
-            <a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-navy/5 font-bold text-navy text-sm">
+            <a href={`tel:${(brand?.phone || '').replace(/[^0-9+]/g, '')}`} className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-navy/5 font-bold text-navy text-sm">
               <Phone size={16} className="text-gold" /> {brand.phone}
             </a>
             {brand.whatsapp && (
               <a
-                href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`}
+                href={`https://wa.me/${(brand.whatsapp || '').replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-50 text-emerald-700 font-bold text-sm border border-emerald-100"

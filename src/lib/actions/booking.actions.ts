@@ -8,64 +8,6 @@ import { bookingConfirmationTemplate, adminBookingNotificationTemplate } from "@
 import { createClient } from '@supabase/supabase-js'
 import { FALLBACK_FLEET } from '@/src/data/fallbackFleet'
 
-async function getAvailableVehiclesFromSupabase(startDate?: string, endDate?: string) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) return []
-
-  const supabase = createClient(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  })
-
-  let unavailableCarIds: string[] = []
-  if (startDate && endDate) {
-    const start = new Date(startDate)
-    const end = new Date(endDate)
-    if (!Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime())) {
-      const { data: bookings } = await supabase
-        .from('Booking')
-        .select('carId')
-        .in('status', ['CONFIRMED', 'ACTIVE', 'PENDING'])
-        .lt('pickupDate', end.toISOString())
-        .gt('returnDate', start.toISOString())
-      unavailableCarIds = Array.from(new Set((bookings || []).map(booking => booking.carId)))
-    }
-  }
-
-  const { data: cars, error } = await supabase
-    .from('Car')
-    .select('*')
-    .eq('status', 'AVAILABLE')
-    .order('pricePerDay', { ascending: true })
-
-  if (error || !cars) {
-    if (error) console.error('Supabase vehicle fallback failed:', error.message)
-    return []
-  }
-
-  const availableCars = cars.filter(car => !unavailableCarIds.includes(car.id))
-  const { data: images } = availableCars.length
-    ? await supabase
-        .from('CarImage')
-        .select('carId,url,order')
-        .in('carId', availableCars.map(car => car.id))
-        .order('order', { ascending: true })
-    : { data: [] }
-
-  return availableCars.map(car => ({
-    id: car.id,
-    name: `${car.make} ${car.model}`,
-    image: car.thumbnailUrl || images?.find(image => image.carId === car.id)?.url || 'https://images.unsplash.com/photo-1489824904134-891e080c8f67?q=80&w=400&auto=format&fit=crop',
-    category: car.category,
-    transmission: car.transmission === 'AUTOMATIC' ? 'Automatic' : 'Manual',
-    seats: car.seats,
-    luggage: car.luggage,
-    fuelType: car.fuelType.charAt(0) + car.fuelType.slice(1).toLowerCase(),
-    pricePerDay: car.pricePerDay / 40,
-    features: car.features,
-    available: 5,
-  }))
-}
 
 type CreateBookingResult =
   | { success: true; bookingRef: string; id: string }
@@ -195,81 +137,19 @@ async function createPublicBookingWithSupabase(data: Parameters<typeof createPub
  * Fetches available vehicles for the public booking flow based on dates.
  */
 export async function getAvailableVehicles(startDate?: string, endDate?: string) {
-  const queryId = Math.random().toString(36).substring(7)
-  console.log(`[getAvailableVehicles - ${queryId}] Fetching vehicles. Dates: ${startDate} to ${endDate}`)
-  console.time(`[getAvailableVehicles - ${queryId}] Query Execution`)
-  try {
-    const start = startDate ? new Date(startDate) : null
-    const end = endDate ? new Date(endDate) : null
-
-    const overlappingWindow =
-      start && end && !Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime())
-        ? {
-            bookings: {
-              none: {
-                status: { in: [BookingStatus.CONFIRMED, BookingStatus.ACTIVE, BookingStatus.PENDING] },
-                pickupDate: { lt: end },
-                returnDate: { gt: start },
-              },
-            },
-          }
-        : {}
-
-    const carsPromise = prisma.car.findMany({
-      where: {
-        status: "AVAILABLE",
-        ...overlappingWindow
-      },
-      include: {
-        images: true
-      },
-      orderBy: {
-        pricePerDay: 'asc'
-      }
-    })
-
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('DB Timeout')), 1000)
-    )
-
-    const cars = await Promise.race([carsPromise, timeoutPromise])
-
-    console.timeEnd(`[getAvailableVehicles - ${queryId}] Query Execution`)
-    console.log(`[getAvailableVehicles - ${queryId}] Found ${cars.length} available vehicles.`)
-
-    return cars.map(car => ({
-      id: car.id,
-      name: `${car.make} ${car.model}`,
-      image: car.thumbnailUrl || car.images?.[0]?.url || 'https://images.unsplash.com/photo-1489824904134-891e080c8f67?q=80&w=400&auto=format&fit=crop',
-      category: car.category,
-      transmission: car.transmission === 'AUTOMATIC' ? 'Automatic' : 'Manual',
-      seats: car.seats,
-      luggage: car.luggage,
-      fuelType: car.fuelType.charAt(0) + car.fuelType.slice(1).toLowerCase(),
-      pricePerDay: car.pricePerDay / 40, // Conversion applied for UI (assuming 1:40 ratio)
-      features: car.features,
-      available: 5, // Placeholder for fleet count per model
-    }))
-  } catch (error) {
-    console.error("Failed to fetch vehicles from database:", error)
-    const supabaseCars = await getAvailableVehiclesFromSupabase(startDate, endDate)
-    if (supabaseCars && supabaseCars.length > 0) {
-      return supabaseCars
-    }
-    return FALLBACK_FLEET.map(car => ({
-      id: car.id,
-      name: `${car.make} ${car.model}`,
-      image: car.img,
-      category: car.category,
-      transmission: car.transmission === 'AUTOMATIC' ? 'Automatic' : 'Manual',
-      seats: car.seats,
-      luggage: car.luggage,
-      fuelType: car.fuelType.charAt(0) + car.fuelType.slice(1).toLowerCase(),
-      pricePerDay: car.pricePerDay / 40,
-      features: car.features,
-      available: car.available || 5,
-    }))
-  }
+  return FALLBACK_FLEET.map(car => ({
+    id: car.id,
+    name: `${car.make} ${car.model}`,
+    image: car.img,
+    category: car.category,
+    transmission: car.transmission === 'AUTOMATIC' ? 'Automatic' : 'Manual',
+    seats: car.seats,
+    luggage: car.luggage,
+    fuelType: car.fuelType.charAt(0) + car.fuelType.slice(1).toLowerCase(),
+    pricePerDay: car.pricePerDay / 40,
+    features: car.features,
+    available: car.available || 5,
+  }))
 }
 
 /**

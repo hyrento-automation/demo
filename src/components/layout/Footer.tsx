@@ -60,7 +60,7 @@ export default function Footer() {
                 <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
               <a
-                href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`}
+                href={`tel:${(brand?.phone || '').replace(/[^0-9+]/g, '')}`}
                 className="h-12 sm:h-14 px-6 sm:px-8 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-bold flex items-center justify-center gap-3 border border-white/10 hover:border-white/20 transition-all duration-300 text-xs sm:text-sm"
               >
                 <Phone size={16} className="text-gold" />
@@ -98,7 +98,7 @@ export default function Footer() {
             {/* Contact Info */}
             <div className="space-y-4">
               {[
-                { icon: Phone, text: brand.phone, href: `tel:${brand.phone.replace(/[^0-9+]/g, '')}` },
+                { icon: Phone, text: brand?.phone, href: `tel:${(brand?.phone || '').replace(/[^0-9+]/g, '')}` },
                 { icon: Mail, text: brand.email, href: `mailto:${brand.email}` },
                 { icon: MapPin, text: brand.headquarters, href: '/locations' },
               ].map(({ icon: Icon, text, href }) => (

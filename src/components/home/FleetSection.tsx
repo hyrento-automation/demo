@@ -6,6 +6,7 @@ import VehicleGrid from './VehicleGrid'
 import type { VehicleCardMarket } from './VehicleCard'
 import { VehicleCategory } from '../../types/fleet.types'
 import { useBrand } from '@/src/components/providers/BrandProvider'
+import { FALLBACK_FLEET } from '@/src/data/fallbackFleet'
 
 interface FleetSectionProps {
   eyebrow?: string
@@ -16,8 +17,6 @@ interface FleetSectionProps {
   dark?: boolean
   cardMarket?: VehicleCardMarket
 }
-
-import { FALLBACK_FLEET } from '@/src/data/fallbackFleet'
 
 const getInitialFleet = () => {
   return FALLBACK_FLEET.map(v => ({
@@ -87,33 +86,7 @@ export default function FleetSection({
         return dbCategories.includes(v.category)
       })
 
-  const displayedVehicles = filteredVehicles.slice(0, 12)
-
-  if (loading) return <div className="py-24 text-center text-navy font-bold animate-pulse">Synchronizing Fleet...</div>
-
-  if (error || vehicles.length === 0) return (
-    <section className="py-24 px-4">
-      <div className="max-w-2xl mx-auto text-center space-y-6">
-        <div className="h-20 w-20 rounded-full bg-gold/10 flex items-center justify-center mx-auto">
-          <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-gold">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-          </svg>
-        </div>
-        <h3 className="text-2xl font-display font-bold text-navy">We&apos;re having trouble loading our fleet</h3>
-        <p className="text-mid-gray leading-relaxed">
-          Our vehicles are available — please contact us directly to check availability and make a booking.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href={`tel:${brand.phone.replace(/[^0-9+]/g, '')}`} className="h-14 px-8 rounded-2xl bg-navy text-white font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-gold transition-all duration-300">
-            📞 Call {brand.phone}
-          </a>
-          <a href={`https://wa.me/${brand.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="h-14 px-8 rounded-2xl bg-emerald-500 text-white font-black uppercase tracking-widest text-[13px] flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all duration-300">
-            💬 WhatsApp Us
-          </a>
-        </div>
-      </div>
-    </section>
-  )
+  const displayedVehicles = filteredVehicles.length > 0 ? filteredVehicles.slice(0, 12) : getInitialFleet().slice(0, 12)
 
   return (
     <section className={`${className} py-24 px-4 border-t border-gray-100`}>
